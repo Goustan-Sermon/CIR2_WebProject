@@ -1,0 +1,35 @@
+.corps{
+    margin: 120px 200px;
+    
+}
+.titre{
+    text-align: center;
+    font-weight: bold;
+    font-size: 60px;
+}
+.titre .logo{
+    position: absolute;
+    margin-left: 6rem;
+    top: 110px;
+}
+
+.blocks{
+    margin-top: 100px;
+}
+.block{
+    background-color: #dc3545;
+    width: 249px;
+    height: 249px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    box-shadow: 2px 5px 10px black;
+}
+.block .logo{
+    margin-top: 10px;
+    margin-left: 60px;
+}
+.block p{
+    text-align: center;
+}
