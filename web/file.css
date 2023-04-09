@@ -1,35 +1,65 @@
 .corps{
-    margin: 120px 200px;
-    
+    margin: 30px 200px;   
 }
 .titre{
     text-align: center;
     font-weight: bold;
-    font-size: 60px;
+    font-size: 50px;
 }
 .titre .logo{
-    position: absolute;
-    margin-left: 6rem;
-    top: 110px;
+    position: relative;
+    top: 30px
 }
-
 .blocks{
-    margin-top: 100px;
+    margin-top: 70px;
+    display: flex;
+    flex-direction: row;
 }
+@media only screen and (max-width: 1150px) {
+    .blocks{
+        flex-direction: column;
+    }
+    .corps{
+        margin: 30px 100px; 
+    }
+    
+  }
 .block{
+    margin-top: 10px;
+    background-color: #dc3545;
+    min-width: 249px;
+    min-height: 249px;
+    border-radius: 25px;
+    color: white;
+    box-shadow: 2px 5px 10px black;
+    flex-direction: column;
+    display: flex;
+
+}
+/* .block .logo{
+    margin-top: 10px;
+} 
+.block p{
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+} */
+.card .type{
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+}
+.card{
+    margin-top: 10px;
     background-color: #dc3545;
     width: 249px;
     height: 249px;
     border-radius: 25px;
     color: white;
-    font-weight: bold;
-    font-size: 30px;
     box-shadow: 2px 5px 10px black;
+    flex-direction: column;
+    display: flex;
 }
-.block .logo{
-    margin-top: 10px;
-    margin-left: 60px;
-}
-.block p{
-    text-align: center;
+.badge{
+    box-shadow: -4px 1px 10px white;
 }
