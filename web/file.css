@@ -4,46 +4,17 @@
 .titre{
     text-align: center;
     font-weight: bold;
-    font-size: 50px;
+    font-size: 40px;
 }
 .titre .logo{
     position: relative;
-    top: 30px
+    top: 18px
 }
 .blocks{
     margin-top: 70px;
     display: flex;
     flex-direction: row;
 }
-@media only screen and (max-width: 1150px) {
-    .blocks{
-        flex-direction: column;
-    }
-    .corps{
-        margin: 30px 100px; 
-    }
-    
-  }
-.block{
-    margin-top: 10px;
-    background-color: #dc3545;
-    min-width: 249px;
-    min-height: 249px;
-    border-radius: 25px;
-    color: white;
-    box-shadow: 2px 5px 10px black;
-    flex-direction: column;
-    display: flex;
-
-}
-/* .block .logo{
-    margin-top: 10px;
-} 
-.block p{
-    text-align: center;
-    font-weight: bold;
-    font-size: 30px;
-} */
 .card .type{
     text-align: center;
     font-weight: bold;
@@ -51,7 +22,6 @@
 }
 .card{
     margin-top: 10px;
-    background-color: #dc3545;
     width: 249px;
     height: 249px;
     border-radius: 25px;
@@ -62,4 +32,24 @@
 }
 .badge{
     box-shadow: -4px 1px 10px white;
+}
+.connection{
+    margin: 20px auto;
+    width: 400px;
+}
+.form-identification{
+    margin: 5px 35px;
+}
+.yncrea{
+   width : 2.7rem; 
+   margin-bottom : 20px;
+}
+
+@media only screen and (max-width: 1150px) {
+    .blocks{
+        flex-direction: column;
+    }
+    .corps{
+        margin: 30px 100px; 
+    }   
 }

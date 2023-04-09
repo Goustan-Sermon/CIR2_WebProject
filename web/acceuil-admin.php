@@ -15,7 +15,7 @@
     <!-- Google icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <title> acceuil enseignant</title>
+    <title> acceuil admin</title>
 </head>
 
 <body>
@@ -23,8 +23,8 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
-            <a href="acceuil-enseignant.php"><img src="ISEN-blanc.png" style="width : 4.5rem; margin-right : 8px" class="img-fluid"></a>
-            <a class="navbar-brand" href="acceuil-enseignant.php">Enseignant</a>
+            <a href="acceuil-admin.php"><img src="ISEN-blanc.png" style="width : 4.5rem; margin-right : 8px" class="img-fluid"></a>
+            <a class="navbar-brand" href="acceuil-admin.php">Administrateur</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -38,25 +38,25 @@
                     </li> -->
                     <li class="nav-item">
                         <a class="nav-link " href="#">
-                            Mes classes
+                            Mes notes
                             <span class="material-symbols-outlined" style="font-size: 1rem">
-                                table_restaurant
+                                account_circle
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            Mes étudiants
+                            Mes semestres
                             <span class="material-symbols-outlined" style="font-size: 1rem">
-                                group
+                                school
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            Saisir
+                            Mon année
                             <span class="material-symbols-outlined" style="font-size: 1rem">
-                                edit
+                                note
                             </span>
                         </a>
                     </li>
@@ -79,30 +79,30 @@
         <!--------------------------- Titre + Logo ---------------------------------------------------->
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
             <span class="material-symbols-outlined logo" style="font-size: 4rem">
-                school
+                shield_person
             </span>
-            Enseignant
+            Administrateur
         </div>
         <!--------------------------- Block 1 ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-primary  mb-2 align-items-center align-self-center">
                 <a href="test.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
-                    table_restaurant
+                    account_circle
                 </span>
                 <p class="type">
-                    Mes <br> classes
+                    Créer <br> un compte
                 </p>
 
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-light  mb-2 align-items-center align-self-center">
                 <a href="test.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
-                    group
+                    school
                 </span>
                 <p class="type">
-                    Mes <br> étudiants
+                    Créer <br> un semestres
                 </p>
 
             </div>
@@ -110,17 +110,11 @@
             <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center">
                 <a href="test.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
-                    edit
+                    note
                 </span>
                 <p class="type">
-                    <br> Edit
+                    Créer <br> une épreuve
                 </p>
-                <h3>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark ">
-                        9
-                        <span class="visually-hidden">unread messages</span>
-                    </span>
-                </h3>
             </div>
         </div>
     </div>
