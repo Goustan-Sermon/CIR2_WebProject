@@ -23,8 +23,11 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
-            <a href="acceuil-admin.php"><img src="ISEN-blanc.png" style="width : 4.5rem; margin-right : 8px" class="img-fluid"></a>
-            <a class="navbar-brand" href="acceuil-admin.php">Administrateur</a>
+            <a class="navbar-brand" href="acceuil-admin.php">
+                <img src="ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
+                    class="d-inline-block align-text-top">
+                    Administrateur
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -85,7 +88,7 @@
         </div>
         <!--------------------------- Block 1 ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
-            <div class="card rounded-5 text-bg-primary  mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-primary  mb-2 align-items-center align-self-center border-primary  shadow-lg">
                 <a href="test.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
                     account_circle
@@ -96,7 +99,7 @@
 
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-light  mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-light  mb-2 align-items-center align-self-center border-light shadow-lg">
                 <a href="test.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     school
@@ -107,7 +110,7 @@
 
             </div>
             <!--------------------------- Block 3 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
                 <a href="test.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     note

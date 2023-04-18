@@ -15,9 +15,6 @@
     <!-- Google icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <!-- stack overflow -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
-        integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
 
     <title>identification</title>
@@ -28,13 +25,11 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
-            <a href="identification.php"><img src="ISEN-blanc.png" style="width : 4.5rem; margin-right : 8px" class="img-fluid"></a>
-            <a class="navbar-brand" href="identification.php">Identification</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand" href="identification.php">
+                <img src="ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
+                    class="d-inline-block align-text-top">
+                Inscription
+            </a>
             <!--------------------------- Log out ---------------------------------------------------->
             <form class="d-flex" role="search">
                 <a class="btn btn-outline-danger" type="submit" href="identification.php">
@@ -45,7 +40,7 @@
                 </a>
             </form>
         </div>
-        </div>
+
     </nav>
 
     <!--------------------------- Corps de la page ---------------------------------------------------->
@@ -53,9 +48,9 @@
         <!--------------------------- Titre + Logo ---------------------------------------------------->
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
             <span class="material-symbols-outlined logo" style="font-size: 3rem">
-                login
+                <!-- login -->
             </span>
-            Identification
+            <!-- Identification -->
         </div>
 
         <!--------------------------- Form de connection ---------------------------------------------------->
@@ -67,33 +62,29 @@
             <h2 class="text-center ">Connexion à votre espace</h2>
             <p class="text-center" style="color : grey">Bienvenue ! Veuillez rentrer vos informations.</p>
             <!--------------------------- Infos ---------------------------------------------------->
-            <form class="form-identification">
+            <form class="form-identification" style="margin-bottom : 20px">
                 <div class="mb-2">
                     <label for="exampleInputEmail1" class="form-label">E-mail</label>
-                    <input type="email" class="form-control" id="InputEmail" placeholder="Entré votre E-mail">
+                    <input type="email" class="form-control" name="InputEmail" placeholder="Entré votre E-mail">
                 </div>
                 <div class="mb-2">
                     <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-                    <input type="password" class="form-control" id="InputPassword"
+                    <input type="password" class="form-control" name="InputPassword"
                         placeholder="Entré votre mot de passe">
                 </div>
-                <!--------------------------- Souvenir +  oublier ---------------------------------------------------->
-                <div class="mb-2 form-check custom-control custom-checkbox" style=" margin-top: 20px;">
-                    <input type="checkbox" class="custom-control-input" id="exampleCheck1">
-                    <label class="custom-control-label d-flex justify-content-between" for="exampleCheck1">
-                        Se souvenir de moi
-                        <a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover  "
-                            href="#">Mot de passe oublier</a>
-                    </label>
+                <!--------------------------- Se souvenir +  oublier ---------------------------------------------------->
+
+                <div style="margin-top: 20px" class="d-flex justify-content-between">
+                    <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
+                    <label class="btn btn-outline-danger" for="btn-check-2-outlined"
+                        style="margin : 5px; padding : 6.5px"></label>
+                    Se souvenir de moi
+                    <a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover  "
+                        href="#">Mot de passe oublié</a>
                 </div>
-                <style>
-                .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-                    background-color: red;
-                }
-                </style>
                 <!--------------------------- Se connecter ---------------------------------------------------->
-                <button type="submit" class="btn btn-danger"
-                    style=" width:100% ; margin-top: 20px;">Seconnecter</button>
+                <button type="submit" class="btn btn-danger" style=" width:100% ; margin-top: 20px;" name="connect">
+                    Se connecter</button>
                 <!--------------------------- Pas de compte ---------------------------------------------------->
                 <div classe="sub" style="font-size: 13px; text-align : center; margin-top : 20px">
                     Vous n'avez pas de compte?
@@ -101,12 +92,25 @@
                         href="#">S'enregistrer</a>
                 </div>
             </form>
+            <!--######################### Erreurs ##################################################-->
+            <?php
+                if (isset($_GET['connect'])){
+                    if( $_GET['InputEmail'] == null and $_GET['InputPassword'] == null){
+                        echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            ERREUR : E-mail ou mot de passe incorrect
+                            </div>";
+                    }
+                }
+                ?>
         </div>
         <div class="btn-group" role="group" style="margin : 180px auto">
             <a type="button" class="btn btn-outline-danger" href="acceuil-enseignant.php">Enseignant</a>
             <a type="button" class="btn btn-outline-danger" href="acceuil-etudiant.php">Etudiant</a>
             <a type="button" class="btn btn-outline-danger" href="acceuil-admin.php">Administrateur</a>
         </div>
+
+        <!--------------------------- Dev ---------------------------------------------------->
+
 </body>
 
 </html>
