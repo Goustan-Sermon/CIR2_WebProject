@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-    <link href="file.css" rel="stylesheet">
+    <link href="../file.css" rel="stylesheet">
     <meta charset="utf-8">
 
     <!-- CSS -->
@@ -15,18 +15,18 @@
     <!-- Google icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <title> acceuil enseignant</title>
+    <title>mes notes</title>
 </head>
 
 <body>
-    <!--------------------------- Navbar enseignant ---------------------------------------------------->
+    <!--------------------------- Navbar étudiant ---------------------------------------------------->
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
-            <a class="navbar-brand" href="acceuil-enseignant.php">
-                <img src="images/navbar/ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
+            <a class="navbar-brand" href="../acceuil-etudiant.php">
+                <img src="../images/navbar/ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
                     class="d-inline-block align-text-top">
-                    Enseignant
+                    Etudiant
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -40,33 +40,33 @@
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="enseignant/mes-classes.php">
-                            Mes classes
+                        <a class="nav-link " href="mes-notes.php">
+                            Mes notes
                             <span class="material-symbols-outlined" style="font-size: 1rem">
-                                table_restaurant
+                                grade
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="enseignant/mes-etudiants.php">
-                            Mes étudiants
+                        <a class="nav-link" href="mes-semestres.php">
+                            Mes semestres
                             <span class="material-symbols-outlined" style="font-size: 1rem">
-                                group
+                                school
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="enseignant/edit.php">
-                            Saisir
+                        <a class="nav-link" href="mon-annee.php">
+                            Mon année
                             <span class="material-symbols-outlined" style="font-size: 1rem">
-                                edit
+                                note
                             </span>
                         </a>
                     </li>
                 </ul>
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
-                    <a class="btn btn-outline-danger" type="submit" href="identification.php">
+                    <a class="btn btn-outline-danger" type="submit" href="../identification.php">
                         Déconnexion
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
@@ -82,50 +82,12 @@
         <!--------------------------- Titre + Logo ---------------------------------------------------->
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
             <span class="material-symbols-outlined logo" style="font-size: 4rem">
-                school
+                grade
             </span>
-            Enseignant
+            Mes notes
         </div>
-        <!--------------------------- Block 1 ---------------------------------------------------->
-        <div class="blocks justify-content-evenly">
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger ">
-                <a href="enseignant/mes-classes.php" class="stretched-link"></a>
-                <span class="material-symbols-outlined logo " style="font-size: 8rem">
-                    table_restaurant
-                </span>
-                <p class="type">
-                    Mes <br> classes
-                </p>
+        <!--------------------------- contenue ---------------------------------------------------->
 
-            </div>
-            <!--------------------------- Block 2 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger ">
-                <a href="enseignant/mes-etudiants.php" class="stretched-link"></a>
-                <span class="material-symbols-outlined logo" style="font-size: 8rem">
-                    group
-                </span>
-                <p class="type">
-                    Mes <br> étudiants
-                </p>
-
-            </div>
-            <!--------------------------- Block 3 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger ">
-                <a href="enseignant/edit.php" class="stretched-link"></a>
-                <span class="material-symbols-outlined logo" style="font-size: 8rem">
-                    edit
-                </span>
-                <p class="type">
-                    <br> Edit
-                </p>
-                <h3>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark ">
-                        9
-                        <span class="visually-hidden">unread messages</span>
-                    </span>
-                </h3>
-            </div>
-        </div>
     </div>
 
 </body>

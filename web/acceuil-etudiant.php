@@ -24,7 +24,7 @@
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
             <a class="navbar-brand" href="acceuil-etudiant.php">
-                <img src="ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
+                <img src="images/navbar/ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
                     class="d-inline-block align-text-top">
                     Etudiant
             </a>
@@ -40,7 +40,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="#">
+                        <a class="nav-link " href="etudiant/mes-notes.php">
                             Mes notes
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 grade
@@ -48,7 +48,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="etudiant/mes-semestres.php">
                             Mes semestres
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 school
@@ -56,7 +56,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="etudiant/mon-annee.php">
                             Mon année
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 note
@@ -89,7 +89,7 @@
         <!--------------------------- Block 1 ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
             <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger ">
-                <a href="test.php" class="stretched-link"></a>
+                <a href="etudiant/mes-notes.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
                     grade
                 </span>
@@ -100,7 +100,7 @@
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
             <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger ">
-                <a href="test.php" class="stretched-link"></a>
+                <a href="etudiant/mes-semestres.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     school
                 </span>
@@ -111,7 +111,7 @@
             </div>
             <!--------------------------- Block 3 ---------------------------------------------------->
             <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger ">
-                <a href="test.php" class="stretched-link"></a>
+                <a href="etudiant/mon-annee.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     note
                 </span>

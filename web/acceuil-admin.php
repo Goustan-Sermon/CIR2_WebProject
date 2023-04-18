@@ -23,7 +23,7 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
-            <a href="acceuil-admin.php"><img src="ISEN-blanc.png" style="width : 4.5rem; margin-right : 8px"
+            <a href="acceuil-admin.php"><img src="images/navbar/ISEN-blanc.png" style="width : 4.5rem; margin-right : 8px"
                     class="img-fluid"></a>
             <a class="navbar-brand" href="acceuil-admin.php">Administrateur</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -38,7 +38,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="#">
+                        <a class="nav-link " href="admin/creer-un-compte.php">
                             Créer un compte
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 account_circle
@@ -46,7 +46,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="admin/creer-un-semestre.php">
                             Créer un semestre
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 school
@@ -54,7 +54,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="admin/creer-une-epreuve.php">
                             Créer une preuve
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 note
@@ -87,7 +87,7 @@
         <!--------------------------- Block 1 ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
             <div class="card rounded-5 text-bg-primary  mb-2 align-items-center align-self-center">
-                <a href="test.php" class="stretched-link"></a>
+                <a href="admin/creer-un-compte.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
                     account_circle
                 </span>
@@ -98,18 +98,18 @@
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
             <div class="card rounded-5 text-bg-light  mb-2 align-items-center align-self-center">
-                <a href="test.php" class="stretched-link"></a>
+                <a href="admin/creer-un-semestre.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     school
                 </span>
                 <p class="type">
-                    Créer <br> un semestres
+                    Créer <br> un semestre
                 </p>
 
             </div>
             <!--------------------------- Block 3 ---------------------------------------------------->
             <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center">
-                <a href="test.php" class="stretched-link"></a>
+                <a href="admin/creer-une-epreuve.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     note
                 </span>

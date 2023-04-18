@@ -26,7 +26,7 @@
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
             <a class="navbar-brand" href="identification.php">
-                <img src="ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
+                <img src="images/navbar/ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
                     class="d-inline-block align-text-top">
                 Inscription
             </a>
@@ -56,7 +56,7 @@
         <div class="connection">
             <!--------------------------- Yncrea ---------------------------------------------------->
             <div class="text-center">
-                <img src="logo-yncrea-slider.png" class="img-fluid yncrea">
+                <img src="images/identification/logo-yncrea-slider.png" class="img-fluid yncrea">
             </div>
             <h2 class="text-center ">Connexion à votre espace</h2>
             <p class="text-center" style="color : grey">Bienvenue ! Veuillez rentrer vos informations.</p>
