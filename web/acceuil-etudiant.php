@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <!--------------------------- Navbar enseignant ---------------------------------------------------->
+    <!--------------------------- Navbar étudiant ---------------------------------------------------->
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
@@ -88,7 +88,7 @@
         </div>
         <!--------------------------- Block 1 ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
+            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger ">
                 <a href="test.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
                     grade
@@ -99,7 +99,7 @@
 
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
+            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger ">
                 <a href="test.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     school
@@ -110,7 +110,7 @@
 
             </div>
             <!--------------------------- Block 3 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
+            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger ">
                 <a href="test.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     note

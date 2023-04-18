@@ -19,11 +19,12 @@
 </head>
 
 <body>
-    <!--------------------------- Navbar enseignant ---------------------------------------------------->
+    <!--------------------------- Navbar admin ---------------------------------------------------->
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
-            <a href="acceuil-admin.php"><img src="ISEN-blanc.png" style="width : 4.5rem; margin-right : 8px" class="img-fluid"></a>
+            <a href="acceuil-admin.php"><img src="ISEN-blanc.png" style="width : 4.5rem; margin-right : 8px"
+                    class="img-fluid"></a>
             <a class="navbar-brand" href="acceuil-admin.php">Administrateur</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -38,7 +39,7 @@
                     </li> -->
                     <li class="nav-item">
                         <a class="nav-link " href="#">
-                            Mes notes
+                            Créer un compte
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 account_circle
                             </span>
@@ -46,7 +47,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            Mes semestres
+                            Créer un semestre
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 school
                             </span>
@@ -54,7 +55,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            Mon année
+                            Créer une preuve
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 note
                             </span>

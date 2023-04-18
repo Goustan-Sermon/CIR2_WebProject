@@ -24,11 +24,8 @@
     margin-top: 10px;
     width: 249px;
     height: 249px;
-    border-radius: 25px;
     color: white;
     box-shadow: 2px 5px 10px black;
-    flex-direction: column;
-    display: flex;
 }
 .badge{
     box-shadow: -4px 1px 10px white;

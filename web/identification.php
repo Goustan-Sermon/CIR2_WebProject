@@ -40,12 +40,11 @@
                 </a>
             </form>
         </div>
-
     </nav>
 
     <!--------------------------- Corps de la page ---------------------------------------------------->
     <div class="corps corps-enseignant d-flex flex-column mb-2">
-        <!--------------------------- Titre + Logo ---------------------------------------------------->
+        <!--------------------------- Titre + Logo A SUPPRIMPER ---------------------------------------------------->
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
             <span class="material-symbols-outlined logo" style="font-size: 3rem">
                 <!-- login -->
@@ -97,7 +96,7 @@
                 if (isset($_GET['connect'])){
                     if( $_GET['InputEmail'] == null and $_GET['InputPassword'] == null){
                         echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            ERREUR : E-mail ou mot de passe incorrect
+                            E-mail ou mot de passe incorrect
                             </div>";
                     }
                 }
