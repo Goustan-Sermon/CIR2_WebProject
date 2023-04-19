@@ -85,7 +85,11 @@
             Créer un compte
         </div>
         <!--------------------------- contenue  ---------------------------------------------------->
+        <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
+            <p class="text-body-tertiary h3">Entrer les informations</p>
+            Enseignant  étudiant ?
 
+        </div>
     </div>
     </div>
 

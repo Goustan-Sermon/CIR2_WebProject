@@ -9,6 +9,16 @@
             "name": "projet-php",
             "database": "projet_php",
             "username": "postgres"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "database",
+            "database": "database",
+            "username": "postgres"
         }
     ]
 }
