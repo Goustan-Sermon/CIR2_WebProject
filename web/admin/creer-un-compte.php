@@ -6,6 +6,7 @@
     <meta charset="utf-8">
 
     <!-- CSS -->
+    <link href="style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -25,7 +26,7 @@
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
             <a href="../acceuil-admin.php"><img src="../images/navbar/ISEN-blanc.png"
                     style="width : 4.5rem; margin-right : 8px" class="img-fluid"></a>
-            <a class="navbar-brand" href="acceuil-admin.php">Administrateur</a>
+            <a class="navbar-brand" href="../acceuil-admin.php">Administrateur</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -86,10 +87,17 @@
         </div>
         <!--------------------------- contenue  ---------------------------------------------------->
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
-            <p class="text-body-tertiary h3">Entrer les informations</p>
-            Enseignant  étudiant ?
+            <p class="text-body-tertiary h2">Entrer les informations</p>
+            <div class="form-check form-switch form-check-reverse">
+
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse">
+
+                <label class="form-check-label" for="flexSwitchCheckDefault">Etudiant</label>
+                
+            </div>
 
         </div>
+
     </div>
     </div>
 
