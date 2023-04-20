@@ -86,89 +86,29 @@
             Créer un compte
         </div>
         <!--------------------------- contenue  ---------------------------------------------------->
-        <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
-            Entrer les informations        
+        <div class="blocks justify-content-evenly">
+            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center">
+                <a href="testetu.php" class="stretched-link"></a>
+                <span class="material-symbols-outlined logo " style="font-size: 8rem">
+                    account_circle
+                </span>
+                <p class="type">
+                    Créer <br> un étudiant
+                </p>
+
+            </div>
+            <!--------------------------- Block 2 ---------------------------------------------------->
+            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center">
+                <a href="testenseign.php" class="stretched-link"></a>
+                <span class="material-symbols-outlined logo " style="font-size: 8rem">
+                    account_circle
+                </span>
+                <p class="type">
+                    Créer <br> un enseignant
+                </p>
+
+            </div>
         </div>
-        <form action="creer-un-compte.php" method="post">
-            <div class="d-flex justify-content-center">  
-                <div class="p-2">Enseignant</div>
-                <div class="p-2">       
-                    <div class="form-check form-switch form-check-reverse" for="etu">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse" name="etu"></div>
-                    </div>
-                <div class="p-2">Etudiant</div>
-            </div>
-
-            <div class="d-flex flex-column justify-content-center">  
-                <div class="p-2">
-                    <label for="nom" class="form-label">Nom*</label>
-                    <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp" placeholder="Nom">
-                </div>
-                <div class="p-2">
-                    <label for="prenom" class="form-label">Prénom*</label>
-                    <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom">
-                </div>
-                <?php
-                    if(!empty($_POST['etu'])){
-                        echo '<div class="p-2">ok</div>';
-                    }
-
-                ?>
-                <div class="p-2">
-                    <label for="telephone" class="form-label">Téléphone*</label>
-                    <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="Téléphone">
-                </div>
-                <div class="p-2">
-                    <label for="email" class="form-label">Mail*</label>
-                    <input type="email" class="form-control" id="mail" name="mail" placeholder="Mail">
-                </div>
-                <div class="p-2">
-                    <label for="email" class="form-label">Mail (confirmation)*</label>
-                    <input type="email" class="form-control" id="mailconf" name="mailconf" placeholder="Confirmez le mail">
-                </div>
-                <div class="p-2">
-                    <label for="mdp" class="form-label">Mot de passe*</label>
-                    <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de passe">
-                </div>
-                <div class="p-2">
-                    <label for="mdp" class="form-label">Mot de passe (confirmation)*</label>
-                    <input type="password" class="form-control" id="mdpconf" name="mdpconf" placeholder="Confirmez le mot de passe">
-                </div>
-                <div class="p-2">
-                    <label for="photo" class="form-label">Photo</label>
-                    <input type="file" class="form-control" id="photo" name="photo">
-                </div>
-                <button type="submit" name="add" class="btn btn-outline-danger">Créer un enseignant</button>
-            </div>
-            <?php
-                require_once('../../php/database.php');
-
-                // Enable all warnings and errors.
-                ini_set('display_errors', 1);
-                error_reporting(E_ALL);
-    
-                // Database connection.
-                $db = dbConnect();
-            
-                if(isset($_POST['add'])){
-                    $nom = $_POST['nom'];
-                    $prenom = $_POST['prenom'];
-                    if(!empty($_POST['etu'])){
-                        $etu = 1;
-                    }else{
-                        $etu = 0;
-                    }
-                    $telephone = $_POST['telephone'];
-                    $mail = $_POST['mail'];
-                    $mailconf = $_POST['mailconf'];
-                    $mdp = $_POST['mdp'];
-                    $mdpconf = $_POST['mdpconf'];
-                    $photo = $_POST['photo'];
-                    echo $nom;
-                    echo $prenom;
-                    echo $etu;
-                }?>
-        </form>
     </div>
 </body>
 
