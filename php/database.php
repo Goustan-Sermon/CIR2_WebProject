@@ -15,4 +15,27 @@ function dbConnect(){
     return $dbh;
 }
 
+function dbGetPersonnes($dbh){
+    $statement = $dbh->query('SELECT * FROM personne');
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $photo){
+    try{
+        $statement = $db->prepare('INSERT INTO personne (nom, prenom, mail, mot_de_passe, photo) VALUES (:nom, :prenom, :mail, :mot_de_passe, :photo)');
+        $statement->bindParam(':nom', $nom);
+        $statement->bindParam(':prenom', $prenom);
+        $statement->bindParam(':mail', $mail);
+        $statement->bindParam(':mot_de_passe', $mot_de_passe);
+        $statement->bindParam(':photo', $photo);
+        $statement->execute();
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
+
 ?>
