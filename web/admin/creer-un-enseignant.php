@@ -39,7 +39,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="creer-un-compte.php">
+                        <a class="nav-link " href="creer-un-compteV2.php">
                             Créer un compte
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 account_circle
@@ -89,7 +89,7 @@
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
             Entrer les informations        
         </div>
-        <form action="testetu.php" method="post">
+        <form action="creer-un-enseignant.php" method="post">
             <div class="d-flex flex-column justify-content-center">  
                 <div class="p-2">
                     <label for="nom" class="form-label">Nom*</label>

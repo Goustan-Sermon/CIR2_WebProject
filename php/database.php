@@ -16,8 +16,14 @@ function dbConnect(){
 }
 
 function dbGetPersonnes($dbh){
-    $statement = $dbh->query('SELECT * FROM personne');
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    try{
+        $statement = $dbh->query('SELECT * FROM personne');
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
     return $result;
 }
 
@@ -36,6 +42,18 @@ function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $photo){
         return false;
     }
     return true;
+}
+
+function dbGetPersonneID($dbh){
+    try{
+        $statement = $dbh->query('SELECT id FROM personne');
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
 }
 
 ?>

@@ -38,7 +38,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="creer-un-compte.php">
+                        <a class="nav-link " href="creer-un-compteV2s.php">
                             Créer un compte
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 account_circle
