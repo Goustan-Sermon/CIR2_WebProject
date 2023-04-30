@@ -1,2 +1,0 @@
-INSERT INTO public.personne (mail, nom, prenom, mot_de_passe, photo) VALUES ('goust.sermon-thuillier@outlook.fr', 'SERMON', 'Goustan', '123456', 'https://upload.wikimedia.org/wikipedia/fr/f/f0/Yncrea_BM_ISEN-_horizontal-1.jpg'),
-('vincent.rocher@outlook;fr', 'ROCHER', 'Vincent', '123456', 'https://upload.wikimedia.org/wikipedia/fr/f/f0/Yncrea_BM_ISEN-_horizontal-1.jpg');

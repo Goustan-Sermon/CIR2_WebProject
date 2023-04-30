@@ -6,6 +6,7 @@
     <meta charset="utf-8">
 
     <!-- CSS -->
+    <link href="style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -15,7 +16,7 @@
     <!-- Google icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <title>créer un semestre</title>
+    <title>créer un compte</title>
 </head>
 
 <body>
@@ -67,7 +68,7 @@
                     <a class="btn btn-outline-danger" type="submit" href="../identification.php">
                         Déconnexion
                         <span class="material-symbols-outlined" style="font-size: 1rem">
-                            logout
+                        logout
                         </span>
                     </a>
                 </form>
@@ -80,15 +81,36 @@
         <!--------------------------- Titre + Logo ---------------------------------------------------->
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
             <span class="material-symbols-outlined logo" style="font-size: 4rem">
-                school
+                account_circle
             </span>
-            Créer un semestre
+            Créer un compte
         </div>
         <!--------------------------- contenue  ---------------------------------------------------->
+        <div class="blocks justify-content-evenly">
+            <!--------------------------- Block 1 ---------------------------------------------------->
+            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center">
+                <a href="creer-un-etudiant.php" class="stretched-link"></a>
+                <span class="material-symbols-outlined logo " style="font-size: 8rem">
+                    account_circle
+                </span>
+                <p class="type">
+                    Créer <br> un étudiant
+                </p>
 
-    </div>
-    </div>
+            </div>
+            <!--------------------------- Block 2 ---------------------------------------------------->
+            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center">
+                <a href="creer-un-enseignant.php" class="stretched-link"></a>
+                <span class="material-symbols-outlined logo " style="font-size: 8rem">
+                    account_circle
+                </span>
+                <p class="type">
+                    Créer <br> un enseignant
+                </p>
 
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
