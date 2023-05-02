@@ -1,0 +1,1 @@
+DELETE FROM personne WHERE id_personne<100;

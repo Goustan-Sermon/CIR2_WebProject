@@ -89,6 +89,17 @@
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
             Entrer les informations        
         </div>
+        <?php
+            if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] == $_POST['mail'] && $_POST['mdp'] == $_POST['mdpconf']){
+                echo "<p class='alert alert-success'>Élève ajouté avec succès !</p>";
+            } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] == $_POST['mail'] && $_POST['mdp'] != $_POST['mdpconf']){
+                echo "<p class='alert alert-danger'>Les mots de passe ne correspondent pas !</p>";
+            } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] != $_POST['mail'] && $_POST['mdp'] == $_POST['mdpconf']){
+                echo "<p class='alert alert-danger'>Les mails ne correspondent pas !</p>";
+            } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] != $_POST['mail'] && $_POST['mdp'] != $_POST['mdpconf']){
+                echo "<p class='alert alert-danger'>Les mails et les mots de passe ne correspondent pas !</p>";
+            }
+        ?>
         <form action="creer-un-etudiant.php" method="post">
             <div class="d-flex flex-column justify-content-center">  
                 <div class="p-2">
@@ -101,13 +112,13 @@
                 </div>
                 <div class="form-group d-flex justify-content-center">
                     <div class="p-2">
-                        <select class="custom-select" required>
+                        <select class="custom-select" name="cycle" required>
                             <option value="">Cycle</option>
                             <option value="cir">CIR</option>
                             <option value="cgsi">CGSI</option>
                             <option value="cest">CEST</option>
                         </select>
-                        <select class="custom-select" required>
+                        <select class="custom-select" name="annee" required>
                             <option value="">Année</option>
                             <option value="a1">A1</option>
                             <option value="a2">A2</option>
@@ -148,7 +159,21 @@
     
                 // Database connection.
                 $db = dbConnect();
-            
+
+                function cycle($str){
+                    if($str == 'A1'){
+                        return 1;
+                    } else if($str == 'A2'){
+                        return 2;
+                    } else if($str == 'A3'){
+                        return 3;
+                    } else if($str == 'M1'){
+                        return 4;
+                    } else if($str == 'M2'){
+                        return 5;
+                    }
+                }
+
                 if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf'])){
                     $nom = $_POST['nom'];
                     $prenom = $_POST['prenom'];
@@ -156,24 +181,21 @@
                     $mailconf = $_POST['mailconf'];
                     $mdp = $_POST['mdp'];
                     $mdpconf = $_POST['mdpconf'];
-                    if($mail != $mailconf){
-                        echo "<p class='alert alert-danger'>Les mails ne correspondent pas !</p>";
+                    if($mdpconf != $mdp || $mail != $mailconf){
                         return 0;
                     }
-                    if($mdp != $mdpconf){
-                        echo "<p class='alert alert-danger'>Les mots de passe ne correspondent pas !</p>";
-                        return 0;
-                    }
-                    if(isset($_POST['photo'])){
+                    if(empty(isset($_POST['photo']))){
+                        addPersonne($db, $nom, $prenom, $mail, $mdp, 0);
+                    } else {
                         $photo = $_POST['photo'];
                         addPersonne($db, $nom, $prenom, $mail, $mdp, $photo);
-                        echo "<p class='alert alert-success'>Élève ajouté avec succès !</p>";
-                    } else {
-                        addPersonne($db, $nom, $prenom, $mail, $mdp, 0);
-                        echo "<p class='alert alert-success'>Élève ajouté avec succès !</p>";
-                        echo dbGetPersonneID($db);
                     }
-                }?>
+                    $id = dbGetLastPersonneID($db);
+                    print_r($id);   
+                    $id_cycle = cycle($_POST['annee']);
+                    addEtudiant($db, $id, $id_cycle);
+                }
+                ?>
         </form>
     </div>
 </body>
