@@ -1,0 +1,51 @@
+.corps{
+    margin: 30px 200px;   
+}
+.titre{
+    text-align: center;
+    font-weight: bold;
+    font-size: 40px;
+}
+.titre .logo{
+    position: relative;
+    top: 18px
+}
+.blocks{
+    margin-top: 70px;
+    display: flex;
+    flex-direction: row;
+}
+.card .type{
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+}
+.card{
+    margin-top: 10px;
+    width: 249px;
+    height: 249px;
+    color: white;
+    box-shadow: 2px 5px 10px black;
+}
+.badge{
+    box-shadow: -4px 1px 10px white;
+}
+.connection{
+    margin: 20px auto;
+    width: 400px;
+}
+.form-identification{
+    margin: 5px 35px;
+}
+.yncrea{
+   width : 2.7rem; 
+   margin-bottom : 20px;
+}
+@media only screen and (max-width: 1150px) {
+    .blocks{
+        flex-direction: column;
+    }
+    .corps{
+        margin: 30px 100px; 
+    }   
+}
