@@ -88,7 +88,56 @@
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
         <!---------------------------affichae des classes avec les eleves ---------------------------------------------------->
+       
+    
+        <div class="p-2">
+
+        <select class="custom-select" required>
+            <option value="">Tri</option>
+            <option value="cir">Option 1</option>
+            <option value="cgsi">Option 2</option>
+            <option value="cest">Option 3</option>
+        </select>
         
+        <select class="custom-select" required>
+            <option value="">Cycle</option>
+            <option value="cir">CIR</option>
+            <option value="cgsi">CGSI</option>
+            <option value="cest">CEST</option>
+        </select>
+        <select class="custom-select" required>
+            <option value="">Année</option>
+            <option value="a1">A1</option>
+            <option value="a2">A2</option>
+            <option value="a3">A3</option>
+            <option value="a2">M1</option>
+            <option value="a3">M2</option>
+        </select>      
+        <select class="custom-select" required>
+            <option value="">Matière</option>
+            <option value="a1">Option 1</option>
+            <option value="a2">Option 2</option>
+            <option value="a3">Option 3</option>
+            <option value="a2">Option 4</option>
+            <option value="a3">Option 5</option>
+        </select>
+        <div class="d-flex flex-row-reverse">
+            
+            <button type="button" class="btn btn-danger" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+            </svg>
+            Rechercher</button>
+            
+        </div>
+        
+    
+        
+    </div>
+
+
+        
+
         <div class="block ">
         <table class="table table table-striped"> <!--- permet d'alterner les colonnes de couleurs différentes -->
             <thead>
