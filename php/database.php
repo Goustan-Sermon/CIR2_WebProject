@@ -27,14 +27,26 @@ function dbGetPersonnes($dbh){
     return $result;
 }
 
-function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $photo){
+function dbGetLastPersonneID($dbh){
     try{
-        $statement = $db->prepare('INSERT INTO personne (nom, prenom, mail, mot_de_passe, photo) VALUES (:nom, :prenom, :mail, :mot_de_passe, :photo)');
+        $statement = $dbh->query('SELECT id_personne FROM personne WHERE id_personne = (SELECT MAX(id_personne) FROM personne)');
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $telephone){
+    try{
+        $statement = $db->prepare('INSERT INTO personne (nom, prenom, mail, mot_de_passe, telephone) VALUES (:nom, :prenom, :mail, :mot_de_passe, :telephone)');
         $statement->bindParam(':nom', $nom);
         $statement->bindParam(':prenom', $prenom);
         $statement->bindParam(':mail', $mail);
         $statement->bindParam(':mot_de_passe', $mot_de_passe);
-        $statement->bindParam(':photo', $photo);
+        $statement->bindParam(':telephone', $telephone);
         $statement->execute();
     }
     catch (PDOException $exception){
@@ -44,16 +56,18 @@ function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $photo){
     return true;
 }
 
-function dbGetPersonneID($dbh){
+function addEtudiant($db, $id_etu, $id_cycle){
     try{
-        $statement = $dbh->query('SELECT id FROM personne');
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement = $db->prepare('INSERT INTO etudiant (id_etudiant, id_cycle) VALUES (:id_etudiant, :id_cycle)');
+        $statement->bindParam(':id_etudiant', $id_etu);
+        $statement->bindParam(':cycle', $id_cycle);
+        $statement->execute();
     }
-    catch (PDOException $exception){
+    catch (PDO $exception){
         error_log('Request error: '.$exception->getMessage());
         return false;
     }
-    return $result;
+    return true;
 }
 function checkIdentification($db, $id, $mdp){
     try{

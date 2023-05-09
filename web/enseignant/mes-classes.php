@@ -87,7 +87,42 @@
             Mes classes
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-
+        <!---------------------------affichae des classes avec les eleves ---------------------------------------------------->
+        
+        <div class="block ">
+        <table class="table table table-striped"> <!--- permet d'alterner les colonnes de couleurs différentes -->
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Cycle</th>
+                    <th scope="col">Moyenne classe /20</th>
+                    <th scope="col">modifier</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <tr>
+                    <th scope="row">1</th>
+                    <td>CIR1</td>
+                    <td>Text line</td>
+                    <td>Edit</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>EST2</td>
+                    <td>Text line</td>
+                    <td>Edit</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>CSI3</td>
+                    <td>Text line</td>
+                    <td>Edit</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        
+                            
     </div>
     </div>
 
