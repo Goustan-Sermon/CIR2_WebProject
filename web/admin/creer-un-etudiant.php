@@ -150,10 +150,12 @@
                         <label for="mdp" class="form-label">Mot de passe (confirmation)*</label>
                         <input type="password" class="form-control" id="mdpconf" name="mdpconf" placeholder="Confirmez le mot de passe" required>
                     </div>
+                    <!--
                     <div class="p-2">
                         <label for="photo" class="form-label">Photo</label>
                         <input type="file" class="form-control" id="photo" name="photo">
                     </div>
+                    -->
                     <button type="submit" name="add" class="btn btn-outline-danger">Créer un étudiant</button>
                 </div>
                 <?php
