@@ -1,211 +1,238 @@
-------------------------------------------------------------
---        Script Postgre 
-------------------------------------------------------------
+#------------------------------------------------------------
+#        Script MySQL.
+#------------------------------------------------------------
+
+
+#------------------------------------------------------------
+# Table: personne
+#------------------------------------------------------------
+
+CREATE TABLE personne(
+        id_personne  Int  Auto_increment  NOT NULL ,
+        nom          Varchar (50) NOT NULL ,
+        prenom       Varchar (50) NOT NULL ,
+        mail         Varchar (50) NOT NULL ,
+        mot_de_passe Varchar (50) NOT NULL ,
+        photo        Blob NOT NULL
+	,CONSTRAINT personne_PK PRIMARY KEY (id_personne)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: semestre
+#------------------------------------------------------------
+
+CREATE TABLE semestre(
+        id_semestre Int  Auto_increment  NOT NULL ,
+        date_debut  Date NOT NULL ,
+        date_fin    Date NOT NULL
+	,CONSTRAINT semestre_PK PRIMARY KEY (id_semestre)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: classe
+#------------------------------------------------------------
+
+CREATE TABLE classe(
+        id_classe Int  Auto_increment  NOT NULL ,
+        cycle     Varchar (50) NOT NULL ,
+        couleur   Int NOT NULL ,
+        classe    Varchar (50) NOT NULL
+	,CONSTRAINT classe_PK PRIMARY KEY (id_classe)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: etudiant
+#------------------------------------------------------------
+
+CREATE TABLE etudiant(
+        id_etudiant Int  Auto_increment  NOT NULL ,
+        id_personne Int NOT NULL ,
+        id_classe   Int NOT NULL
+	,CONSTRAINT etudiant_PK PRIMARY KEY (id_etudiant)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: enseignant
+#------------------------------------------------------------
+
+CREATE TABLE enseignant(
+        id_enseignant Int  Auto_increment  NOT NULL ,
+        telephone     Varchar (50) NOT NULL ,
+        id_matiere    Int NOT NULL ,
+        id_personne   Int NOT NULL
+	,CONSTRAINT enseignant_PK PRIMARY KEY (id_enseignant)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: ds
+#------------------------------------------------------------
+
+CREATE TABLE ds(
+        id_evaluation Int  Auto_increment  NOT NULL ,
+        coefficient   Varchar (50) NOT NULL ,
+        id_classe     Int NOT NULL ,
+        id_matiere    Int NOT NULL ,
+        id_enseignant Int NOT NULL
+	,CONSTRAINT ds_PK PRIMARY KEY (id_evaluation)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: note
+#------------------------------------------------------------
+
+CREATE TABLE note(
+        id_note       Int  Auto_increment  NOT NULL ,
+        value_note    Float NOT NULL ,
+        id_etudiant   Int NOT NULL ,
+        id_evaluation Int NOT NULL ,
+        id_enseignant Int NOT NULL
+	,CONSTRAINT note_PK PRIMARY KEY (id_note)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: appréciation
+#------------------------------------------------------------
+
+CREATE TABLE appreciation(
+        id_appreciation   Int  Auto_increment  NOT NULL ,
+        value_apprecition Varchar (50) NOT NULL ,
+        id_semestre       Int NOT NULL ,
+        id_enseignant     Int NOT NULL
+	,CONSTRAINT appreciation_PK PRIMARY KEY (id_appreciation)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: matière
+#------------------------------------------------------------
+
+CREATE TABLE matiere(
+        id_matiere    Int  Auto_increment  NOT NULL ,
+        value_matiere Varchar (50) NOT NULL ,
+        id_enseignant Int NOT NULL ,
+        id_semestre   Int NOT NULL ,
+        id_evaluation Int NOT NULL
+	,CONSTRAINT matiere_PK PRIMARY KEY (id_matiere)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: consulter
+#------------------------------------------------------------
+
+CREATE TABLE consulter(
+        id_appreciation Int NOT NULL ,
+        id_etudiant     Int NOT NULL
+	,CONSTRAINT consulter_PK PRIMARY KEY (id_appreciation,id_etudiant)
+)ENGINE=InnoDB;
 
 
 
-------------------------------------------------------------
--- Table: personne
-------------------------------------------------------------
-CREATE TABLE public.personne(
-	id_personne    SERIAL NOT NULL ,
-	nom            VARCHAR (50) NOT NULL ,
-	prenom         VARCHAR (50) NOT NULL ,
-	mail           VARCHAR (50) NOT NULL ,
-	mot_de_passe   VARCHAR (50) NOT NULL ,
-	photo          BYTEA  NOT NULL  ,
-	CONSTRAINT personne_PK PRIMARY KEY (id_personne)
-)WITHOUT OIDS;
 
+ALTER TABLE etudiant
+	ADD CONSTRAINT etudiant_personne0_FK
+	FOREIGN KEY (id_personne)
+	REFERENCES personne(id_personne);
 
-------------------------------------------------------------
--- Table: enseignant
-------------------------------------------------------------
-CREATE TABLE public.enseignant(
-	id_enseignant   SERIAL NOT NULL ,
-	telephone       VARCHAR (50) NOT NULL  ,
-	CONSTRAINT enseignant_PK PRIMARY KEY (id_enseignant)
-)WITHOUT OIDS;
+ALTER TABLE etudiant
+	ADD CONSTRAINT etudiant_classe1_FK
+	FOREIGN KEY (id_classe)
+	REFERENCES classe(id_classe);
 
+ALTER TABLE enseignant
+	ADD CONSTRAINT enseignant_matiere0_FK
+	FOREIGN KEY (id_matiere)
+	REFERENCES matiere(id_matiere);
 
-------------------------------------------------------------
--- Table: semestre
-------------------------------------------------------------
-CREATE TABLE public.semestre(
-	id_semestre   SERIAL NOT NULL ,
-	date_debut    DATE  NOT NULL ,
-	date_fin      DATE  NOT NULL  ,
-	CONSTRAINT semestre_PK PRIMARY KEY (id_semestre)
-)WITHOUT OIDS;
+ALTER TABLE enseignant
+	ADD CONSTRAINT enseignant_personne1_FK
+	FOREIGN KEY (id_personne)
+	REFERENCES personne(id_personne);
 
+ALTER TABLE enseignant 
+	ADD CONSTRAINT enseignant_matiere0_AK 
+	UNIQUE (id_matiere);
 
-------------------------------------------------------------
--- Table: appréciation
-------------------------------------------------------------
-CREATE TABLE public.appreciation(
-	id_appreciation     SERIAL NOT NULL ,
-	value_apprecition   VARCHAR (50) NOT NULL  ,
-	CONSTRAINT appreciation_PK PRIMARY KEY (id_appreciation)
-)WITHOUT OIDS;
+ALTER TABLE ds
+	ADD CONSTRAINT ds_classe0_FK
+	FOREIGN KEY (id_classe)
+	REFERENCES classe(id_classe);
 
+ALTER TABLE ds
+	ADD CONSTRAINT ds_matiere1_FK
+	FOREIGN KEY (id_matiere)
+	REFERENCES matiere(id_matiere);
 
-------------------------------------------------------------
--- Table: matière
-------------------------------------------------------------
-CREATE TABLE public.matiere(
-	id_matiere      SERIAL NOT NULL ,
-	value_matiere   VARCHAR (50) NOT NULL ,
-	id_semestre     INT  NOT NULL  ,
-	CONSTRAINT matiere_PK PRIMARY KEY (id_matiere)
+ALTER TABLE ds
+	ADD CONSTRAINT ds_enseignant2_FK
+	FOREIGN KEY (id_enseignant)
+	REFERENCES enseignant(id_enseignant);
 
-	,CONSTRAINT matiere_semestre_FK FOREIGN KEY (id_semestre) REFERENCES public.semestre(id_semestre)
-)WITHOUT OIDS;
+ALTER TABLE ds 
+	ADD CONSTRAINT ds_matiere0_AK 
+	UNIQUE (id_matiere);
 
+ALTER TABLE note
+	ADD CONSTRAINT note_etudiant0_FK
+	FOREIGN KEY (id_etudiant)
+	REFERENCES etudiant(id_etudiant);
 
-------------------------------------------------------------
--- Table: ds
-------------------------------------------------------------
-CREATE TABLE public.ds(
-	id_evaluation   SERIAL NOT NULL ,
-	coefficient     VARCHAR (50) NOT NULL ,
-	id_matiere      INT  NOT NULL  ,
-	CONSTRAINT ds_PK PRIMARY KEY (id_evaluation)
+ALTER TABLE note
+	ADD CONSTRAINT note_ds1_FK
+	FOREIGN KEY (id_evaluation)
+	REFERENCES ds(id_evaluation);
 
-	,CONSTRAINT ds_matiere_FK FOREIGN KEY (id_matiere) REFERENCES public.matiere(id_matiere)
-)WITHOUT OIDS;
+ALTER TABLE note
+	ADD CONSTRAINT note_enseignant2_FK
+	FOREIGN KEY (id_enseignant)
+	REFERENCES enseignant(id_enseignant);
 
+ALTER TABLE appreciation
+	ADD CONSTRAINT appreciation_semestre0_FK
+	FOREIGN KEY (id_semestre)
+	REFERENCES semestre(id_semestre);
 
-------------------------------------------------------------
--- Table: cycle
-------------------------------------------------------------
-CREATE TABLE public.cycle(
-	id_cycle      SERIAL NOT NULL ,
-	value_cycle   VARCHAR (50) NOT NULL ,
-	couleur       INT  NOT NULL  ,
-	CONSTRAINT cycle_PK PRIMARY KEY (id_cycle)
-)WITHOUT OIDS;
+ALTER TABLE appreciation
+	ADD CONSTRAINT appreciation_enseignant1_FK
+	FOREIGN KEY (id_enseignant)
+	REFERENCES enseignant(id_enseignant);
 
+ALTER TABLE matiere
+	ADD CONSTRAINT matiere_enseignant0_FK
+	FOREIGN KEY (id_enseignant)
+	REFERENCES enseignant(id_enseignant);
 
-------------------------------------------------------------
--- Table: etudiant
-------------------------------------------------------------
-CREATE TABLE public.etudiant(
-	id_etudiant   SERIAL NOT NULL ,
-	id_cycle      INT  NOT NULL  ,
-	CONSTRAINT etudiant_PK PRIMARY KEY (id_etudiant)
+ALTER TABLE matiere
+	ADD CONSTRAINT matiere_semestre1_FK
+	FOREIGN KEY (id_semestre)
+	REFERENCES semestre(id_semestre);
 
-	,CONSTRAINT etudiant_cycle_FK FOREIGN KEY (id_cycle) REFERENCES public.cycle(id_cycle)
-)WITHOUT OIDS;
+ALTER TABLE matiere
+	ADD CONSTRAINT matiere_ds2_FK
+	FOREIGN KEY (id_evaluation)
+	REFERENCES ds(id_evaluation);
 
+ALTER TABLE matiere 
+	ADD CONSTRAINT matiere_enseignant0_AK 
+	UNIQUE (id_enseignant);
 
-------------------------------------------------------------
--- Table: note
-------------------------------------------------------------
-CREATE TABLE public.note(
-	id_note         SERIAL NOT NULL ,
-	value_note      FLOAT  NOT NULL ,
-	id_etudiant     INT  NOT NULL ,
-	id_evaluation   INT  NOT NULL ,
-	id_enseignant   INT  NOT NULL  ,
-	CONSTRAINT note_PK PRIMARY KEY (id_note)
+ALTER TABLE matiere 
+	ADD CONSTRAINT matiere_ds1_AK 
+	UNIQUE (id_evaluation);
 
-	,CONSTRAINT note_etudiant_FK FOREIGN KEY (id_etudiant) REFERENCES public.etudiant(id_etudiant)
-	,CONSTRAINT note_ds0_FK FOREIGN KEY (id_evaluation) REFERENCES public.ds(id_evaluation)
-	,CONSTRAINT note_enseignant1_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
-)WITHOUT OIDS;
+ALTER TABLE consulter
+	ADD CONSTRAINT consulter_appreciation0_FK
+	FOREIGN KEY (id_appreciation)
+	REFERENCES appreciation(id_appreciation);
 
-
-------------------------------------------------------------
--- Table: être
-------------------------------------------------------------
-CREATE TABLE public.etre(
-	id_enseignant   INT  NOT NULL ,
-	id_personne     INT  NOT NULL ,
-	id_etudiant     INT  NOT NULL  ,
-	CONSTRAINT etre_PK PRIMARY KEY (id_enseignant,id_personne,id_etudiant)
-
-	,CONSTRAINT etre_enseignant_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
-	,CONSTRAINT etre_personne0_FK FOREIGN KEY (id_personne) REFERENCES public.personne(id_personne)
-	,CONSTRAINT etre_etudiant1_FK FOREIGN KEY (id_etudiant) REFERENCES public.etudiant(id_etudiant)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: enseigner
-------------------------------------------------------------
-CREATE TABLE public.enseigner(
-	id_matiere      INT  NOT NULL ,
-	id_enseignant   INT  NOT NULL  ,
-	CONSTRAINT enseigner_PK PRIMARY KEY (id_matiere,id_enseignant)
-
-	,CONSTRAINT enseigner_matiere_FK FOREIGN KEY (id_matiere) REFERENCES public.matiere(id_matiere)
-	,CONSTRAINT enseigner_enseignant0_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: consulter
-------------------------------------------------------------
-CREATE TABLE public.consulter(
-	id_appreciation   INT  NOT NULL ,
-	id_etudiant       INT  NOT NULL  ,
-	CONSTRAINT consulter_PK PRIMARY KEY (id_appreciation,id_etudiant)
-
-	,CONSTRAINT consulter_appreciation_FK FOREIGN KEY (id_appreciation) REFERENCES public.appreciation(id_appreciation)
-	,CONSTRAINT consulter_etudiant0_FK FOREIGN KEY (id_etudiant) REFERENCES public.etudiant(id_etudiant)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: contenir
-------------------------------------------------------------
-CREATE TABLE public.contenir(
-	id_semestre       INT  NOT NULL ,
-	id_appreciation   INT  NOT NULL  ,
-	CONSTRAINT contenir_PK PRIMARY KEY (id_semestre,id_appreciation)
-
-	,CONSTRAINT contenir_semestre_FK FOREIGN KEY (id_semestre) REFERENCES public.semestre(id_semestre)
-	,CONSTRAINT contenir_appreciation0_FK FOREIGN KEY (id_appreciation) REFERENCES public.appreciation(id_appreciation)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: dépendre
-------------------------------------------------------------
-CREATE TABLE public.dependre(
-	id_evaluation   INT  NOT NULL ,
-	id_cycle        INT  NOT NULL  ,
-	CONSTRAINT dependre_PK PRIMARY KEY (id_evaluation,id_cycle)
-
-	,CONSTRAINT dependre_ds_FK FOREIGN KEY (id_evaluation) REFERENCES public.ds(id_evaluation)
-	,CONSTRAINT dependre_cycle0_FK FOREIGN KEY (id_cycle) REFERENCES public.cycle(id_cycle)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: créer
-------------------------------------------------------------
-CREATE TABLE public.creer(
-	id_appreciation   INT  NOT NULL ,
-	id_enseignant     INT  NOT NULL  ,
-	CONSTRAINT creer_PK PRIMARY KEY (id_appreciation,id_enseignant)
-
-	,CONSTRAINT creer_appreciation_FK FOREIGN KEY (id_appreciation) REFERENCES public.appreciation(id_appreciation)
-	,CONSTRAINT creer_enseignant0_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: remplir
-------------------------------------------------------------
-CREATE TABLE public.remplir(
-	id_evaluation   INT  NOT NULL ,
-	id_enseignant   INT  NOT NULL  ,
-	CONSTRAINT remplir_PK PRIMARY KEY (id_evaluation,id_enseignant)
-
-	,CONSTRAINT remplir_ds_FK FOREIGN KEY (id_evaluation) REFERENCES public.ds(id_evaluation)
-	,CONSTRAINT remplir_enseignant0_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
-)WITHOUT OIDS;
-
-
-
+ALTER TABLE consulter
+	ADD CONSTRAINT consulter_etudiant1_FK
+	FOREIGN KEY (id_etudiant)
+	REFERENCES etudiant(id_etudiant);
