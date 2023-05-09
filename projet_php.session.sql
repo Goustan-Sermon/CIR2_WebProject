@@ -1,0 +1,1 @@
+INSERT INTO personne (nom, prenom, mail, mot_de_passe, telephone) VALUES ('admin', 'admin', 'admin@admin.fr', 'admin', '0000000000');
