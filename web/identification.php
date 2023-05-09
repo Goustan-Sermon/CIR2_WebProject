@@ -1,5 +1,37 @@
 <!DOCTYPE html>
 <html lang="fr">
+<?php
+
+require_once('../php/database.php');
+
+// Enable all warnings and errors.
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// Database connection.
+$db = dbConnect();
+$redirection=FALSE;
+if (isset($_POST['connect'])){
+    if(checkIdentification($db, $_POST['InputEmail'], $_POST['InputPassword'])){
+        if(isset($_POST['btn-check'])) {
+            setcookie('email',$_POST['InputEmail'],time()+365*24*3600);
+            setcookie('password',$_POST['InputPassword'],time()+365*24*3600);
+        }
+        $personne = dbGetPersonne($db, $_POST['InputEmail']);   
+        print_r($personne);
+        $_SESSION['id'] = $personne['id_personne'];
+        $_SESSION['nom'] = $personne['nom'];
+        $_SESSION['prenom'] = $personne['prenom'];
+        $_SESSION['mail'] = $personne['mail'];
+        $_SESSION['satut'] = getStatut($db, $_POST['InputEmail']);
+        $_SESSION['statut'] = 'etudiant';
+        print($_SESSION['statut']);
+        // header('Location: http://localhost/php/CIR2_WebProject-1/web/acceuil-'.$_SESSION['satut'].'.php');
+        exit;
+    
+    }
+}
+?>
 
 <head>
     <link href="file.css" rel="stylesheet">
@@ -93,16 +125,7 @@
             </form>
             <!--######################### Erreurs ##################################################-->
             <?php
-
-                require_once('../php/database.php');
-
-                // Enable all warnings and errors.
-                ini_set('display_errors', 1);
-                error_reporting(E_ALL);
-
-                // Database connection.
-                $db = dbConnect();
-
+                // getPoste($db, '1');
                 if (isset($_POST['connect'])){
                     if( $_POST['InputEmail'] == null and $_POST['InputPassword'] == null){
                         echo "<div class=\"alert alert-danger\" role=\"alert\">
@@ -121,18 +144,15 @@
                     }
                     // <!--------------------------- Dev ---------------------------------------------------->
                     else{
-                        if(checkIdentification($db, $_POST['InputEmail'], $_POST['InputPassword'])){
-                            echo'mot de passe done';
-                        }else{
+                        if(!checkIdentification($db, $_POST['InputEmail'], $_POST['InputPassword'])){
                             echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            Mot de passe ou E-mail invalid
-                                </div>";
+                                Mot de passe ou E-mail invalid
+                            </div>";
                         }
-                        // print_r($a);
-                        // echo $a[0];
                     }
-                }
-                ?>
+            }
+            ?>
+
         </div>
         <div class="btn-group" role="group" style="margin : 180px auto">
             <a type="button" class="btn btn-outline-danger" href="acceuil-enseignant.php">Enseignant</a>

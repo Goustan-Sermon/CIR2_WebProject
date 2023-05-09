@@ -26,7 +26,19 @@ function dbGetPersonnes($dbh){
     }
     return $result;
 }
-
+function dbGetPersonne($dbh, $mail){
+    try{
+        $statement = $dbh->prepare('SELECT * FROM personne WHERE mail =:mail');
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 function dbGetLastPersonneID($dbh){
     try{
         $statement = $dbh->query('SELECT id_personne FROM personne WHERE id_personne = (SELECT MAX(id_personne) FROM personne)');
@@ -78,27 +90,45 @@ function checkIdentification($db, $id, $mdp){
         $hash = $statement->fetchAll(PDO::FETCH_ASSOC);
         // echo $hash[0]['mot_de_passe'];
         $result = password_verify($mdp, $hash[0]['mot_de_passe']);
-        echo $result.'-> checkIdentification';   
     }
     catch (PDOException $exception){
         error_log('Request error: '.$exception->getMessage());
     }
     return $result;
 }
-function getPoste($db , $id_personne){
+function getStatut($db , $id_personne){
     try{
-        $prepare = 'SELECT mot_de_passe FROM personne WHERE mail= :id';
-        $statement = $db->prepare($prepare);
-        $statement->bindParam(':id', $id);
-        $statement->execute();
-        $hash = $statement->fetchAll(PDO::FETCH_ASSOC);
-        // echo $hash[0]['mot_de_passe'];
-        $result = password_verify($mdp, $hash[0]['mot_de_passe']);
-        echo $result.'re';   
-    }
+        if (isExistPersonne($db, $id_personne)){
+            $prepare = 'SELECT * FROM enseignant WHERE id_personne= :id';
+            $statement = $db->prepare($prepare);
+            $statement->bindParam(':id', $id_personne);
+            $statement->execute();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }   
     catch (PDOException $exception){
         error_log('Request error: '.$exception->getMessage());
+    }
+    return $result;
+}
+function isExistPersonne($db, $id_personne){
+    try{
+        $prepare='SELECT COUNT(*) FROM personne WHERE :id_personne';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_personne', $id_personne);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        if($result == 1){
+            $return = TRUE;
+        } else{
+            $return = FALSE;
+        }
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
     }
     return $result;
 }
 ?>
+

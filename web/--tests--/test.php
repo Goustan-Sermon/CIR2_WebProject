@@ -8,12 +8,17 @@
 </head>
 
 <body>
-    <link rel="stylesheet" type="text/css"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-        <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
-    </div>
+<?php
+    require_once('../../php/database.php');
+
+    // Enable all warnings and errors.
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    
+    // Database connection.
+    $db = dbConnect();
+    print_r(getStatut($db, '1'));
+?>
 </body>
 
 </html>
