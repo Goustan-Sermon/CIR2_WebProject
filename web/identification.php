@@ -61,7 +61,7 @@
             <h2 class="text-center ">Connexion à votre espace</h2>
             <p class="text-center" style="color : grey">Bienvenue ! Veuillez rentrer vos informations.</p>
             <!--------------------------- Infos ---------------------------------------------------->
-            <form class="form-identification" style="margin-bottom : 20px">
+            <form class="form-identification" style="margin-bottom : 20px" method="post">
                 <div class="mb-2">
                     <label for="exampleInputEmail1" class="form-label">E-mail</label>
                     <input type="email" class="form-control" name="InputEmail" placeholder="Entrer votre E-mail">
@@ -93,11 +93,43 @@
             </form>
             <!--######################### Erreurs ##################################################-->
             <?php
-                if (isset($_GET['connect'])){
-                    if( $_GET['InputEmail'] == null and $_GET['InputPassword'] == null){
+
+                require_once('../php/database.php');
+
+                // Enable all warnings and errors.
+                ini_set('display_errors', 1);
+                error_reporting(E_ALL);
+
+                // Database connection.
+                $db = dbConnect();
+
+                if (isset($_POST['connect'])){
+                    if( $_POST['InputEmail'] == null and $_POST['InputPassword'] == null){
                         echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            E-mail ou mot de passe incorrect
+                            Veuillez rentrer votre mot de passe et votre E-mail
                             </div>";
+                    }
+                    elseif( $_POST['InputEmail'] == null){
+                        echo "<div class=\"alert alert-danger\" role=\"alert\">
+                        Veuillez rentrer votre E-mail
+                            </div>";
+                    }
+                    elseif( $_POST['InputPassword'] == null){
+                        echo "<div class=\"alert alert-danger\" role=\"alert\">
+                        Veuillez rentrer votre mot de passe
+                            </div>";
+                    }
+                    // <!--------------------------- Dev ---------------------------------------------------->
+                    else{
+                        if(checkIdentification($db, $_POST['InputEmail'], $_POST['InputPassword'])){
+                            echo'mot de passe done';
+                        }else{
+                            echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            Mot de passe ou E-mail invalid
+                                </div>";
+                        }
+                        // print_r($a);
+                        // echo $a[0];
                     }
                 }
                 ?>
@@ -108,7 +140,7 @@
             <a type="button" class="btn btn-outline-danger" href="acceuil-admin.php">Administrateur</a>
         </div>
 
-        <!--------------------------- Dev ---------------------------------------------------->
+
 
 </body>
 
