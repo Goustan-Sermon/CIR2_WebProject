@@ -177,6 +177,8 @@
                         $mdp = $_POST['mdp'];
                         $mdphash = password_hash($mdp, PASSWORD_DEFAULT);
                         $mdpconf = $_POST['mdpconf'];
+                        $annee = $_POST['annee'];
+                        $cycle = $_POST['cycle'];
                         if($mdpconf != $mdp || $mail != $mailconf){
                             return 0;
                         }
@@ -188,12 +190,10 @@
                             addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone, $photo);
                         }*/
                         addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone);
-                        $id = dbGetLastPersonneID($db);
-                        print_r($id);   
-                        print($_POST['cycle']. ' '. $_POST['annee']);
-                        //RAJOUTER TEL
+                        $id_classe = id_classe($annee, $cycle);
+                        addEtudiant($db, $mail, $id_classe);
                     }
-                    ?>
+                ?>
             </form>
         </div>
     </div>
