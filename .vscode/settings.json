@@ -6,9 +6,9 @@
             "port": 5432,
             "askForPassword": true,
             "driver": "PostgreSQL",
-            "name": "projet-php",
-            "username": "postgres",
-            "database": "projet_php"
+            "name": "projet_php",
+            "database": "projet_php",
+            "username": "postgres"
         }
     ]
 }
