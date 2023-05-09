@@ -1,1 +1,1 @@
-DELETE FROM personne WHERE id_personne<100;
+INSERT INTO personne (nom, prenom, mail, mot_de_passe, telephone) VALUES ('admin', 'admin', 'a@a.fr', 'admin', '0000000000');

@@ -64,7 +64,7 @@
             <form class="form-identification" style="margin-bottom : 20px">
                 <div class="mb-2">
                     <label for="exampleInputEmail1" class="form-label">E-mail</label>
-                    <input type="email" class="form-control" name="InputEmail" placeholder="Entré votre E-mail">
+                    <input type="email" class="form-control" name="InputEmail" placeholder="Entrer votre E-mail">
                 </div>
                 <div class="mb-2">
                     <label for="exampleInputPassword1" class="form-label">Mot de passe</label>

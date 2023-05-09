@@ -7,8 +7,8 @@
             "askForPassword": true,
             "driver": "PostgreSQL",
             "name": "projet-php",
-            "database": "projet_php",
-            "username": "postgres"
+            "username": "postgres",
+            "database": "projet_php"
         }
     ]
 }

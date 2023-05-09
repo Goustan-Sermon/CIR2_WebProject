@@ -39,14 +39,14 @@ function dbGetLastPersonneID($dbh){
     return $result;
 }
 
-function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $photo){
+function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $telephone){
     try{
-        $statement = $db->prepare('INSERT INTO personne (nom, prenom, mail, mot_de_passe, photo) VALUES (:nom, :prenom, :mail, :mot_de_passe, :photo)');
+        $statement = $db->prepare('INSERT INTO personne (nom, prenom, mail, mot_de_passe, telephone) VALUES (:nom, :prenom, :mail, :mot_de_passe, :telephone)');
         $statement->bindParam(':nom', $nom);
         $statement->bindParam(':prenom', $prenom);
         $statement->bindParam(':mail', $mail);
         $statement->bindParam(':mot_de_passe', $mot_de_passe);
-        $statement->bindParam(':photo', $photo);
+        $statement->bindParam(':telephone', $telephone);
         $statement->execute();
     }
     catch (PDOException $exception){
