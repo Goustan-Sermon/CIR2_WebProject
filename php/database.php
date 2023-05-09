@@ -39,14 +39,14 @@ function dbGetLastPersonneID($dbh){
     return $result;
 }
 
-function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $photo){
+function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $telephone){
     try{
-        $statement = $db->prepare('INSERT INTO personne (nom, prenom, mail, mot_de_passe, photo) VALUES (:nom, :prenom, :mail, :mot_de_passe, :photo)');
+        $statement = $db->prepare('INSERT INTO personne (nom, prenom, mail, mot_de_passe, telephone) VALUES (:nom, :prenom, :mail, :mot_de_passe, :telephone)');
         $statement->bindParam(':nom', $nom);
         $statement->bindParam(':prenom', $prenom);
         $statement->bindParam(':mail', $mail);
         $statement->bindParam(':mot_de_passe', $mot_de_passe);
-        $statement->bindParam(':photo', $photo);
+        $statement->bindParam(':telephone', $telephone);
         $statement->execute();
     }
     catch (PDOException $exception){
@@ -69,5 +69,36 @@ function addEtudiant($db, $id_etu, $id_cycle){
     }
     return true;
 }
-
+function checkIdentification($db, $id, $mdp){
+    try{
+        $prepare = 'SELECT mot_de_passe FROM personne WHERE mail= :id';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        $hash = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // echo $hash[0]['mot_de_passe'];
+        $result = password_verify($mdp, $hash[0]['mot_de_passe']);
+        echo $result.'-> checkIdentification';   
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+    }
+    return $result;
+}
+function getPoste($db , $id_personne){
+    try{
+        $prepare = 'SELECT mot_de_passe FROM personne WHERE mail= :id';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        $hash = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // echo $hash[0]['mot_de_passe'];
+        $result = password_verify($mdp, $hash[0]['mot_de_passe']);
+        echo $result.'re';   
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+    }
+    return $result;
+}
 ?>
