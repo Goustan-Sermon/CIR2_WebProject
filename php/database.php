@@ -102,13 +102,16 @@ function getClasseId($db, $annee, $cycle){
 
 function checkIdentification($db, $id, $mdp){
     try{
-        $prepare = 'SELECT mot_de_passe FROM personne WHERE mail= :id';
-        $statement = $db->prepare($prepare);
-        $statement->bindParam(':id', $id);
-        $statement->execute();
-        $hash = $statement->fetchAll(PDO::FETCH_ASSOC);
-        // echo $hash[0]['mot_de_passe'];
-        $result = password_verify($mdp, $hash[0]['mot_de_passe']);
+        if(isExistPersonne($db, $id)){
+            $prepare = 'SELECT mot_de_passe FROM personne WHERE mail= :id';
+            $statement = $db->prepare($prepare);
+            $statement->bindParam(':id', $id);
+            $statement->execute();
+            $hash = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $result = password_verify($mdp, $hash[0]['mot_de_passe']);
+        } else{
+            $result = FALSE;
+        }
     }
     catch (PDOException $exception){
         error_log('Request error: '.$exception->getMessage());
@@ -162,7 +165,7 @@ function isExistPersonne($db, $id_personne){
         error_log('Request error: '.$exception->getMessage());
         return false;
     }
-    return $result;
+    return $return;
 }
 ?>
 
