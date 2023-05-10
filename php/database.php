@@ -26,10 +26,10 @@ function dbGetPersonnes($dbh){
     }
     return $result;
 }
-function dbGetPersonne($dbh, $mail){
+function dbGetPersonne($db, $id){
     try{
-        $statement = $dbh->prepare('SELECT * FROM personne WHERE mail =:mail');
-        $statement->bindParam(':mail', $mail);
+        $statement = $db->prepare('SELECT * FROM personne WHERE mail =:id');
+        $statement->bindParam(':id', $id);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -96,12 +96,12 @@ function checkIdentification($db, $id, $mdp){
     }
     return $result;
 }
-function getStatut($db , $id_personne){
+function getStatut($db , $id){
     try{
-        if (isExistPersonne($db, $id_personne)){
-            $prepare = 'SELECT * FROM enseignant WHERE id_personne= :id';
+        if (isExistPersonne($db, $id)){
+            $prepare = 'SELECT * FROM enseignant WHERE mail= :id';
             $statement = $db->prepare($prepare);
-            $statement->bindParam(':id', $id_personne);
+            $statement->bindParam(':id', $id);
             $statement->execute();
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         }
