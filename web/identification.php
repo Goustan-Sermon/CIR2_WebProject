@@ -11,23 +11,23 @@ error_reporting(E_ALL);
 // Database connection.
 $db = dbConnect();
 $redirection=FALSE;
+
 if (isset($_POST['connect'])){
     if(checkIdentification($db, $_POST['InputEmail'], $_POST['InputPassword'])){
-        if(isset($_POST['btn-check'])) {
-            setcookie('email',$_POST['InputEmail'],time()+365*24*3600);
-            setcookie('password',$_POST['InputPassword'],time()+365*24*3600);
+        if(isset($_POST['souvenir'])) {
+                setcookie('mail',$_POST['InputEmail'],time()+7*24*3600);
+                setcookie('mdp',$_POST['InputPassword'],time()+7*24*3600);
         }
-        $personne = dbGetPersonne($db, $_POST['InputEmail']);   
-        // print_r($personne);
+        $personne = dbGetPersonne($db, $_POST['InputEmail']);
         $_SESSION['nom'] = $personne[0]['nom'];
         $_SESSION['prenom'] = $personne[0]['prenom'];
         $_SESSION['mail'] = $personne[0]['mail'];
         $_SESSION['satut'] = getStatut($db, $personne[0]['mail']);
-        header('Location: http://localhost/php/CIR2_WebProject-1/web/acceuil-'.$_SESSION['satut'].'.php');
-        exit;
-    
+        header('Location: http://localhost/php/CIR2_WebProject-1/web/acceuil-'.$_SESSION['satut'].'.php');    
     }
+    
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -94,17 +94,16 @@ if (isset($_POST['connect'])){
             <form class="form-identification" style="margin-bottom : 20px" method="post">
                 <div class="mb-2">
                     <label for="exampleInputEmail1" class="form-label">E-mail</label>
-                    <input type="email" class="form-control" name="InputEmail" placeholder="Entrer votre E-mail">
+                    <input type="email" class="form-control" name="InputEmail" placeholder="Entrer votre E-mail" value = "<?php if(!isset($_SESSION['mail']) and isset($_COOKIE['mail']) and !empty($_COOKIE['mail'])){echo $_COOKIE['mail'];}?>">
                 </div>
                 <div class="mb-2">
                     <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-                    <input type="password" class="form-control" name="InputPassword"
-                        placeholder="Entré votre mot de passe">
+                    <input type="password" class="form-control" name="InputPassword" placeholder="Entré votre mot de passe" value = "<?php if(!isset($_SESSION['mail']) and isset($_COOKIE['mdp']) and !empty($_COOKIE['mdp'])){echo $_COOKIE['mdp'];}?>">
                 </div>
                 <!--------------------------- Se souvenir +  oublier ---------------------------------------------------->
 
                 <div style="margin-top: 20px" class="d-flex justify-content-between">
-                    <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
+                    <input name ="souvenir" type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off"></input>
                     <label class="btn btn-outline-danger" for="btn-check-2-outlined"
                         style="margin : 5px; padding : 6.5px"></label>
                     Se souvenir de moi
@@ -118,7 +117,7 @@ if (isset($_POST['connect'])){
                 <div classe="sub" style="font-size: 13px; text-align : center; margin-top : 20px">
                     Vous n'avez pas de compte?
                     <a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                        href="#">S'enregistrer</a>
+                        href="https://isen-brest.fr/admission-ecole-ingenieurs/#:~:text=Les%20étudiants%20doivent%20être%20titulaires,sur%20le%20site%20de%20Brest.">S'enregistrer</a>
                 </div>
             </form>
             <!--######################### Erreurs ##################################################-->
