@@ -1,1 +1,1 @@
-delete from classe;
+delete from personne;
