@@ -7,136 +7,136 @@
 ------------------------------------------------------------
 -- Table: personne
 ------------------------------------------------------------
-CREATE TABLE public.PERSONNE(
-	MAIL           VARCHAR (50) NOT NULL ,
-	NOM            VARCHAR (50) NOT NULL ,
-	PRENOM         VARCHAR (50) NOT NULL ,
-	MOT_DE_PASSE   VARCHAR (200) NOT NULL ,
-	TELEPHONE      VARCHAR (50) NOT NULL  ,
-	CONSTRAINT PERSONNE_PK PRIMARY KEY (MAIL)
+CREATE TABLE public.personne(
+	mail           VARCHAR (50) NOT NULL ,
+	nom            VARCHAR (50) NOT NULL ,
+	prenom         VARCHAR (50) NOT NULL ,
+	mot_de_passe   VARCHAR (200) NOT NULL ,
+	telephone      VARCHAR (50) NOT NULL  ,
+	CONSTRAINT personne_PK PRIMARY KEY (mail)
 )WITHOUT OIDS;
 
 
 ------------------------------------------------------------
 -- Table: semestre
 ------------------------------------------------------------
-CREATE TABLE public.SEMESTRE(
-	ID_SEMESTRE   SERIAL NOT NULL ,
-	DATE_DEBUT    DATE  NOT NULL ,
-	DATE_FIN      DATE  NOT NULL  ,
-	CONSTRAINT SEMESTRE_PK PRIMARY KEY (ID_SEMESTRE)
+CREATE TABLE public.semestre(
+	id_semestre   SERIAL NOT NULL ,
+	date_debut    DATE  NOT NULL ,
+	date_fin      DATE  NOT NULL  ,
+	CONSTRAINT semestre_PK PRIMARY KEY (id_semestre)
 )WITHOUT OIDS;
 
 
 ------------------------------------------------------------
 -- Table: matiere
 ------------------------------------------------------------
-CREATE TABLE public.MATIERE(
-	ID_MATIERE      SERIAL NOT NULL ,
-	VALUE_MATIERE   VARCHAR (50) NOT NULL ,
-	ID_SEMESTRE     INT  NOT NULL  ,
-	CONSTRAINT MATIERE_PK PRIMARY KEY (ID_MATIERE)
+CREATE TABLE public.matiere(
+	id_matiere      SERIAL NOT NULL ,
+	value_matiere   VARCHAR (50) NOT NULL ,
+	id_semestre     INT  NOT NULL  ,
+	CONSTRAINT matiere_PK PRIMARY KEY (id_matiere)
 
-	,CONSTRAINT MATIERE_SEMESTRE_FK FOREIGN KEY (ID_SEMESTRE) REFERENCES public.SEMESTRE(ID_SEMESTRE)
+	,CONSTRAINT matiere_semestre_FK FOREIGN KEY (id_semestre) REFERENCES public.semestre(id_semestre)
 )WITHOUT OIDS;
 
 
 ------------------------------------------------------------
 -- Table: enseignant
 ------------------------------------------------------------
-CREATE TABLE public.ENSEIGNANT(
-	ID_ENSEIGNANT   SERIAL NOT NULL ,
-	ID_MATIERE      INT  NOT NULL ,
-	MAIL            VARCHAR (50) NOT NULL  ,
-	CONSTRAINT ENSEIGNANT_PK PRIMARY KEY (ID_ENSEIGNANT)
+CREATE TABLE public.enseignant(
+	id_enseignant   SERIAL NOT NULL ,
+	id_matiere      INT  NOT NULL ,
+	mail            VARCHAR (50) NOT NULL  ,
+	CONSTRAINT enseignant_PK PRIMARY KEY (id_enseignant)
 
-	,CONSTRAINT ENSEIGNANT_MATIERE_FK FOREIGN KEY (ID_MATIERE) REFERENCES public.MATIERE(ID_MATIERE)
-	,CONSTRAINT ENSEIGNANT_PERSONNE0_FK FOREIGN KEY (MAIL) REFERENCES public.PERSONNE(MAIL)
+	,CONSTRAINT enseignant_matiere_FK FOREIGN KEY (id_matiere) REFERENCES public.matiere(id_matiere)
+	,CONSTRAINT enseignant_personne0_FK FOREIGN KEY (mail) REFERENCES public.personne(mail)
 )WITHOUT OIDS;
 
 
 ------------------------------------------------------------
 -- Table: appreciation
 ------------------------------------------------------------
-CREATE TABLE public.APPRECIATION(
-	ID_APPRECIATION     SERIAL NOT NULL ,
-	VALUE_APPRECITION   VARCHAR (250) NOT NULL ,
-	ID_SEMESTRE         INT  NOT NULL ,
-	ID_ENSEIGNANT       INT  NOT NULL  ,
-	CONSTRAINT APPRECIATION_PK PRIMARY KEY (ID_APPRECIATION)
+CREATE TABLE public.appreciation(
+	id_appreciation     SERIAL NOT NULL ,
+	value_apprecition   VARCHAR (250) NOT NULL ,
+	id_semestre         INT  NOT NULL ,
+	id_enseignant       INT  NOT NULL  ,
+	CONSTRAINT appreciation_PK PRIMARY KEY (id_appreciation)
 
-	,CONSTRAINT APPRECIATION_SEMESTRE_FK FOREIGN KEY (ID_SEMESTRE) REFERENCES public.SEMESTRE(ID_SEMESTRE)
-	,CONSTRAINT APPRECIATION_ENSEIGNANT0_FK FOREIGN KEY (ID_ENSEIGNANT) REFERENCES public.ENSEIGNANT(ID_ENSEIGNANT)
+	,CONSTRAINT appreciation_semestre_FK FOREIGN KEY (id_semestre) REFERENCES public.semestre(id_semestre)
+	,CONSTRAINT appreciation_enseignant0_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
 )WITHOUT OIDS;
 
 
 ------------------------------------------------------------
 -- Table: classe
 ------------------------------------------------------------
-CREATE TABLE public.CLASSE(
-	ID_CLASSE   SERIAL NOT NULL ,
-	CYCLE       VARCHAR (50) NOT NULL ,
-	ANNEE       VARCHAR (50) NOT NULL  ,
-	CONSTRAINT CLASSE_PK PRIMARY KEY (ID_CLASSE)
+CREATE TABLE public.classe(
+	id_classe   SERIAL NOT NULL ,
+	cycle       VARCHAR (50) NOT NULL ,
+	annee       VARCHAR (50) NOT NULL  ,
+	CONSTRAINT classe_PK PRIMARY KEY (id_classe)
 )WITHOUT OIDS;
 
 
 ------------------------------------------------------------
 -- Table: etudiant
 ------------------------------------------------------------
-CREATE TABLE public.ETUDIANT(
-	ID_ETUDIANT   SERIAL NOT NULL ,
-	MAIL          VARCHAR (50) NOT NULL ,
-	ID_CLASSE     INT  NOT NULL  ,
-	CONSTRAINT ETUDIANT_PK PRIMARY KEY (ID_ETUDIANT)
+CREATE TABLE public.etudiant(
+	id_etudiant   SERIAL NOT NULL ,
+	mail          VARCHAR (50) NOT NULL ,
+	id_classe     INT  NOT NULL  ,
+	CONSTRAINT etudiant_PK PRIMARY KEY (id_etudiant)
 
-	,CONSTRAINT ETUDIANT_PERSONNE_FK FOREIGN KEY (MAIL) REFERENCES public.PERSONNE(MAIL)
-	,CONSTRAINT ETUDIANT_CLASSE0_FK FOREIGN KEY (ID_CLASSE) REFERENCES public.CLASSE(ID_CLASSE)
+	,CONSTRAINT etudiant_personne_FK FOREIGN KEY (mail) REFERENCES public.personne(mail)
+	,CONSTRAINT etudiant_classe0_FK FOREIGN KEY (id_classe) REFERENCES public.classe(id_classe)
 )WITHOUT OIDS;
 
 
 ------------------------------------------------------------
 -- Table: ds
 ------------------------------------------------------------
-CREATE TABLE public.DS(
-	ID_EVALUATION   SERIAL NOT NULL ,
-	COEFFICIENT     VARCHAR (50) NOT NULL ,
-	ID_CLASSE       INT  NOT NULL ,
-	ID_ENSEIGNANT   INT  NOT NULL  ,
-	CONSTRAINT DS_PK PRIMARY KEY (ID_EVALUATION)
+CREATE TABLE public.ds(
+	id_evaluation   SERIAL NOT NULL ,
+	coefficient     VARCHAR (50) NOT NULL ,
+	id_classe       INT  NOT NULL ,
+	id_enseignant   INT  NOT NULL  ,
+	CONSTRAINT ds_PK PRIMARY KEY (id_evaluation)
 
-	,CONSTRAINT DS_CLASSE_FK FOREIGN KEY (ID_CLASSE) REFERENCES public.CLASSE(ID_CLASSE)
-	,CONSTRAINT DS_ENSEIGNANT0_FK FOREIGN KEY (ID_ENSEIGNANT) REFERENCES public.ENSEIGNANT(ID_ENSEIGNANT)
+	,CONSTRAINT ds_classe_FK FOREIGN KEY (id_classe) REFERENCES public.classe(id_classe)
+	,CONSTRAINT ds_enseignant0_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
 )WITHOUT OIDS;
 
 
 ------------------------------------------------------------
 -- Table: note
 ------------------------------------------------------------
-CREATE TABLE public.NOTE(
-	ID_NOTE         SERIAL NOT NULL ,
-	VALUE_NOTE      FLOAT  NOT NULL ,
-	ID_ETUDIANT     INT  NOT NULL ,
-	ID_EVALUATION   INT  NOT NULL ,
-	ID_ENSEIGNANT   INT  NOT NULL  ,
-	CONSTRAINT NOTE_PK PRIMARY KEY (ID_NOTE)
+CREATE TABLE public.note(
+	id_note         SERIAL NOT NULL ,
+	value_note      FLOAT  NOT NULL ,
+	id_etudiant     INT  NOT NULL ,
+	id_evaluation   INT  NOT NULL ,
+	id_enseignant   INT  NOT NULL  ,
+	CONSTRAINT note_PK PRIMARY KEY (id_note)
 
-	,CONSTRAINT NOTE_ETUDIANT_FK FOREIGN KEY (ID_ETUDIANT) REFERENCES public.ETUDIANT(ID_ETUDIANT)
-	,CONSTRAINT NOTE_DS0_FK FOREIGN KEY (ID_EVALUATION) REFERENCES public.DS(ID_EVALUATION)
-	,CONSTRAINT NOTE_ENSEIGNANT1_FK FOREIGN KEY (ID_ENSEIGNANT) REFERENCES public.ENSEIGNANT(ID_ENSEIGNANT)
+	,CONSTRAINT note_etudiant_FK FOREIGN KEY (id_etudiant) REFERENCES public.etudiant(id_etudiant)
+	,CONSTRAINT note_ds0_FK FOREIGN KEY (id_evaluation) REFERENCES public.ds(id_evaluation)
+	,CONSTRAINT note_enseignant1_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
 )WITHOUT OIDS;
 
 
 ------------------------------------------------------------
 -- Table: consulter
 ------------------------------------------------------------
-CREATE TABLE public.CONSULTER(
-	ID_APPRECIATION   INT  NOT NULL ,
-	ID_ETUDIANT       INT  NOT NULL  ,
-	CONSTRAINT CONSULTER_PK PRIMARY KEY (ID_APPRECIATION,ID_ETUDIANT)
+CREATE TABLE public.consulter(
+	id_appreciation   INT  NOT NULL ,
+	id_etudiant       INT  NOT NULL  ,
+	CONSTRAINT consulter_PK PRIMARY KEY (id_appreciation,id_etudiant)
 
-	,CONSTRAINT CONSULTER_APPRECIATION_FK FOREIGN KEY (ID_APPRECIATION) REFERENCES public.APPRECIATION(ID_APPRECIATION)
-	,CONSTRAINT CONSULTER_ETUDIANT0_FK FOREIGN KEY (ID_ETUDIANT) REFERENCES public.ETUDIANT(ID_ETUDIANT)
+	,CONSTRAINT consulter_appreciation_FK FOREIGN KEY (id_appreciation) REFERENCES public.appreciation(id_appreciation)
+	,CONSTRAINT consulter_etudiant0_FK FOREIGN KEY (id_etudiant) REFERENCES public.etudiant(id_etudiant)
 )WITHOUT OIDS;
 
 
