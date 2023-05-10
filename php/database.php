@@ -71,39 +71,19 @@ function addEtudiant($db, $mail, $id_classe){
     return true;
 }
 
-function id_classe($annee, $cycle){
-    if($cycle == 'cir' && $annee == '1'){
-        return 1;
-    } else if($cycle == 'cir' && $annee == '2'){
-        return 2;
-    } else if($cycle == 'cir' && $annee == '3'){
-        return 3;
-    } else if($cycle == 'cir' && $annee == '4'){
-        return 4;
-    } else if($cycle == 'cir' && $annee == '5'){
-        return 5;
-    } else if($cycle == 'cir' && $annee == '1'){
-        return 6;
-    } else if($cycle == 'cgsi' && $annee == '2'){
-        return 7;
-    } else if($cycle == 'cgsi' && $annee == '3'){
-        return 8;
-    } else if($cycle == 'cgsi' && $annee == '4'){
-        return 9;
-    } else if($cycle == 'cgsi' && $annee == '5'){
-        return 10;
-    } else if($cycle == 'cest' && $annee == '1'){
-        return 16;
-    } else if($cycle == 'cest' && $annee == '2'){
-        return 17;
-    } else if($cycle == 'cest' && $annee == '3'){
-        return 18;
-    } else if($cycle == 'cest' && $annee == '4'){
-        return 19;
-    } else if($cycle == 'cest' && $annee == '5'){
-        return 20;
+function getClasseId($db, $annee, $cycle){
+    try{
+        $statement = $db->prepare('SELECT id_classe FROM classe WHERE annee =:annee AND cycle =:cycle');
+        $statement->bindParam(':annee', $annee);
+        $statement->bindParam(':cycle', $cycle);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-    return 0;
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
 }
 
 function checkIdentification($db, $id, $mdp){

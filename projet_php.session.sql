@@ -1,1 +1,1 @@
-INSERT INTO public.etudiant (id_personne, id_classe) VALUES ('1', '10')
+INSERT INTO etudiant (MAIL, ID_CLASSE) VALUES ('a@a.fr', 1);
