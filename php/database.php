@@ -39,17 +39,6 @@ function dbGetPersonne($db, $id){
     }
     return $result;
 }
-function dbGetLastPersonneID($dbh){
-    try{
-        $statement = $dbh->query('SELECT id_personne FROM personne WHERE id_personne = (SELECT MAX(id_personne) FROM personne)');
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    }
-    catch (PDOException $exception){
-        error_log('Request error: '.$exception->getMessage());
-        return false;
-    }
-    return $result;
-}
 
 function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $telephone){
     try{
