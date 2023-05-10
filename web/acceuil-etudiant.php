@@ -72,7 +72,7 @@ if(!isset($_SESSION['mail'])){
                 </ul>
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
-                    <a class="btn btn-outline-danger" type="submit" href="deconexion.php">
+                    <a class="btn btn-outline-danger" type="submit" href="deconnexion.php">
                         Déconnexion
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
