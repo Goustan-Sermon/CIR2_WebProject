@@ -101,7 +101,7 @@
                     echo "<p class='alert alert-danger'>Les mails et les mots de passe ne correspondent pas !</p>";
                 }
             ?>
-            <form action="creer-un-etudiant.php" method="post">
+            <form action="creer-un-enseignant.php" method="post">
                 <div class="d-flex flex-column justify-content-center">  
                     <div class="p-2">
                         <label for="nom" class="form-label">Nom*</label>
@@ -115,11 +115,11 @@
                         <div class="p-2">
                             <select class="custom-select" name="matiere" required>
                                 <option value="">Matière</option>
-                                <option value="math">Mathématique</option>
-                                <option value="physique">Physique</option>
-                                <option value="web">Web</option>
-                                <option value="c++">C++</option>
-                                <option value="python">Python</option>
+                                <option value="Mathématiques">Mathématique</option>
+                                <option value="Physique">Physique</option>
+                                <option value="Web">Web</option>
+                                <option value="C++">C++</option>
+                                <option value="Python">Python</option>
                             </select>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                         <input type="file" class="form-control" id="photo" name="photo">
                     </div>
                     -->
-                    <button type="submit" name="add" class="btn btn-danger">Créer un étudiant</button>
+                    <button type="submit" name="add" class="btn btn-danger">Créer un enseignant</button>
                 </div>
                 <?php
                     require_once('../../php/database.php');
@@ -174,15 +174,9 @@
                         if($mdpconf != $mdp || $mail != $mailconf){
                             return 0;
                         }
-                        /*Si on rajoute des photos :
-                        if(empty(isset($_POST['photo']))){
-                            addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone, NULL);
-                        } else {
-                            $photo = $_POST['photo'];
-                            addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone, $photo);
-                        }*/
                         addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone);
-
+                        $id_matiere = dbGetIdMatiere($db, $matiere);
+                        addEnseignant($db, $mail, $id_matiere[0]['id_matiere']);
                     }
                     ?>
             </form>

@@ -182,13 +182,6 @@
                         if($mdpconf != $mdp || $mail != $mailconf){
                             return 0;
                         }
-                        /*Si on rajoute des photos :
-                        if(empty(isset($_POST['photo']))){
-                            addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone, NULL);
-                        } else {
-                            $photo = $_POST['photo'];
-                            addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone, $photo);
-                        }*/
                         addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone);
                         $id_classe = getClasseId($db, $annee, $cycle);
                         addEtudiant($db, $mail, $id_classe[0]['id_classe']);

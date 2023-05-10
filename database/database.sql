@@ -33,11 +33,8 @@ CREATE TABLE public.semestre(
 ------------------------------------------------------------
 CREATE TABLE public.matiere(
 	id_matiere      SERIAL NOT NULL ,
-	value_matiere   VARCHAR (50) NOT NULL ,
-	id_semestre     INT  NOT NULL  ,
+	value_matiere   VARCHAR (50) NOT NULL  ,
 	CONSTRAINT matiere_PK PRIMARY KEY (id_matiere)
-
-	,CONSTRAINT matiere_semestre_FK FOREIGN KEY (id_semestre) REFERENCES public.semestre(id_semestre)
 )WITHOUT OIDS;
 
 
@@ -102,11 +99,13 @@ CREATE TABLE public.ds(
 	id_evaluation   SERIAL NOT NULL ,
 	coefficient     VARCHAR (50) NOT NULL ,
 	id_classe       INT  NOT NULL ,
-	id_enseignant   INT  NOT NULL  ,
+	id_enseignant   INT  NOT NULL ,
+	id_semestre     INT  NOT NULL  ,
 	CONSTRAINT ds_PK PRIMARY KEY (id_evaluation)
 
 	,CONSTRAINT ds_classe_FK FOREIGN KEY (id_classe) REFERENCES public.classe(id_classe)
 	,CONSTRAINT ds_enseignant0_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
+	,CONSTRAINT ds_semestre1_FK FOREIGN KEY (id_semestre) REFERENCES public.semestre(id_semestre)
 )WITHOUT OIDS;
 
 
@@ -138,6 +137,3 @@ CREATE TABLE public.consulter(
 	,CONSTRAINT consulter_appreciation_FK FOREIGN KEY (id_appreciation) REFERENCES public.appreciation(id_appreciation)
 	,CONSTRAINT consulter_etudiant0_FK FOREIGN KEY (id_etudiant) REFERENCES public.etudiant(id_etudiant)
 )WITHOUT OIDS;
-
-
-
