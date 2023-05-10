@@ -18,14 +18,12 @@ if (isset($_POST['connect'])){
             setcookie('password',$_POST['InputPassword'],time()+365*24*3600);
         }
         $personne = dbGetPersonne($db, $_POST['InputEmail']);   
-        print_r($personne);
-        $_SESSION['nom'] = $personne['nom'];
-        $_SESSION['prenom'] = $personne['prenom'];
-        $_SESSION['mail'] = $personne['mail'];
-        $_SESSION['satut'] = getStatut($db, $_POST['InputEmail']);
-            // $_SESSION['statut'] = 'etudiant';
-            // print($_SESSION['statut']);
-        // header('Location: http://localhost/php/CIR2_WebProject-1/web/acceuil-'.$_SESSION['satut'].'.php?id='.$_SESSION['mail']);
+        // print_r($personne);
+        $_SESSION['nom'] = $personne[0]['nom'];
+        $_SESSION['prenom'] = $personne[0]['prenom'];
+        $_SESSION['mail'] = $personne[0]['mail'];
+        $_SESSION['satut'] = getStatut($db, $personne[0]['mail']);
+        header('Location: http://localhost/php/CIR2_WebProject-1/web/acceuil-'.$_SESSION['satut'].'.php');
         exit;
     
     }

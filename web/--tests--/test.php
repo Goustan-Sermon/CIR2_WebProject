@@ -17,7 +17,8 @@
     
     // Database connection.
     $db = dbConnect();
-    print_r(getStatut($db, '1'));
+    $a=getStatut($db, 'test@gmail.com');
+    print($a);
 ?>
 </body>
 
