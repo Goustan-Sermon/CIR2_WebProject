@@ -68,11 +68,11 @@ function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $telephone){
     return true;
 }
 
-function addEtudiant($db, $id_etu, $id_cycle){
+function addEtudiant($db, $mail, $id_classe){
     try{
-        $statement = $db->prepare('INSERT INTO etudiant (id_etudiant, id_cycle) VALUES (:id_etudiant, :id_cycle)');
-        $statement->bindParam(':id_etudiant', $id_etu);
-        $statement->bindParam(':cycle', $id_cycle);
+        $statement = $db->prepare('INSERT INTO etudiant (mail, id_classe) VALUES (:mail, :id_classe)');
+        $statement->bindParam(':mail', $mail);
+        $statement->bindParam(':id_classe', $id_classe);
         $statement->execute();
     }
     catch (PDO $exception){
@@ -81,6 +81,42 @@ function addEtudiant($db, $id_etu, $id_cycle){
     }
     return true;
 }
+
+function id_classe($annee, $cycle){
+    if($cycle == 'cir' && $annee == '1'){
+        return 6;
+    } else if($cycle == 'cir' && $annee == '2'){
+        return 7;
+    } else if($cycle == 'cir' && $annee == '3'){
+        return 8;
+    } else if($cycle == 'cir' && $annee == '4'){
+        return 9;
+    } else if($cycle == 'cir' && $annee == '5'){
+        return 10;
+    } else if($cycle == 'cir' && $annee == '1'){
+        return 11;
+    } else if($cycle == 'cgsi' && $annee == '2'){
+        return 12;
+    } else if($cycle == 'cgsi' && $annee == '3'){
+        return 13;
+    } else if($cycle == 'cgsi' && $annee == '4'){
+        return 14;
+    } else if($cycle == 'cgsi' && $annee == '5'){
+        return 15;
+    } else if($cycle == 'cest' && $annee == '1'){
+        return 16;
+    } else if($cycle == 'cest' && $annee == '2'){
+        return 17;
+    } else if($cycle == 'cest' && $annee == '3'){
+        return 18;
+    } else if($cycle == 'cest' && $annee == '4'){
+        return 19;
+    } else if($cycle == 'cest' && $annee == '5'){
+        return 20;
+    }
+    return 0;
+}
+
 function checkIdentification($db, $id, $mdp){
     try{
         $prepare = 'SELECT mot_de_passe FROM personne WHERE mail= :id';
