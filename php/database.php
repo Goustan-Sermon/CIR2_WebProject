@@ -71,6 +71,20 @@ function addEtudiant($db, $mail, $id_classe){
     return true;
 }
 
+function addEnseignant($db, $mail, $id_classe){
+    try{
+        $statement = $db->prepare('INSERT INTO enseignant (mail, id_classe) VALUES (:mail, :id_classe)');
+        $statement->bindParam(':mail', $mail);
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->execute();
+    }
+    catch (PDO $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
+
 function getClasseId($db, $annee, $cycle){
     try{
         $statement = $db->prepare('SELECT id_classe FROM classe WHERE annee =:annee AND cycle =:cycle');

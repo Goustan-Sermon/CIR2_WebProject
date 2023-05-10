@@ -156,7 +156,7 @@
                         <input type="file" class="form-control" id="photo" name="photo">
                     </div>
                     -->
-                    <button type="submit" name="add" class="btn btn-outline-danger">Créer un étudiant</button>
+                    <button type="submit" name="add" class="btn btn-danger">Créer un étudiant</button>
                 </div>
                 <?php
                     require_once('../../php/database.php');
