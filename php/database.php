@@ -26,6 +26,19 @@ function dbGetPersonnes($dbh){
     }
     return $result;
 }
+function dbGetPersonne($db, $id){
+    try{
+        $statement = $db->prepare('SELECT * FROM personne WHERE mail =:id');
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 
 function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $telephone){
     try{
@@ -102,27 +115,45 @@ function checkIdentification($db, $id, $mdp){
         $hash = $statement->fetchAll(PDO::FETCH_ASSOC);
         // echo $hash[0]['mot_de_passe'];
         $result = password_verify($mdp, $hash[0]['mot_de_passe']);
-        echo $result.'-> checkIdentification';   
     }
     catch (PDOException $exception){
         error_log('Request error: '.$exception->getMessage());
     }
     return $result;
 }
-function getPoste($db , $id_personne){
+function getStatut($db , $id){
     try{
-        $prepare = 'SELECT mot_de_passe FROM personne WHERE mail= :id';
-        $statement = $db->prepare($prepare);
-        $statement->bindParam(':id', $id);
-        $statement->execute();
-        $hash = $statement->fetchAll(PDO::FETCH_ASSOC);
-        // echo $hash[0]['mot_de_passe'];
-        $result = password_verify($mdp, $hash[0]['mot_de_passe']);
-        echo $result.'re';   
-    }
+        if (isExistPersonne($db, $id)){
+            $prepare = 'SELECT * FROM enseignant WHERE mail= :id';
+            $statement = $db->prepare($prepare);
+            $statement->bindParam(':id', $id);
+            $statement->execute();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }   
     catch (PDOException $exception){
         error_log('Request error: '.$exception->getMessage());
+    }
+    return $result;
+}
+function isExistPersonne($db, $id_personne){
+    try{
+        $prepare='SELECT COUNT(*) FROM personne WHERE :id_personne';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_personne', $id_personne);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        if($result == 1){
+            $return = TRUE;
+        } else{
+            $return = FALSE;
+        }
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
     }
     return $result;
 }
 ?>
+
