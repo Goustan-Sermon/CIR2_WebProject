@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="fr">
-<?php
 
+<?php
+session_start();
 require_once('../php/database.php');
 
 // Enable all warnings and errors.
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
 
 // Database connection.
 $db = dbConnect();
@@ -19,20 +19,20 @@ if (isset($_POST['connect'])){
         }
         $personne = dbGetPersonne($db, $_POST['InputEmail']);   
         print_r($personne);
-        $_SESSION['id'] = $personne['id_personne'];
         $_SESSION['nom'] = $personne['nom'];
         $_SESSION['prenom'] = $personne['prenom'];
         $_SESSION['mail'] = $personne['mail'];
         $_SESSION['satut'] = getStatut($db, $_POST['InputEmail']);
-        $_SESSION['statut'] = 'etudiant';
-        print($_SESSION['statut']);
-        // header('Location: http://localhost/php/CIR2_WebProject-1/web/acceuil-'.$_SESSION['satut'].'.php');
+            // $_SESSION['statut'] = 'etudiant';
+            // print($_SESSION['statut']);
+        // header('Location: http://localhost/php/CIR2_WebProject-1/web/acceuil-'.$_SESSION['satut'].'.php?id='.$_SESSION['mail']);
         exit;
     
     }
 }
 ?>
-
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <link href="file.css" rel="stylesheet">
     <meta charset="utf-8">

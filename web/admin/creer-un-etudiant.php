@@ -116,17 +116,17 @@
                         <div class="p-2">
                             <select class="custom-select" name="cycle" required>
                                 <option value="">Cycle</option>
-                                <option value="cir">CIR</option>
-                                <option value="cgsi">CGSI</option>
-                                <option value="cest">CEST</option>
+                                <option value="CIR">CIR</option>
+                                <option value="CGSI">CGSI</option>
+                                <option value="CEST">CEST</option>
                             </select>
                             <select class="custom-select" name="annee" required>
                                 <option value="">Année</option>
-                                <option value="1">A1</option>
-                                <option value="2">A2</option>
-                                <option value="3">A3</option>
-                                <option value="4">M1</option>
-                                <option value="5">M2</option>
+                                <option value="A1">A1</option>
+                                <option value="A2">A2</option>
+                                <option value="A3">A3</option>
+                                <option value="M1">M1</option>
+                                <option value="M2">M2</option>
                             </select>
                         </div>
                     </div>
@@ -177,6 +177,8 @@
                         $mdp = $_POST['mdp'];
                         $mdphash = password_hash($mdp, PASSWORD_DEFAULT);
                         $mdpconf = $_POST['mdpconf'];
+                        $annee = $_POST['annee'];
+                        $cycle = $_POST['cycle'];
                         if($mdpconf != $mdp || $mail != $mailconf){
                             return 0;
                         }
@@ -188,10 +190,8 @@
                             addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone, $photo);
                         }*/
                         addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone);
-                        $id = dbGetLastPersonneID($db);
-                        print_r($id);   
-                        print($_POST['cycle']. ' '. $_POST['annee']);
-                        //RAJOUTER TEL
+                        $id_classe = getClasseId($db, $annee, $cycle);
+                        addEtudiant($db, $mail, $id_classe[0]['id_classe']);
                     }
                     ?>
             </form>
