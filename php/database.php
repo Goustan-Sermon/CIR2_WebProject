@@ -104,11 +104,26 @@ function checkIdentification($db, $id, $mdp){
 function getStatut($db , $id){
     try{
         if (isExistPersonne($db, $id)){
-            $prepare = 'SELECT * FROM enseignant WHERE mail= :id';
+            $prepare = 'SELECT COUNT(*) FROM etudiant WHERE mail= :id';
             $statement = $db->prepare($prepare);
             $statement->bindParam(':id', $id);
             $statement->execute();
-            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $etudiant = $statement->fetchAll(PDO::FETCH_ASSOC);
+            
+            $prepare = 'SELECT COUNT(*) FROM enseignant WHERE mail= :id';
+            $statement = $db->prepare($prepare);
+            $statement->bindParam(':id', $id);
+            $statement->execute();
+            $enseignant = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($etudiant[0]['count'] == 1 ){
+                $result = 'etudiant';
+            } elseif ($enseignant[0]['count'] == 1 ){
+                $result = 'enseignant';
+            }
+            else{
+                $result = 'false';
+            }
         }
     }   
     catch (PDOException $exception){
@@ -118,12 +133,12 @@ function getStatut($db , $id){
 }
 function isExistPersonne($db, $id_personne){
     try{
-        $prepare='SELECT COUNT(*) FROM personne WHERE :id_personne';
+        $prepare='SELECT COUNT(*) FROM personne WHERE mail = :id_personne';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_personne', $id_personne);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        if($result == 1){
+        if($result[0]['count'] == 1){
             $return = TRUE;
         } else{
             $return = FALSE;

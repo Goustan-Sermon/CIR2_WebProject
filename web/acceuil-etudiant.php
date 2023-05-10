@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['mail'])){
+    header('Location: http://localhost/php/CIR2_WebProject-1/web/identification.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -66,7 +72,7 @@
                 </ul>
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
-                    <a class="btn btn-outline-danger" type="submit" href="identification.php">
+                    <a class="btn btn-outline-danger" type="submit" href="deconexion.php">
                         Déconnexion
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
