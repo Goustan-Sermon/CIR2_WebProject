@@ -1,4 +1,4 @@
-INSERT INTO classe (cycle, couleur, classe) VALUES
-('CIR', 1, 'A1'), ('CIR', 1, 'A2'), ('CIR', 1, 'A3'), ('CIR', 1, 'M1'), ('CIR', 1, 'M2'),
-('CGSI', 1, 'A1'), ('CGSI', 1, 'A2'), ('CGSI', 1, 'A3'), ('CGSI', 1, 'M1'), ('CGSI', 1, 'M2'), 
-('CEST', 1, 'A1'), ('CEST', 1, 'A2'), ('CEST', 1, 'A3'), ('CEST', 1, 'M1'), ('CEST', 1, 'M2'); 
+INSERT INTO classe (cycle, ANNEE) VALUES
+('CIR', 'A1'), ('CIR', 'A2'), ('CIR', 'A3'), ('CIR', 'M1'), ('CIR', 'M2'),
+('CGSI', 'A1'), ('CGSI', 'A2'), ('CGSI', 'A3'), ('CGSI', 'M1'), ('CGSI', 'M2'), 
+('CEST', 'A1'), ('CEST', 'A2'), ('CEST', 'A3'), ('CEST', 'M1'), ('CEST', 'M2'); 

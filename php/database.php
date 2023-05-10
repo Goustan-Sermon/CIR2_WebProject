@@ -60,25 +60,25 @@ function addEtudiant($db, $mail, $id_classe){
 
 function id_classe($annee, $cycle){
     if($cycle == 'cir' && $annee == '1'){
-        return 6;
+        return 1;
     } else if($cycle == 'cir' && $annee == '2'){
-        return 7;
+        return 2;
     } else if($cycle == 'cir' && $annee == '3'){
-        return 8;
+        return 3;
     } else if($cycle == 'cir' && $annee == '4'){
-        return 9;
+        return 4;
     } else if($cycle == 'cir' && $annee == '5'){
-        return 10;
+        return 5;
     } else if($cycle == 'cir' && $annee == '1'){
-        return 11;
+        return 6;
     } else if($cycle == 'cgsi' && $annee == '2'){
-        return 12;
+        return 7;
     } else if($cycle == 'cgsi' && $annee == '3'){
-        return 13;
+        return 8;
     } else if($cycle == 'cgsi' && $annee == '4'){
-        return 14;
+        return 9;
     } else if($cycle == 'cgsi' && $annee == '5'){
-        return 15;
+        return 10;
     } else if($cycle == 'cest' && $annee == '1'){
         return 16;
     } else if($cycle == 'cest' && $annee == '2'){
