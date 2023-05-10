@@ -1,1 +1,0 @@
-INSERT INTO etudiant (MAIL, ID_CLASSE) VALUES ('a@a.fr', 1);

@@ -191,8 +191,7 @@
                         }*/
                         addPersonne($db, $nom, $prenom, $mail, $mdphash, $telephone);
                         $id_classe = getClasseId($db, $annee, $cycle);
-                        print $id_classe;
-                        addEtudiant($db, $mail, $id_classe);
+                        addEtudiant($db, $mail, $id_classe[0]['id_classe']);
                     }
                     ?>
             </form>
