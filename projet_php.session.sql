@@ -1,1 +1,1 @@
-delete from personne;
+INSERT INTO semestre (date_debut, date_fin) VALUES ('2017-09-01', '2018-01-31');

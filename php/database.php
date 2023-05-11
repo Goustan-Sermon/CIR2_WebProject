@@ -85,6 +85,51 @@ function addEnseignant($db, $mail, $id_matiere){
     return true;
 }
 
+function addSemestre($db, $date_debut, $date_fin){
+    try{
+        $statement = $db->prepare('INSERT INTO semestre (date_debut, date_fin) VALUES (:date_debut, :date_fin)');
+        $statement->bindParam(':date_debut', $date_debut);
+        $statement->bindParam(':date_fin', $date_fin);
+        $statement->execute();
+    }
+    catch (PDO $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+} 
+
+function AddEpreuve($db, $coefficient, $id_classe, $id_enseignant, $id_semestre){
+
+}
+
+function dbGetIdSemestre($db, $date_debut, $date_fin){
+    try{
+        $statement = $db->prepare('SELECT id_semestre FROM semestre WHERE date_debut =:date_debut AND date_fin =:date_fin');
+        $statement->bindParam(':date_debut', $date_debut);
+        $statement->bindParam(':date_fin', $date_fin);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbGetSemestre($db){
+    try{
+        $statement = $db->query('SELECT * FROM semestre');
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
 function dbGetIdMatiere($db, $nom_matiere){
     try{
         $statement = $db->prepare('SELECT id_matiere FROM matiere WHERE value_matiere =:nom_matiere');

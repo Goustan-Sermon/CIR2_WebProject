@@ -92,7 +92,7 @@
             </div>
             <?php
                 if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] == $_POST['mail'] && $_POST['mdp'] == $_POST['mdpconf']){
-                    echo "<p class='alert alert-success'>Élève ajouté avec succès !</p>";
+                    echo "<p class='alert alert-success'>Enseignant ajouté avec succès !</p>";
                 } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] == $_POST['mail'] && $_POST['mdp'] != $_POST['mdpconf']){
                     echo "<p class='alert alert-danger'>Les mots de passe ne correspondent pas !</p>";
                 } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] != $_POST['mail'] && $_POST['mdp'] == $_POST['mdpconf']){

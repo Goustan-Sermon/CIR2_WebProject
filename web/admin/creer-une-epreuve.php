@@ -38,7 +38,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="creer-un-compteV2s.php">
+                        <a class="nav-link " href="creer-un-compteV2.php">
                             Créer un compte
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 account_circle
@@ -80,14 +80,144 @@
         <!--------------------------- Titre + Logo ---------------------------------------------------->
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
             <span class="material-symbols-outlined logo" style="font-size: 4rem">
-            note
+                note
             </span>
             Créer une épreuve
         </div>
         <!--------------------------- contenue  ---------------------------------------------------->
+        <div class="blocks justify-content-evenly">
+            <!--------------------------- Block 1 ---------------------------------------------------->
+            <div class="mb-2 align-items-center align-self-center">
+                <div class="text-body-tertiary h2">
+                    Les dernières épreuves créées       
+                </div>
+                <!-- Exemple -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Semestre</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Cycle</th>
+                            <th scope="col">Année</th>
+                            <th scope="col">Matière</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td>S1</td>
+                            <td>01/09/2020</td>
+                            <td>CIR</td>
+                            <td>A2</td>
+                            <td>Maths</td>
+                        </tr>
+                        <tr>
+                            <td>S2</td>
+                            <td>01/02/2021</td>
+                            <td>CGSI</td>
+                            <td>A1</td>
+                            <td>Physique</td>
+                        </tr>
+                        <tr>
+                            <td>S3</td>
+                            <td>01/09/2021</td>
+                            <td>CEST</td>
+                            <td>A3</td>
+                            <td>Anglais</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--------------------------- Block 2 ---------------------------------------------------->
+            <div class="mb-2 align-items-center align-self-center">
+                <div class="text-body-tertiary h2">
+                    Entrer les informations        
+                </div>
+                <form action="creer-un-semestre.php" method="post">
+                    <div class="d-flex flex-column justify-content-center">  
+                        <div class="p-2">
+                            <label for="nom" class="form-label">Nom*</label>
+                            <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp" placeholder="Nom" required>
+                        </div>
+                        <div class="form-group d-flex justify-content-center">
+                            <div class="p-2">
+                                <select class="custom-select" name="cycle" required>
+                                    <option value="">Cycle</option>
+                                    <option value="CIR">CIR</option>
+                                    <option value="CGSI">CGSI</option>
+                                    <option value="CEST">CEST</option>
+                                </select>
+                                <select class="custom-select" name="annee" required>
+                                    <option value="">Année</option>
+                                    <option value="A1">A1</option>
+                                    <option value="A2">A2</option>
+                                    <option value="A3">A3</option>
+                                    <option value="M1">M1</option>
+                                    <option value="M2">M2</option>
+                                </select>
+                                <select class="custom-select" name="matiere" required>
+                                    <option value="">Matière</option>
+                                    <option value="Mathématiques">Mathématique</option>
+                                    <option value="Physique">Physique</option>
+                                    <option value="Web">Web</option>
+                                    <option value="C++">C++</option>
+                                    <option value="Python">Python</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex justify-content-center">
+                            <div class="p-2">
+                                <select class="custom-select" name="semestre" required>
+                                    <option value="">Semestre</option>
+                                    <?php
+                                        require_once('../../php/database.php');
 
-    </div>
-    </div>
+                                        // Enable all warnings and errors.
+                                        ini_set('display_errors', 1);
+                                        error_reporting(E_ALL);
+                            
+                                        // Database connection.
+                                        $db = dbConnect();
+                        
+                                        $semestres = dbGetSemestre($db);
+
+                                        // Display all semesters.
+                                        foreach($semestres as $semestre){
+                                            echo '<option value="'.$semestre['id'].'">'.$semestre['nom'].'</option>';
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <label for="date" class="form-label">Date*</label>
+                            <input type="date" class="form-control" id="date" name="date" placeholder="Date">
+                        </div>
+                        <button type="submit" name="add" class="btn btn-danger">Créer un semestre</button>
+                        <?php
+                            require_once('../../php/database.php');
+
+                            // Enable all warnings and errors.
+                            ini_set('display_errors', 1);
+                            error_reporting(E_ALL);
+                
+                            // Database connection.
+                            $db = dbConnect();
+        
+                            if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['date']) && isset($_POST['cycle']) && isset($_POST['annee']) && isset($_POST['matiere']) && isset($_POST['semestre'])){
+                                $nom = $_POST['nom'];
+                                $date = $_POST['date'];
+                                $cycle = $_POST['cycle'];
+                                $annee = $_POST['annee'];
+                                $matiere = $_POST['matiere'];
+                                $semestre = $_POST['semestre'];
+
+                                dbAddEpreuve($db, $nom, $date, $cycle, $annee, $matiere, $semestre);
+                            }
+                        ?>
+                    </div>
+                </form>
+            </div>
+        </div>
 
 </body>
 

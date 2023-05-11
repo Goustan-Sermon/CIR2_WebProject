@@ -85,10 +85,108 @@
             Créer un semestre
         </div>
         <!--------------------------- contenue  ---------------------------------------------------->
+        <div class="blocks justify-content-evenly">
+            <!--------------------------- Block 1 ---------------------------------------------------->
+            <div class="mb-2 align-items-center align-self-center">
+                <div class="text-body-tertiary h2">
+                    Les semestres déjà existants        
+                </div>
+                <!-- Exemple -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Date de début</th>
+                            <th scope="col">Date de fin</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <?php
+                            require_once('../../php/database.php');
 
-    </div>
-    </div>
+                            // Enable all warnings and errors.
+                            ini_set('display_errors', 1);
+                            error_reporting(E_ALL);
+                
+                            // Database connection.
+                            $db = dbConnect();
 
+                            // Get all semesters.
+                            $semestres = dbGetSemestre($db);
+
+                            foreach ($semestres as $semestre) {
+                                echo '<tr>';
+                                //echo '<td>' . $semestre['nom'] . '</td>';
+                                echo '<td>' . "Nom" . '</td>';
+                                echo '<td>' . $semestre['date_debut'] . '</td>';
+                                echo '<td>' . $semestre['date_fin'] . '</td>';
+                                echo '</tr>';
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <!--------------------------- Block 2 ---------------------------------------------------->
+            <div class="mb-2 align-items-center align-self-center">
+                <div class="text-body-tertiary h2">
+                    Entrer les informations        
+                </div>
+                <form action="creer-un-semestre.php" method="post">
+                    <div class="d-flex flex-column justify-content-center">  
+                        <div class="p-2">
+                            <label for="nom" class="form-label">Nom*</label>
+                            <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp" placeholder="Nom" required>
+                        </div>
+                        <div class="form-group d-flex justify-content-center">
+                            <div class="p-2">
+                                <select class="custom-select" name="cycle" required>
+                                    <option value="">Cycle</option>
+                                    <option value="CIR">CIR</option>
+                                    <option value="CGSI">CGSI</option>
+                                    <option value="CEST">CEST</option>
+                                </select>
+                                <select class="custom-select" name="annee" required>
+                                    <option value="">Année</option>
+                                    <option value="A1">A1</option>
+                                    <option value="A2">A2</option>
+                                    <option value="A3">A3</option>
+                                    <option value="M1">M1</option>
+                                    <option value="M2">M2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <label for="date_debut" class="form-label">Date de début*</label>
+                            <input type="date" class="form-control" id="date_debut" name="date_debut" placeholder="Date de début">
+                        </div>
+                        <div class="p-2">
+                            <label for="date_fin" class="form-label">Date de fin*</label>
+                            <input type="date" class="form-control" id="date_fin" name="date_fin" placeholder="Date de fin" required>
+                        </div>
+                        <button type="submit" name="add" class="btn btn-danger">Créer un semestre</button>
+                        <?php
+                            require_once('../../php/database.php');
+
+                            // Enable all warnings and errors.
+                            ini_set('display_errors', 1);
+                            error_reporting(E_ALL);
+                
+                            // Database connection.
+                            $db = dbConnect();
+        
+                            if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['date_debut']) && isset($_POST['date_fin']) && isset($_POST['cycle']) && isset($_POST['annee'])){
+                                $nom = $_POST['nom'];
+                                $date_debut = $_POST['date_debut'];
+                                $date_fin = $_POST['date_fin'];
+                                $cycle = $_POST['cycle'];
+                                $annee = $_POST['annee'];
+                                addSemestre($db, $date_debut, $date_fin);
+                            }
+                        ?>
+                    </div>
+                </form>
+            </div>
+        </div>
 </body>
 
 </html>
