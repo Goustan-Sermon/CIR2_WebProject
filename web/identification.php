@@ -23,7 +23,7 @@ if (isset($_POST['connect'])){
         $_SESSION['prenom'] = $personne[0]['prenom'];
         $_SESSION['mail'] = $personne[0]['mail'];
         $_SESSION['satut'] = getStatut($db, $personne[0]['mail']);
-        header('Location: http://localhost/php/CIR2_WebProject-1/web/acceuil-'.$_SESSION['satut'].'.php');    
+        header('Location: acceuil-'.$_SESSION['satut'].'.php');    
     }
     
 }

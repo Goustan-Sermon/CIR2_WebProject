@@ -95,7 +95,7 @@ if(!isset($_SESSION['mail'])){
         <!--------------------------- contenue ---------------------------------------------------->
         <div class="tableform">
             <table class="table table-striped table-hover table-bordered align-middle">
-                <thead  style="color : #dc3545">
+                <thead style="color : #dc3545">
                     <tr>
                         <th scope="col">Date</th>
                         <th scope="col">Matière</th>
