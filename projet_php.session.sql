@@ -1,1 +1,1 @@
-INSERT INTO semestre (date_debut, date_fin) VALUES ('2017-09-01', '2018-01-31');
+INSERT INTO admin VALUES ('admin@admin.fr', 'admin', 'ad', '123', '00 00 00 00 00');
