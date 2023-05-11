@@ -85,11 +85,13 @@ function addEnseignant($db, $mail, $id_matiere){
     return true;
 }
 
-function addSemestre($db, $date_debut, $date_fin){
+function addSemestre($db, $date_debut, $date_fin, $nom_semestre, $id_classe){
     try{
-        $statement = $db->prepare('INSERT INTO semestre (date_debut, date_fin) VALUES (:date_debut, :date_fin)');
+        $statement = $db->prepare('INSERT INTO semestre (date_debut, date_fin, nom_semestre, id_classe) VALUES (:date_debut, :date_fin, :nom_semestre, :id_classe)');
         $statement->bindParam(':date_debut', $date_debut);
         $statement->bindParam(':date_fin', $date_fin);
+        $statement->bindParam(':nom_semestre', $nom_semestre);
+        $statement->bindParam(':id_classe', $id_classe);
         $statement->execute();
     }
     catch (PDO $exception){
@@ -99,8 +101,72 @@ function addSemestre($db, $date_debut, $date_fin){
     return true;
 } 
 
-function AddEpreuve($db, $coefficient, $id_classe, $id_enseignant, $id_semestre){
+function addEpreuve($db, $coefficient, $nom, $id_prof, $id_semestre){
+    try{
+        $statement = $db->prepare('INSERT INTO ds (coefficient, nom_ds, id_enseignant, id_semestre) VALUES (:coefficient, :nom, :id_prof, :id_semestre)');
+        $statement->bindParam(':coefficient', $coefficient);
+        $statement->bindParam(':nom', $nom);
+        $statement->bindParam(':id_prof', $id_prof);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+    }
+    catch (PDO $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
 
+function dbGetEpreuve($db){
+    try{
+        $statement = $db->query('SELECT * FROM ds');
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbGetMailProfById($db, $id_prof){
+    try{
+        $statement = $db->prepare('SELECT mail FROM enseignant WHERE id_enseignant =:id_prof');
+        $statement->bindParam(':id_prof', $id_prof);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbGetNomSemestreById($db, $id_semestre){
+    try{
+        $statement = $db->prepare('SELECT nom_semestre FROM semestre WHERE id_semestre =:id_semestre');
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbGetIdMatieres($db){
+    try{
+        $statement = $db->query('SELECT value_matiere FROM matiere');
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
 }
 
 function dbGetIdSemestre($db, $date_debut, $date_fin){
@@ -112,6 +178,32 @@ function dbGetIdSemestre($db, $date_debut, $date_fin){
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbGetEnseignant($db){
+    try{
+        $statement = $db->query('SELECT * FROM enseignant');
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbGetPersonneNameByMail($db, $mail){
+    try{
+        $statement = $db->prepare('SELECT nom FROM personne WHERE mail =:mail');
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
         error_log('Request error: '.$exception->getMessage());
         return false;
     }
