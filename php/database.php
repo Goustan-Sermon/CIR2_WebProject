@@ -192,10 +192,18 @@ function getStatut($db , $id_personne){
             $statement->execute();
             $enseignant = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+            $prepare = 'SELECT COUNT(*) FROM admin WHERE mail= :id_personne';
+            $statement = $db->prepare($prepare);
+            $statement->bindParam(':id_personne', $id_personne);
+            $statement->execute();
+            $admin = $statement->fetchAll(PDO::FETCH_ASSOC);
+
             if ($etudiant[0]['count'] == 1 ){
                 $result = 'etudiant';
             } elseif ($enseignant[0]['count'] == 1 ){
                 $result = 'enseignant';
+            } elseif($admin[0]['count'] == 1){
+                $result = 'admin';
             }
             else{
                 $result = 'false';
