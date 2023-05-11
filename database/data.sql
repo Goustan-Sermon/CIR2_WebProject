@@ -5,3 +5,5 @@ INSERT INTO classe (cycle, annee) VALUES
 
 INSERT INTO matiere (value_matiere) VALUES
 ('Mathématiques'), ('Physique'), ('Web'), ('C++'), ('Python');
+
+INSERT INTO personne VALUES ('admin@admin.fr', 'admin', 'ad', '123', '00 00 00 00 00');

@@ -133,12 +133,11 @@ CREATE TABLE public.appreciation(
 -- Table: admin
 ------------------------------------------------------------
 CREATE TABLE public.admin(
-	mail           VARCHAR (50) NOT NULL ,
-	nom            VARCHAR (50) NOT NULL ,
-	prenom         VARCHAR (50) NOT NULL ,
-	mot_de_passe   VARCHAR (200) NOT NULL ,
-	telephone      VARCHAR (50) NOT NULL  ,
-	CONSTRAINT admin_PK PRIMARY KEY (mail)
+	id_admin   SERIAL NOT NULL ,
+	mail       VARCHAR (50) NOT NULL  ,
+	CONSTRAINT admin_PK PRIMARY KEY (id_admin)
+
+	,CONSTRAINT admin_personne_FK FOREIGN KEY (mail) REFERENCES public.personne(mail)
 )WITHOUT OIDS;
 
 
