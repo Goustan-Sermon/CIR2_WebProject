@@ -88,7 +88,7 @@
         <!--------------------------- contenue  ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
             <!--------------------------- Block 1 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center shadow-lg">
                 <a href="creer-un-etudiant.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
                     account_circle
@@ -99,7 +99,7 @@
 
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center shadow-lg">
                 <a href="creer-un-enseignant.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
                     account_circle

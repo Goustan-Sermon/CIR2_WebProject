@@ -7,17 +7,17 @@ function dbConnect(){
     $password = DB_PASSWORD;
 
     try {
-        $dbh = new PDO($dsn, $user, $password);
+        $db = new PDO($dsn, $user, $password);
     } catch (PDOException $e) {
         echo 'Connexion échouée : ' . $e->getMessage();
         return false;
     }
-    return $dbh;
+    return $db;
 }
 
-function dbGetPersonnes($dbh){
+function dbGetPersonnes($db){
     try{
-        $statement = $dbh->query('SELECT * FROM personne');
+        $statement = $db->query('SELECT * FROM personne');
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(PDOException $exception){
@@ -26,10 +26,10 @@ function dbGetPersonnes($dbh){
     }
     return $result;
 }
-function dbGetPersonne($db, $id){
+function dbGetPersonne($db, $id_personne){
     try{
-        $statement = $db->prepare('SELECT * FROM personne WHERE mail =:id');
-        $statement->bindParam(':id', $id);
+        $statement = $db->prepare('SELECT * FROM personne WHERE mail =:id_personne');
+        $statement->bindParam(':id_personne', $id_personne);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -114,12 +114,12 @@ function getClasseId($db, $annee, $cycle){
     return $result;
 }
 
-function checkIdentification($db, $id, $mdp){
+function checkIdentification($db, $id_personne, $mdp){
     try{
-        if(isExistPersonne($db, $id)){
-            $prepare = 'SELECT mot_de_passe FROM personne WHERE mail= :id';
+        if(isExistPersonne($db, $id_personne)){
+            $prepare = 'SELECT mot_de_passe FROM personne WHERE mail= :id_personne';
             $statement = $db->prepare($prepare);
-            $statement->bindParam(':id', $id);
+            $statement->bindParam(':id_personne', $id_personne);
             $statement->execute();
             $hash = $statement->fetchAll(PDO::FETCH_ASSOC);
             $result = password_verify($mdp, $hash[0]['mot_de_passe']);
@@ -132,18 +132,18 @@ function checkIdentification($db, $id, $mdp){
     }
     return $result;
 }
-function getStatut($db , $id){
+function getStatut($db , $id_personne){
     try{
-        if (isExistPersonne($db, $id)){
-            $prepare = 'SELECT COUNT(*) FROM etudiant WHERE mail= :id';
+        if (isExistPersonne($db, $id_personne)){
+            $prepare = 'SELECT COUNT(*) FROM etudiant WHERE mail= :id_personne';
             $statement = $db->prepare($prepare);
-            $statement->bindParam(':id', $id);
+            $statement->bindParam(':id_personne', $id_personne);
             $statement->execute();
             $etudiant = $statement->fetchAll(PDO::FETCH_ASSOC);
             
-            $prepare = 'SELECT COUNT(*) FROM enseignant WHERE mail= :id';
+            $prepare = 'SELECT COUNT(*) FROM enseignant WHERE mail= :id_personne';
             $statement = $db->prepare($prepare);
-            $statement->bindParam(':id', $id);
+            $statement->bindParam(':id_personne', $id_personne);
             $statement->execute();
             $enseignant = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -180,6 +180,34 @@ function isExistPersonne($db, $id_personne){
         return false;
     }
     return $return;
+}
+function getNote($db, $id_etudiant){
+    try{
+        $prepare='SELECT COUNT(*) FROM note WHERE id_etudiant = :id_etudiant';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getSemestre($db, $id_etudiant){
+    try{
+        $prepare='SELECT COUNT(*) FROM semestre WHERE id_etudiant = :id_etudiant';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
 }
 ?>
 

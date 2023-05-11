@@ -32,7 +32,7 @@ if(!isset($_SESSION['mail'])){
             <a class="navbar-brand" href="../acceuil-etudiant.php">
                 <img src="../images/navbar/ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
                     class="d-inline-block align-text-top">
-                    Etudiant
+                Etudiant
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -93,7 +93,65 @@ if(!isset($_SESSION['mail'])){
             Mes semestres
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
+        <div class="card text-bg-danger mb-3 align-self-center" style="max-width: 18rem; text-align : center;">
+            <div class="card-body">
+                <h4 class="card-title">S4</h4>
+                <p class="card-text">20/05/2022 - 20/09/2023</p>
+            </div>
+        </div>
+        <div class="tableform">
+            <table class="table table-striped table-hover table-bordered align-middle">
+                <thead style="color : #dc3545">
+                    <tr>
+                        <th scope="col">Matières</th>
+                        <th scope="col">Nombre de ds</th>
+                        <th scope="col">Moyenne/20</th>
+                        <th scope="col">Moyenne de classe/20</th>
+                        <th scope="col">Rattrapage</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <td>Maths</td>
+                        <th>3</th>
+                        <td>13.2</td>
+                        <th>12.5</th>
+                        <td>/</td>
+                    </tr>
+                    <tr>
+                        <td>Maths</td>
+                        <th>3</th>
+                        <td>13.2</td>
+                        <th>12.5</th>
+                        <td>/</td>
+                    </tr>
+                    <tr>
+                        <td>Maths</td>
+                        <th>3</th>
+                        <td>13.2</td>
+                        <th>12.5</th>
+                        <td>/</td>
+                    </tr>
+                    <tr>
+                        <td>Maths</td>
+                        <th>3</th>
+                        <td>13.2</td>
+                        <th>12.5</th>
+                        <td>/</td>
+                    </tr>
 
+                    <tr>
+                        <th colspan="2" class="table-secondary">TOTAL : </th>
+                        <th class="table-danger">15</th>
+                        <th class="table-danger">12</th>
+                        <th class="table-danger">/</th>
+                    </tr>
+
+
+
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </body>

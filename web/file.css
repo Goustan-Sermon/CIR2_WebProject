@@ -25,7 +25,9 @@
     width: 249px;
     height: 249px;
     color: white;
-    box-shadow: 2px 5px 10px black;
+}
+.table{
+    margin-top: 1rem;
 }
 .badge{
     box-shadow: -4px 1px 10px white;

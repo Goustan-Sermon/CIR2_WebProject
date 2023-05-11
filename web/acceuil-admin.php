@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['mail'])){
+if(isset($_SESSION['mail'])){
     header('Location: http://localhost/php/CIR2_WebProject-1/web/identification.php');
 }
 ?>
@@ -92,7 +92,7 @@ if(!isset($_SESSION['mail'])){
         </div>
         <!--------------------------- Block 1 ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
-            <div class="card rounded-5 text-bg-primary  mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-primary  mb-2 align-items-center align-self-center shadow-lg">
                 <a href="admin/creer-un-compteV2.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
                     account_circle
@@ -103,7 +103,7 @@ if(!isset($_SESSION['mail'])){
 
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-light  mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-light  mb-2 align-items-center align-self-center shadow-lg">
                 <a href="admin/creer-un-semestre.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     school
@@ -114,7 +114,7 @@ if(!isset($_SESSION['mail'])){
 
             </div>
             <!--------------------------- Block 3 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center">
+            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center shadow-lg ">
                 <a href="admin/creer-une-epreuve.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     note

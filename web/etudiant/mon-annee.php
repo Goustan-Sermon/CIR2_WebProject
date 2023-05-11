@@ -32,7 +32,7 @@ if(!isset($_SESSION['mail'])){
             <a class="navbar-brand" href="../acceuil-etudiant.php">
                 <img src="../images/navbar/ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
                     class="d-inline-block align-text-top">
-                    Etudiant
+                Etudiant
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -93,7 +93,44 @@ if(!isset($_SESSION['mail'])){
             Mon année
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-
+        <div class="tableform">
+            <table class="table table-striped table-hover table-bordered align-middle">
+                <thead style="color : #dc3545">
+                    <tr>
+                        <th scope="col">Debut</th>
+                        <th scope="col">Fin</th>
+                        <th scope="col">Semestre</th>
+                        <th scope="col">Validé</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <td>20/11/2003</td>
+                        <td>20/11/2023</td>
+                        <th>ds 4</th>
+                        <td>oui</td>
+                    </tr>
+                    <tr>
+                        <td>20/11/2003</td>
+                        <td>20/11/2023</td>
+                        <th>ds 4</th>
+                        <td>oui</td>
+                    </tr>
+                    <tr>
+                        <td>20/11/2003</td>
+                        <td>20/11/2023</td>
+                        <th>ds 4</th>
+                        <td>oui</td>
+                    </tr>
+                    <tr>
+                        <td>20/11/2003</td>
+                        <td>20/11/2023</td>
+                        <th>ds 4</th>
+                        <td>oui</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </body>
