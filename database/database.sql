@@ -88,12 +88,15 @@ CREATE TABLE public.ds(
 	id_evaluation   SERIAL NOT NULL ,
 	coefficient     FLOAT  NOT NULL ,
 	nom_ds          VARCHAR (50) NOT NULL ,
+	date_ds         DATE  NOT NULL ,
 	id_enseignant   INT  NOT NULL ,
-	id_semestre     INT  NOT NULL  ,
+	id_semestre     INT  NOT NULL ,
+	id_matiere      INT  NOT NULL  ,
 	CONSTRAINT ds_PK PRIMARY KEY (id_evaluation)
 
 	,CONSTRAINT ds_enseignant_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
 	,CONSTRAINT ds_semestre0_FK FOREIGN KEY (id_semestre) REFERENCES public.semestre(id_semestre)
+	,CONSTRAINT ds_matiere1_FK FOREIGN KEY (id_matiere) REFERENCES public.matiere(id_matiere)
 )WITHOUT OIDS;
 
 

@@ -1,1 +1,1 @@
-INSERT INTO admin VALUES ('admin@admin.fr', 'admin', 'ad', '123', '00 00 00 00 00');
+SELECT value_matiere FROM matiere WHERE id_matiere = 1;

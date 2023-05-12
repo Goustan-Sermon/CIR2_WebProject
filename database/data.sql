@@ -29,5 +29,6 @@ INSERT INTO semestre (date_debut, date_fin, nom_semestre, id_classe) VALUES
 ('2019-09-01', '2020-01-31', 'S1 CIR2', 2), ('2020-02-01', '2020-06-30', 'S2 CGSI 1', 6), ('2020-09-01', '2021-01-31', 'S1 CEST3', 13), 
 ('2021-02-01', '2021-06-30', 'S2 CIR1', 1), ('2021-05-04', '2022-09-03', 'S1 CIR3', 3), ('2022-09-04', '2023-01-31', 'S2 CIR2', 2);
 
-INSERT INTO ds (coefficient, nom_ds, id_enseignant, id_semestre) VALUES
-(2, 'DS2 Maths', 2, 1), (2, 'DS1 Maths', 2, 4), (2, 'DS1 C++', 3, 2), (1, 'DS2 C++', 3, 5), (1, 'DS1 Python', 4, 4), (2, 'DS2 Python', 4, 5);
+INSERT INTO ds (coefficient, nom_ds, date_ds, id_enseignant, id_semestre, id_matiere) VALUES
+(2, 'DS2 Maths', '2021-02-01', 2, 1, 1), (2, 'DS1 Maths', '2022-09-01', 2, 1, 1), (2, 'DS1 C++', '2021-05-04', 3, 2, 4), 
+(1, 'DS2 C++', '2022-06-04', 3, 4, 4), (1, 'DS1 Python', '2022-03-09', 4, 4, 5), (2, 'DS2 Python', '2022-07-02', 4, 5, 5);

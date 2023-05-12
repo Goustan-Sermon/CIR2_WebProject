@@ -129,6 +129,20 @@ function dbGetEpreuve($db){
     return $result;
 }
 
+function dbGetMatiereById($db, $id_matiere){
+    try{
+        $statement = $db->prepare('SELECT value_matiere FROM matiere WHERE id_matiere =:id_matiere');
+        $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
 function dbGetMailProfById($db, $id_prof){
     try{
         $statement = $db->prepare('SELECT mail FROM enseignant WHERE id_enseignant =:id_prof');
