@@ -1,1 +1,2 @@
-INSERT INTO public.personne (mail, nom, prenom, mot_de_passe) VALUES ('1', 'TEST', 'test', '0');
+INSERT INTO personne VALUES ('admin@admin.fr', 'admin', 'ad', '$2y$10$Ldb2s1HCr0q7tgp6JaDbNehV72FvFAtRNe86BJmLQhRjyVxINVYGm', '00 00 00 00 00');
+INSERT INTO admin (mail) VALUES ('admin@admin.fr');
