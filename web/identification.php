@@ -14,15 +14,17 @@ $redirection=FALSE;
 
 if (isset($_POST['connect'])){
     if(checkIdentification($db, $_POST['InputEmail'], $_POST['InputPassword'])){
-        if(isset($_POST['souvenir'])) {
-                setcookie('mail',$_POST['InputEmail'],time()+7*24*3600);
-                setcookie('mdp',$_POST['InputPassword'],time()+7*24*3600);
-        }
+        print('dioen');
+        // if(isset($_POST['souvenir'])) {
+        //         setcookie('mail',$_POST['InputEmail'],time()+7*24*3600);
+        //         setcookie('mdp',$_POST['InputPassword'],time()+7*24*3600);
+        // }
         $personne = dbGetPersonne($db, $_POST['InputEmail']);
         $_SESSION['nom'] = $personne[0]['nom'];
         $_SESSION['prenom'] = $personne[0]['prenom'];
         $_SESSION['mail'] = $personne[0]['mail'];
         $_SESSION['satut'] = getStatut($db, $personne[0]['mail']);
+        print($_SESSION['statut']);
         header('Location: acceuil-'.$_SESSION['satut'].'.php');    
     }
     

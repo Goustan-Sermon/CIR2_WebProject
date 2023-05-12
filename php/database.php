@@ -180,6 +180,7 @@ function checkIdentification($db, $id_personne, $mdp){
 function getStatut($db , $id_personne){
     try{
         if (isExistPersonne($db, $id_personne)){
+            print('coucocu');
             $prepare = 'SELECT COUNT(*) FROM etudiant WHERE mail= :id_personne';
             $statement = $db->prepare($prepare);
             $statement->bindParam(':id_personne', $id_personne);
@@ -197,7 +198,8 @@ function getStatut($db , $id_personne){
             $statement->bindParam(':id_personne', $id_personne);
             $statement->execute();
             $admin = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+            print_r($admin);
+            
             if ($etudiant[0]['count'] == 1 ){
                 $result = 'etudiant';
             } elseif ($enseignant[0]['count'] == 1 ){
@@ -208,6 +210,8 @@ function getStatut($db , $id_personne){
             else{
                 $result = 'false';
             }
+        }else{
+            print('kjn ');
         }
     }   
     catch (PDOException $exception){
