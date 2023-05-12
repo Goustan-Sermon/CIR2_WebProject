@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['mail'])){
-    header('Location: http://localhost/php/CIR2_WebProject-1/web/identification.php');
+    header('Location: identification.php');
 }
 ?>
 <!DOCTYPE html>
