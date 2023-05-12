@@ -115,11 +115,23 @@
                         <div class="p-2">
                             <select class="custom-select" name="matiere" required>
                                 <option value="">Matière</option>
-                                <option value="Mathématiques">Mathématique</option>
-                                <option value="Physique">Physique</option>
-                                <option value="Web">Web</option>
-                                <option value="C++">C++</option>
-                                <option value="Python">Python</option>
+                                <?php
+                                    require_once('../../php/database.php');
+
+                                    // Enable all warnings and errors.
+                                    ini_set('display_errors', 1);
+                                    error_reporting(E_ALL);
+                        
+                                    // Database connection.
+                                    $db = dbConnect();
+                    
+                                    $matieres = dbGetIdMatieres($db);
+
+                                    // Display all matieres.
+                                    foreach($matieres as $matiere) {
+                                        echo '<option value="' . $matiere['value_matiere'] . '">' . $matiere['value_matiere'] . '</option>';
+                                    }
+                                ?>
                             </select>
                         </div>
                     </div>

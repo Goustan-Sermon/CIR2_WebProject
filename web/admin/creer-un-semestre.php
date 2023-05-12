@@ -92,39 +92,40 @@
                     Les semestres déjà existants        
                 </div>
                 <!-- Exemple -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Date de début</th>
-                            <th scope="col">Date de fin</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <?php
-                            require_once('../../php/database.php');
+                <div class="tableform">
+                    <table class="table table-striped table-hover table-bordered align-middle">
+                        <thead style="color : #dc3545">
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Date de début</th>
+                                <th scope="col">Date de fin</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <?php
+                                require_once('../../php/database.php');
 
-                            // Enable all warnings and errors.
-                            ini_set('display_errors', 1);
-                            error_reporting(E_ALL);
-                
-                            // Database connection.
-                            $db = dbConnect();
+                                // Enable all warnings and errors.
+                                ini_set('display_errors', 1);
+                                error_reporting(E_ALL);
+                    
+                                // Database connection.
+                                $db = dbConnect();
 
-                            // Get all semesters.
-                            $semestres = dbGetSemestre($db);
+                                // Get all semesters.
+                                $semestres = dbGetSemestre($db);
 
-                            foreach ($semestres as $semestre) {
-                                echo '<tr>';
-                                //echo '<td>' . $semestre['nom'] . '</td>';
-                                echo '<td>' . "Nom" . '</td>';
-                                echo '<td>' . $semestre['date_debut'] . '</td>';
-                                echo '<td>' . $semestre['date_fin'] . '</td>';
-                                echo '</tr>';
-                            }
-                        ?>
-                    </tbody>
-                </table>
+                                foreach ($semestres as $semestre) {
+                                    echo '<tr>';
+                                    echo '<td>' . $semestre['nom_semestre'] . '</td>';
+                                    echo '<td>' . $semestre['date_debut'] . '</td>';
+                                    echo '<td>' . $semestre['date_fin'] . '</td>';
+                                    echo '</tr>';
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
             <div class="mb-2 align-items-center align-self-center">
@@ -180,7 +181,8 @@
                                 $date_fin = $_POST['date_fin'];
                                 $cycle = $_POST['cycle'];
                                 $annee = $_POST['annee'];
-                                addSemestre($db, $date_debut, $date_fin);
+                                $id_classe = getClasseId($db, $annee, $cycle);
+                                addSemestre($db, $date_debut, $date_fin, $nom, $id_classe[0]['id_classe']);
                             }
                         ?>
                     </div>
