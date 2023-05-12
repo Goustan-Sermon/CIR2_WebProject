@@ -105,13 +105,15 @@ function addSemestre($db, $date_debut, $date_fin, $nom_semestre, $id_classe){
     return true;
 } 
 
-function addEpreuve($db, $coefficient, $nom, $id_prof, $id_semestre){
+function addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_matiere){
     try{
-        $statement = $db->prepare('INSERT INTO ds (coefficient, nom_ds, id_enseignant, id_semestre) VALUES (:coefficient, :nom, :id_prof, :id_semestre)');
+        $statement = $db->prepare('INSERT INTO ds (coefficient, nom_ds, date_ds, id_enseignant, id_semestre, id_matiere) VALUES (:coefficient, :nom, :date, :id_prof, :id_semestre, :id_matiere)');
         $statement->bindParam(':coefficient', $coefficient);
         $statement->bindParam(':nom', $nom);
+        $statement->bindParam(':date', $date);
         $statement->bindParam(':id_prof', $id_prof);
         $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->bindParam(':id_matiere', $id_matiere);
         $statement->execute();
     }
     catch (PDO $exception){
@@ -126,6 +128,20 @@ function addEpreuve($db, $coefficient, $nom, $id_prof, $id_semestre){
 function dbGetEpreuve($db){
     try{
         $statement = $db->query('SELECT * FROM ds');
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbGetMatiereIdByValue_matiere($db, $value_matiere){
+    try{
+        $statement = $db->prepare('SELECT id_matiere FROM matiere WHERE value_matiere =:value_matiere');
+        $statement->bindParam(':value_matiere', $value_matiere);
+        $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(PDOException $exception){

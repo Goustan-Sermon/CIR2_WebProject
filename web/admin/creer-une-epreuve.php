@@ -130,13 +130,13 @@ if(!isset($_SESSION['mail'])){
                                     $mailprof = dbGetMailProfById($db, $epreuve['id_enseignant']);
                                     $nom = dbGetPersonneNameByMail($db, $mailprof[0]['mail']);
                                     $semestre = dbGetNomSemestreById($db, $epreuve['id_semestre']);
-                                    $matiere = dbGetMatiereById($db, $epreuve['id_matiere']);
+                                    $matiereds = dbGetMatiereById($db, $epreuve['id_matiere']);
                                     echo '<tr>';
                                     echo '<td>' . $epreuve['nom_ds'] . '</td>';
                                     echo '<td>' . 'date' . '</td>';
                                     echo '<td>' . 'cycle' . '</td>';
                                     echo '<td>' . 'annee' . '</td>';
-                                    echo '<td>' . $matiere[0]['value_matiere'] . '</td>';
+                                    echo '<td>' . $matiereds[0]['value_matiere'] . '</td>';
                                     echo '<td>' . $semestre[0]['nom_semestre'] . '</td>';
                                     echo '<td>' . $nom[0]['nom'] . '</td>';
                                     echo '<td>' . $epreuve['coefficient'] . '</td>';
@@ -262,14 +262,15 @@ if(!isset($_SESSION['mail'])){
         
                             if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['date']) && isset($_POST['cycle']) && isset($_POST['annee']) && isset($_POST['matiere']) && isset($_POST['semestre'])){
                                 $nom = $_POST['nom'];
-                                //$date = $_POST['date'];
+                                $date = $_POST['date'];
                                 //$cycle = $_POST['cycle'];
                                 //$annee = $_POST['annee'];
-                                //$matiere = $_POST['matiere'];
+                                $matiere = $_POST['matiere'];
                                 $id_semestre = $_POST['semestre'];
                                 $coefficient = $_POST['coefficient'];
                                 $id_prof = $_POST['prof'];
-                                addEpreuve($db, $coefficient, $nom, $id_prof, $id_semestre);
+                                $id_matiere = dbGetMatiereIdByValue_matiere($db, $matiere);
+                                addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_matiere[0]['id_matiere']);
                             }
                         ?>
                     </div>
