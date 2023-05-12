@@ -330,9 +330,23 @@ function isExistPersonne($db, $id_personne){
     }
     return $return;
 }
-function getNote($db, $id_etudiant){
+function getClasse($db, $id_classe){
     try{
-        $prepare='SELECT COUNT(*) FROM note WHERE id_etudiant = :id_etudiant';
+        $prepare='SELECT cycle,annee FROM class WHERE id_classe = :id_classe';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getNoteOfEtudiant($db, $id_etudiant){
+    try{
+        $prepare='SELECT * FROM note WHERE id_etudiant = :id_etudiant';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_etudiant', $id_etudiant);
         $statement->execute();
@@ -344,11 +358,11 @@ function getNote($db, $id_etudiant){
     }
     return $result;
 }
-function getSemestre($db, $id_etudiant){
+function getSemestreOfClasse($db, $id_classe){
     try{
-        $prepare='SELECT COUNT(*) FROM semestre WHERE id_etudiant = :id_etudiant';
+        $prepare='SELECT * FROM semestre WHERE id_classe = :id_classe';
         $statement = $db->prepare($prepare);
-        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->bindParam(':id_classe', $id_classe);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
