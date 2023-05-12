@@ -54,8 +54,8 @@ if(!isset($_SESSION['mail'])){
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="mes-semestres.php">
-                            Mes semestres
+                        <a class="nav-link" href="mon-semestre.php">
+                            Mon semestre
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 school
                             </span>
