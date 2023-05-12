@@ -54,8 +54,8 @@ if(!isset($_SESSION['mail'])){
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="mes-semestres.php">
-                            Mes semestres
+                        <a class="nav-link" href="mon-semestre.php">
+                            Mon semestre
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 school
                             </span>
@@ -90,7 +90,7 @@ if(!isset($_SESSION['mail'])){
             <span class="material-symbols-outlined logo" style="font-size: 4rem">
                 school
             </span>
-            Mes semestres
+            Mon semestre
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
         <div class="card text-bg-danger mb-3 align-self-center" style="max-width: 18rem; text-align : center;">
