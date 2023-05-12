@@ -3,6 +3,15 @@ session_start();
 if(!isset($_SESSION['mail'])){
     header('Location: identification.php');
 }
+require_once('../../php/database.php');
+
+// Enable all warnings and errors.
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+
+// Database connection.
+$db = dbConnect();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -111,6 +120,9 @@ if(!isset($_SESSION['mail'])){
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
+                    <?php
+                        $semestres = getSemestreOfClasse($db, getClasse($db, $_SESSION['classe']))
+                    ?>
                     <tr>
                         <td>Maths</td>
                         <th>3</th>

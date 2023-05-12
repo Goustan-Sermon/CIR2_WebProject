@@ -122,6 +122,38 @@ function addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_
     }
     return true;
 }
+function addAppreciation($db, $id_enseignant, $id_matiere, $id_etudiant, $id_semestre, $value_appreciation){
+    try{
+        $statement = $db->prepare('INSERT INTO appreciation (value_appreciation, id_semestre, id_enseignant, id_etudiant, id_matiere) VALUES (:value_appreciation, :id_semestre, :id_enseignant, :id_etudiant, :id_matiere)');
+        $statement->bindParam(':value_appreciation', $value_appreciation);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->execute();
+    }
+    catch (PDO $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
+//--------------------------------------------------------------------------------------------------------
+//----------------------------------------------Set----------------------------------------------
+//--------------------------------------------------------------------------------------------------------
+function setCoeffficient($db, $coefficient, $id_evaluation){
+    try{
+        $statement = $db->prepare('UPDATE ds SET coefficient = :coefficient WHERE id_evaluation = :id_evaluation');
+        $statement->bindParam(':coefficient', $coefficient);
+        $statement->bindParam(':id_evaluation', $id_evaluation);
+        $statement->execute();
+    }
+    catch (PDO $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------Get----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
@@ -380,9 +412,9 @@ function getClasse($db, $id_classe){
     }
     return $result;
 }
-function getNoteOfEtudiant($db, $id_etudiant){
+function getNoteOfEtudiantOfSemestre($db, $id_etudiant, $id_semestre){
     try{
-        $prepare='SELECT * FROM note WHERE id_etudiant = :id_etudiant';
+        $prepare='SELECT value_note FROM note JOIN ds ON ds.id_evaluation = note.id_evaluation WHERE ds.id_semestre = :id_semestre ';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_etudiant', $id_etudiant);
         $statement->execute();
@@ -394,6 +426,17 @@ function getNoteOfEtudiant($db, $id_etudiant){
     }
     return $result;
 }
+// function getNoteOfEtudiantOfMatiere($db, $id_etudiant, $id_semestre, $id_matiere){
+//     try{
+//         $notesOfSemestres = getNoteOfEtudiantOfSemestre($db, $id_etudiant, $id_semestre);
+
+//     }
+//     catch(PDOException $exception){
+//         error_log('Request error: '.$exception->getMessage());
+//         return false;
+//     }
+//     return $result;
+// }
 function getSemestreOfClasse($db, $id_classe){
     try{
         $prepare='SELECT * FROM semestre WHERE id_classe = :id_classe';
@@ -408,5 +451,6 @@ function getSemestreOfClasse($db, $id_classe){
     }
     return $result;
 }
+
 ?>
 
