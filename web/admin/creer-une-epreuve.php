@@ -130,12 +130,13 @@ if(!isset($_SESSION['mail'])){
                                     $mailprof = dbGetMailProfById($db, $epreuve['id_enseignant']);
                                     $nom = dbGetPersonneNameByMail($db, $mailprof[0]['mail']);
                                     $semestre = dbGetNomSemestreById($db, $epreuve['id_semestre']);
+                                    $matiere = dbGetMatiereById($db, $epreuve['id_matiere']);
                                     echo '<tr>';
                                     echo '<td>' . $epreuve['nom_ds'] . '</td>';
                                     echo '<td>' . 'date' . '</td>';
                                     echo '<td>' . 'cycle' . '</td>';
                                     echo '<td>' . 'annee' . '</td>';
-                                    echo '<td>' . 'matiere' . '</td>';
+                                    echo '<td>' . $matiere[0]['value_matiere'] . '</td>';
                                     echo '<td>' . $semestre[0]['nom_semestre'] . '</td>';
                                     echo '<td>' . $nom[0]['nom'] . '</td>';
                                     echo '<td>' . $epreuve['coefficient'] . '</td>';
