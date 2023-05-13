@@ -16,31 +16,6 @@ function dbConnect(){
     }
     return $db;
 }
-
-function dbGetPersonnes($db){
-    try{
-        $statement = $db->query('SELECT * FROM personne');
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    }
-    catch(PDOException $exception){
-        error_log('Request error: '.$exception->getMessage());
-        return false;
-    }
-    return $result;
-}
-function dbGetPersonne($db, $id_personne){
-    try{
-        $statement = $db->prepare('SELECT * FROM personne WHERE mail =:id_personne');
-        $statement->bindParam(':id_personne', $id_personne);
-        $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    }
-    catch(PDOException $exception){
-        error_log('Request error: '.$exception->getMessage());
-        return false;
-    }
-    return $result;
-}
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------Add----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
@@ -138,6 +113,22 @@ function addAppreciation($db, $id_enseignant, $id_matiere, $id_etudiant, $id_sem
     }
     return true;
 }
+function addNotes($db, $value_note, $id_etudiant, $id_evaluation){
+    try{
+        $prepare = 'INSERT INTO note (value_note, id_etudiant, id_evaluation) VALUES ( :value_note, :id_etudiant, :id_evaluation)';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':value_note', $value_note);
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->bindParam(':id_evaluation', $id_evaluation);
+        $statement->execute();
+
+    }
+    catch (PDO $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------Set----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
@@ -157,6 +148,43 @@ function setCoeffficient($db, $coefficient, $id_evaluation){
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------Get----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
+function dbGetPersonnes($db){
+    try{
+        $statement = $db->query('SELECT * FROM personne');
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function dbGetPersonne($db, $id_personne){
+    try{
+        $statement = $db->prepare('SELECT * FROM personne WHERE mail =:id_personne');
+        $statement->bindParam(':id_personne', $id_personne);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function dbGetPersonneOfEtudiant($db, $id_etudiant){
+    try{
+        $statement = $db->prepare('SELECT * FROM personne WHERE id_etudiant =:id_etudiant');
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 function dbGetEpreuve($db){
     try{
         $statement = $db->query('SELECT * FROM ds');
@@ -340,7 +368,6 @@ function checkIdentification($db, $id_personne, $mdp){
 function getStatut($db , $id_personne){
     try{
         if (isExistPersonne($db, $id_personne)){
-            print('coucocu');
             $prepare = 'SELECT COUNT(*) FROM etudiant WHERE mail= :id_personne';
             $statement = $db->prepare($prepare);
             $statement->bindParam(':id_personne', $id_personne);
@@ -358,7 +385,6 @@ function getStatut($db , $id_personne){
             $statement->bindParam(':id_personne', $id_personne);
             $statement->execute();
             $admin = $statement->fetchAll(PDO::FETCH_ASSOC);
-            print_r($admin);
             
             if ($etudiant[0]['count'] == 1 ){
                 $result = 'etudiant';
@@ -370,8 +396,41 @@ function getStatut($db , $id_personne){
             else{
                 $result = 'false';
             }
-        }else{
-            print('kjn ');
+        }
+    }   
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+    }
+    return $result;
+}
+function getIdOfStatutOfPersonne($db, $id_personne){
+    try{
+        if (isExistPersonne($db, $id_personne)){
+            $statut = getStatut($db, $id_personne);
+            if($statut = 'enseignant'){
+                $prepare = 'SELECT * FROM enseignant WHERE mail= :id_personne';
+                $statement = $db->prepare($prepare);
+                $statement->bindParam(':id_personne', $id_personne);
+                $statement->execute();
+                $enseignant = $statement->fetchAll(PDO::FETCH_ASSOC);
+                $result = $enseignant[0]['id_enseignant'];
+            }elseif($statut = 'etudiant'){
+                $prepare = 'SELECT * FROM etudiant WHERE mail= :id_personne';
+                $statement = $db->prepare($prepare);
+                $statement->bindParam(':id_personne', $id_personne);
+                $statement->execute();
+                $etudiant = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+                $result = $etudiant[0]['id_etudiant'];
+            }else{
+                $prepare = 'SELECT * FROM admin WHERE mail= :id_personne';
+                $statement = $db->prepare($prepare);
+                $statement->bindParam(':id_personne', $id_personne);
+                $statement->execute();
+                $admin = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+                $result = $admin[0]['id_admin'];
+            }
         }
     }   
     catch (PDOException $exception){
@@ -400,7 +459,7 @@ function isExistPersonne($db, $id_personne){
 }
 function getClasse($db, $id_classe){
     try{
-        $prepare='SELECT cycle,annee FROM class WHERE id_classe = :id_classe';
+        $prepare='SELECT cycle,annee FROM classe WHERE id_classe = :id_classe';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_classe', $id_classe);
         $statement->execute();
@@ -412,11 +471,69 @@ function getClasse($db, $id_classe){
     }
     return $result;
 }
+function getClasseOfEnseignant($db, $id_enseignant){
+    try{
+        $prepare='SELECT cycle,annee FROM classe JOIN ds On classe.id_classe = ds.id_classe WHERE ds.id_enseignant = :id_enseignant';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getClasseOfSemestreOfEnseignant($db, $id_semestre, $id_enseignant){
+    try{
+        $prepare='SELECT cycle,annee FROM classe JOIN ds On classe.id_classe = ds.id_classe WHERE ds.id_enseignant = :id_enseignant AND ds.id_semestre = :id_semestre';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getClasseOfDS($db, $id_evaluation){
+    try{
+        $prepare='SELECT id_classe FROM ds WHERE id_evaluation = :id_evaluation';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_evaluation', $id_evaluation);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 function getNoteOfEtudiantOfSemestre($db, $id_etudiant, $id_semestre){
     try{
-        $prepare='SELECT value_note FROM note JOIN ds ON ds.id_evaluation = note.id_evaluation WHERE ds.id_semestre = :id_semestre ';
+        $prepare='SELECT value_note FROM note JOIN ds ON ds.id_evaluation = note.id_evaluation WHERE ds.id_semestre = :id_semestre AND note.id_etudiant = :id_etudiant';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getNoteOfEnseignant($db, $id_enseignant){
+    try{
+        $prepare='SELECT * FROM note JOIN ds ON ds.id_evaluation = note.id_evaluation WHERE ds.id_enseignant = :id_enseignant ';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -439,7 +556,7 @@ function getNoteOfEtudiantOfSemestre($db, $id_etudiant, $id_semestre){
 // }
 function getSemestreOfClasse($db, $id_classe){
     try{
-        $prepare='SELECT * FROM semestre WHERE id_classe = :id_classe';
+        $prepare='SELECT nom_semestre FROM semestre WHERE id_classe = :id_classe';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_classe', $id_classe);
         $statement->execute();
@@ -451,6 +568,61 @@ function getSemestreOfClasse($db, $id_classe){
     }
     return $result;
 }
+function getSemestreOfEnseignant($db, $id_enseignant){
+    try{
+        $prepare='SELECT * FROM semestre JOIN ds ON semestre.id_semestre = ds.id_semestre WHERE ds.id_enseignant = :id_enseignant';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getDsOfEnseignantOfClasseOfSemestre($db, $id_enseignant, $id_classe, $id_semestre){
+    try{
+        $prepare='SELECT * FROM ds WHERE id_classe = :id_classe AND id_enseignant = :id_enseignant AND  id_semestre = :id_semestre';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getEtudiantOfClasse($db, $id_classe){
+    try{
+        $prepare='SELECT * FROM etudiant WHERE id_classe = :id_classe';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->execute();
+        $classe = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getEtudiantOfDs($db, $id_evaluation){
+    try{
+        $classe = getClasseOfDS($db, $id_evaluation);
+        $result = getEtudiantOfClasse($db, $classe[0]['id_classe']);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 ?>
-
