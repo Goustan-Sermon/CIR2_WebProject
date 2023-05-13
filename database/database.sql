@@ -109,13 +109,11 @@ CREATE TABLE public.note(
 	id_note         SERIAL NOT NULL ,
 	value_note      FLOAT  NOT NULL ,
 	id_etudiant     INT  NOT NULL ,
-	id_evaluation   INT  NOT NULL ,
-	id_enseignant   INT  NOT NULL  ,
+	id_evaluation   INT  NOT NULL  ,
 	CONSTRAINT note_PK PRIMARY KEY (id_note)
 
 	,CONSTRAINT note_etudiant_FK FOREIGN KEY (id_etudiant) REFERENCES public.etudiant(id_etudiant)
 	,CONSTRAINT note_ds0_FK FOREIGN KEY (id_evaluation) REFERENCES public.ds(id_evaluation)
-	,CONSTRAINT note_enseignant1_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
 )WITHOUT OIDS;
 
 
