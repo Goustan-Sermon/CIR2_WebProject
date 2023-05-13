@@ -4,11 +4,9 @@ if(!isset($_SESSION['id'])){
     header('Location: identification.php');
 }
 require_once('../../php/database.php');
-
 // Enable all warnings and errors.
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
 
 // Database connection.
 $db = dbConnect();
@@ -30,18 +28,18 @@ $db = dbConnect();
     <!-- Google icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <title> mes semestres</title>
+    <title>edit : appréciation</title>
 </head>
 
 <body>
-    <!--------------------------- Navbar étudiant ---------------------------------------------------->
+    <!--------------------------- Navbar enseignant ---------------------------------------------------->
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <!--------------------------- ISEN + type de page ---------------------------------------------------->
-            <a class="navbar-brand" href="../acceuil-etudiant.php">
+            <a class="navbar-brand" href="../acceuil-enseignant.php">
                 <img src="../images/navbar/ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
                     class="d-inline-block align-text-top">
-                Etudiant
+                Enseignant
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -55,26 +53,26 @@ $db = dbConnect();
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="mes-notes.php">
-                            Mes notes
+                        <a class="nav-link " href="mes-classes.php">
+                            Mes classes
                             <span class="material-symbols-outlined" style="font-size: 1rem">
-                                grade
+                                table_restaurant
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="mon-semestre.php">
-                            Mon semestre
+                        <a class="nav-link" href="mes-etudiants.php">
+                            Mes étudiants
                             <span class="material-symbols-outlined" style="font-size: 1rem">
-                                school
+                                group
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="mon-annee.php">
-                            Mon année
+                        <a class="nav-link" href="edit.php">
+                            Saisir
                             <span class="material-symbols-outlined" style="font-size: 1rem">
-                                note
+                                edit
                             </span>
                         </a>
                     </li>
@@ -97,73 +95,17 @@ $db = dbConnect();
         <!--------------------------- Titre + Logo ---------------------------------------------------->
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
             <span class="material-symbols-outlined logo" style="font-size: 4rem">
-                school
+                edit
             </span>
-            Mon semestre
+            Appréciation
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-        <div class="card text-bg-danger mb-3 align-self-center" style="max-width: 18rem; text-align : center;">
-            <div class="card-body">
-                <h4 class="card-title">S4</h4>
-                <p class="card-text">20/05/2022 - 20/09/2023</p>
-            </div>
+        <div class="btn-group" style="width : 30%">
+            <a href="edit-note.php" class="btn btn-danger ">Note</a>
+            <a href="edit-appreciation.php" class="btn btn-danger active">Appréciation</a>
+            <a href="edit-coefficient.php" class="btn btn-danger">Coefficient</a>
         </div>
-        <div class="tableform">
-            <table class="table table-striped table-hover table-bordered align-middle">
-                <thead style="color : #dc3545">
-                    <tr>
-                        <th scope="col">Matières</th>
-                        <th scope="col">Nombre de ds</th>
-                        <th scope="col">Moyenne/20</th>
-                        <th scope="col">Moyenne de classe/20</th>
-                        <th scope="col">Rattrapage</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <?php
-                        $semestres = getSemestreOfClasse($db, getClasse($db, $_SESSION['classe']))
-                    ?>
-                    <tr>
-                        <td>Maths</td>
-                        <th>3</th>
-                        <td>13.2</td>
-                        <th>12.5</th>
-                        <td>/</td>
-                    </tr>
-                    <tr>
-                        <td>Maths</td>
-                        <th>3</th>
-                        <td>13.2</td>
-                        <th>12.5</th>
-                        <td>/</td>
-                    </tr>
-                    <tr>
-                        <td>Maths</td>
-                        <th>3</th>
-                        <td>13.2</td>
-                        <th>12.5</th>
-                        <td>/</td>
-                    </tr>
-                    <tr>
-                        <td>Maths</td>
-                        <th>3</th>
-                        <td>13.2</td>
-                        <th>12.5</th>
-                        <td>/</td>
-                    </tr>
-
-                    <tr>
-                        <th colspan="2" class="table-secondary">TOTAL : </th>
-                        <th class="table-danger">15</th>
-                        <th class="table-danger">12</th>
-                        <th class="table-danger">/</th>
-                    </tr>
-
-
-
-                </tbody>
-            </table>
-        </div>
+    </div>
     </div>
 
 </body>

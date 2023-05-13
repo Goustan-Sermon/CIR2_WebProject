@@ -1,8 +1,15 @@
 <?php
 session_start();
-if(!isset($_SESSION['mail'])){
+if(!isset($_SESSION['id'])){
     header('Location: identification.php');
 }
+require_once('../../php/database.php');
+// Enable all warnings and errors.
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// Database connection.
+$db = dbConnect();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -93,110 +100,78 @@ if(!isset($_SESSION['mail'])){
             Mes étudiants
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-        <!---------------------------affichae des classes avec les eleves ---------------------------------------------------->
-       
-    
-        <div class="p-2">
+        <div class="menu-selection d-flex flex-row mb-3 justify-content-start" style="width : 35%">
+            <select class="form-select">
+                <option selected disabled>Classe</option>
+                <?php
+                    // $classe = getSemestreOfClasse();
+                ?>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            <select class="form-select">
+                <option selected disabled>Semestre</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
 
-        <select class="custom-select" required>
-            <option value="">Tri</option>
-            <option value="cir">Option 1</option>
-            <option value="cgsi">Option 2</option>
-            <option value="cest">Option 3</option>
-        </select>
-        
-        <select class="custom-select" required>
-            <option value="">Cycle</option>
-            <option value="cir">CIR</option>
-            <option value="cgsi">CGSI</option>
-            <option value="cest">CEST</option>
-        </select>
-        <select class="custom-select" required>
-            <option value="">Année</option>
-            <option value="a1">A1</option>
-            <option value="a2">A2</option>
-            <option value="a3">A3</option>
-            <option value="a2">M1</option>
-            <option value="a3">M2</option>
-        </select>      
-        <select class="custom-select" required>
-            <option value="">Matière</option>
-            <option value="a1">Option 1</option>
-            <option value="a2">Option 2</option>
-            <option value="a3">Option 3</option>
-            <option value="a2">Option 4</option>
-            <option value="a3">Option 5</option>
-        </select>
-        <div class="d-flex flex-row-reverse">
-            
-            <button type="button" class="btn btn-danger" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
-            </svg>
-            Rechercher</button>
-            
         </div>
-        
-    
-        
-    </div>
+        <div class="tableform">
+            <table class="table table-striped table-hover table-bordered align-middle">
+                <thead style="color : #dc3545">
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Matière</th>
+                        <th scope="col">Libellé</th>
+                        <th scope="col">Note/20</th>
+                        <th scope="col">Enseignant</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <td>20/11/2003</td>
+                        <th>maths</th>
+                        <td>ds 4</td>
+                        <th>20</th>
+                        <td>abdc</td>
+                    </tr>
+                    <tr>
+                        <td>20/11/2003</td>
+                        <th>maths</th>
+                        <td>ds 4</td>
+                        <th>20</th>
+                        <td>abdc</td>
+                    </tr>
+                    <tr>
+                        <td>20/11/2003</td>
+                        <th>maths</th>
+                        <td>ds 4</td>
+                        <th>20</th>
+                        <td>abdc</td>
+                    </tr>
+                    <tr>
+                        <td>20/11/2003</td>
+                        <th>maths</th>
+                        <td>ds 4</td>
+                        <th>20</th>
+                        <td>abdc</td>
+                    </tr>
 
 
-        
 
-        <div class="block ">
-        <table class="table table table-striped"> <!--- permet d'alterner les colonnes de couleurs différentes -->
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Prénom</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Moyenne</th>
-                    <th scope="col">Mail</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider">
-                <tr>
-                    <th scope="row">1</th>
-                    <td>CIR1</td>
-                    <td>Text line</td>
-                    <td>Edit</td>
-                    <td>Edit</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>EST2</td>
-                    <td>Text line</td>
-                    <td>Edit</td>
-                    <td>Edit</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>CSI3</td>
-                    <td>Text line</td>
-                    <td>Edit</td>
-                    <td>Edit</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>EST2</td>
-                    <td>Text line</td>
-                    <td>Edit</td>
-                    <td>Edit</td>
-                </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </div>
-        
-                            
-    </div>
+
     </div>
 
 </body>
 
 </html>
-    </div>
-    </div>
+</div>
+</div>
 
 </body>
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['mail'])){
+if(!isset($_SESSION['id'])){
     header('Location: identification.php');
 }
 ?>
@@ -93,7 +93,11 @@ if(!isset($_SESSION['mail'])){
             Edit
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-
+        <div class="btn-group" style="width : 30%">
+            <a href="edit-note.php" class="btn btn-danger active">Note</a>
+            <a href="edit-appreciation.php" class="btn btn-danger">Appréciation</a>
+            <a href="edit-coefficient.php" class="btn btn-danger">Coefficient</a>
+        </div>
     </div>
     </div>
 
