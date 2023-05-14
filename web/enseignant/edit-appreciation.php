@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['id'])){
-    header('Location: identification.php');
+    header('Location: ../identification.php');
 }
 require_once('../../php/database.php');
 // Enable all warnings and errors.
@@ -69,7 +69,7 @@ $db = dbConnect();
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="edit.php">
+                        <a class="nav-link" href="edit-note.php">
                             Saisir
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 edit
@@ -99,14 +99,181 @@ $db = dbConnect();
             </span>
             Appréciation
         </div>
-        <!--------------------------- contenue ---------------------------------------------------->
         <div class="btn-group" style="width : 30%">
             <a href="edit-note.php" class="btn btn-danger ">Note</a>
             <a href="edit-appreciation.php" class="btn btn-danger active">Appréciation</a>
             <a href="edit-coefficient.php" class="btn btn-danger">Coefficient</a>
         </div>
-    </div>
-    </div>
+        <!--------------------------- contenue ---------------------------------------------------->
+        <div class="edition d-flex flex-row justify-content-around">
+            <!--------------------------- tableau ---------------------------------------------------->
+            <div class="tableform">
+                <table class="table table-striped table-hover table-bordered align-middle">
+                    <thead style="color : #dc3545">
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prenom</th>
+                            <th scope="col">Semestre</th>
+                            <th scope="col">Matière</th>
+                            <th scope="col">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <?php
+                            $appreciations = getAppreciationOfEnseignant($db, $_SESSION['id']);
+                            foreach($appreciations as $appreciation){
+                                // print_r($note);
+                                echo "<tr>";
+                                echo "<td>".dbGetPersonneOfEtudiant($db, getEtudiantIdOfAppreciation($db, $note['id_appreciation'])[0]['nom'])."</td>"; 
+                                echo "<td>".dbGetPersonneOfEtudiant($db, getEtudiantIdOfAppreciation($db, $note['id_appreciation'])[0]['prenom'])."</td>"; 
+                                if(!isset($_POST['edit-'.$appreciation['id_appreciation'].''])){
+                                    echo "<td>".$appreciation['value_apprecition']."</td>"; 
+                                    
+                                }else{
+                                    echo "<td> <form action=\"edit-note.php\" method=\"post\">
+                                    <input type=\"text\"name=\"new-note-".$appreciation['id_appreciation']."\"/>
+                                    <button name='edit-".$appreciation['id_appreciation']."-done' type=\"submit\" class=\"btn btn-outline-danger\" >DONE</button>
+                                    </form></td>"; 
+                                }
+                                if(isset($_POST['edit-'.$appreciation['id_appreciation'].'-done'])){
+                                    editeNote($db, $appreciation['id_appreciation'], $_POST['new-note-'.$appreciation['id_appreciation'].'']);
+                                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                                }
+                                echo "<td>".$appreciation['nom_ds']."</td>"; 
+                                echo "<td>".dbGetMatiereById($db, $appreciation['id_matiere'])[0]['value_matiere']."</td>"; 
+                                echo "<td> <form action=\"edit-note.php\" method=\"post\">
+                                <button name='edit-".$appreciation['id_appreciation']."' type=\"submit\" class=\"btn btn-outline-danger\">EDIT</button>
+                                <button name='supr-".$appreciation['id_appreciation']."' type=\"submit\" class=\"btn btn-outline-danger\">X</button>
+                                </form></td>"; 
+                                echo "</tr>";
+                                if(isset($_POST['supr-'.$appreciation['id_appreciation'].''])){
+                                    // deleteNote($db, $appreciation['id_appreciation']);
+                                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                                }
+                                
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="connection d-flex flex-column ">
+                <!--------------------------- création ---------------------------------------------------->
+                <div class="titre  text-body-tertiary h2">
+                    Entrer les informations
+                </div>
+
+                <div class="d-flex flex-column justify-content-center align-self-center align-items-center">
+                    <div class="form-group d-flex flex-row">
+                        <form action="edit-appreciation.php" method="post">
+                            <select class="form-select" name="semestre" required>
+                                <option selected disabled>Semestre</option>
+                                <?php
+                                    $semestres = getSemestreOfEnseignant($db, $_SESSION['id']);
+                                    foreach($semestres as $semestre){
+                                        echo '<option value="'.$semestre['id_semestre'].'">'.$semestre['nom_semestre'].'</option>';
+                                    } 
+                                    
+                                ?>
+                            </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
+                        </form>
+                        <?php
+                            if(isset($_POST['submit-semestre'])){
+                                $_SESSION['semestre'] = $_POST['semestre'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                        <form action="edit-appreciation.php" method="post">
+                            <select class="form-select" name="classe">
+                                <option selected disabled value="">Classe</option>
+                                <?php
+                                    if(isset($_SESSION['semestre'])){                                                                                                                                              
+                                        $classes = getClasseOfSemestreOfEnseignant($db, $_SESSION['semestre'],$_SESSION['id']);
+                                        foreach($classes as $classe){
+                                            echo '<option value="'.$classe['id_classe'].'">'.$classe['cycle'].$classe['annee'].'</option>';
+                                        } 
+                                        
+                                    }
+                                ?>
+                            </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-classe"><?php if(!empty($_SESSION['classe'])){$classe = getClasse($db, $_SESSION['classe']); print($classe[0]['cycle'].' '.$classe[0]['annee']);}else{print('SET');}  ?></button>
+                        </form>
+                        <?php
+                            if(isset($_POST['submit-classe'])){
+                                $_SESSION['classe'] = $_POST['classe'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                        <form action="edit-appreciation.php" method="post">
+                            <select class="form-select" name="eleve">
+                                <option selected disabled value="">Elève</option>
+                                <?php
+                                if(isset($_SESSION['classe'])){
+                                    $eleves = getEtudiantOfClasse($db, $_SESSION['classe'] );
+                                    foreach($eleves as $eleve){
+                                        $personne = dbGetPersonneOfEtudiant($db, $eleve['id_etudiant']);
+                                        echo '<option value="'.$eleve['id_etudiant'].'">'.$personne[0]['prenom']." ".$personne[0]['nom'].'</option>';
+                                        
+                                    } 
+                                }
+                                ?>
+                            </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-eleve"><?php if(!empty($_SESSION['eleve'])){$personne = dbGetPersonneOfEtudiant($db, $_SESSION['eleve']); print($personne[0]['prenom']." ".$personne[0]['nom']);}else{print('SET');}  ?></button>
+                        </form>
+                    </div>
+                    <?php
+                            if(isset($_POST['submit-eleve'])){
+                                $_SESSION['eleve'] = $_POST['eleve'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                    <form action="edit-appreciation.php" method="post"
+                        class="d-flex flex-column justify-content-center align-self-center align-items-center">
+                        <div class="p-2">
+                            <?php
+                                if(isset($_SESSION['eleve'])){
+                                    echo"<input type=\"text\" class=\"form-control\" id=\"note\" name=\"value-appreciation\"
+                                    placeholder=\"Entrer l'appréciation \" required>";
+                                }
+                            ?>
+
+                        </div>
+                        <button type="submit" name="add-appreciation" class="btn btn-danger">Ajouter une appréciation</button>
+
+                    </form>
+                    <form action="edit-appreciation.php" method="post">
+                        <button name="clear-note" class="btn btn-outline-danger" style="font-size: 0.5em;">Supprimer les
+                            informations</button>
+                    </form>
+                    <?php
+                            if(isset($_POST['add-appreciation'])){
+                                if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["eleve"])){
+                                    // addAppreciationAndConsulter($db,$_SESSION["id"],  ,$_SESSION["semestre"], $_POST['value-appreciation'], $_SESSION["eleve"]);
+                                    unset($_SESSION["semestre"]);
+                                    unset($_SESSION["classe"]);
+                                    unset($_SESSION["eleve"]);   
+                                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                                    
+                                }else{
+                                    echo "<div class=\"alert alert-danger\" role=\"alert\">Veuillez renplit tout les champs</div>";
+
+                                }
+                            }
+                            if(isset($_POST['clear-note'])){
+                                unset($_SESSION["semestre"]);
+                                unset($_SESSION["classe"]);
+                                unset($_SESSION["eleve"]);   
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                </div>
+
+            </div>
+
+        </div>
 
 </body>
 

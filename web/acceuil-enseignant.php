@@ -62,7 +62,7 @@ if(!isset($_SESSION['id'])){
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="enseignant/edit.php">
+                        <a class="nav-link" href="enseignant/edit-note.php">
                             Saisir
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 edit
@@ -117,7 +117,7 @@ if(!isset($_SESSION['id'])){
             </div>
             <!--------------------------- Block 3 ---------------------------------------------------->
             <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
-                <a href="enseignant/edit.php" class="stretched-link"></a>
+                <a href="enseignant/edit-note.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     edit
                 </span>

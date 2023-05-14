@@ -6,5 +6,5 @@ error_reporting(E_ALL);
 
 // Database connection.
 $db = dbConnect();
-print_r(getNoteOfEnseignant($db,'1'));
+addAppreciation($db, '1', '1', '1', 'super');
 ?>

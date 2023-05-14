@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['id'])){
-    header('Location: identification.php');
+    header('Location: ../identification.php');
 }
 require_once('../../php/database.php');
 // Enable all warnings and errors.
@@ -10,6 +10,7 @@ error_reporting(E_ALL);
 
 // Database connection.
 $db = dbConnect();
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -69,7 +70,7 @@ $db = dbConnect();
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="edit.php">
+                        <a class="nav-link" href="edit-note.php">
                             Saisir
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 edit
@@ -105,9 +106,9 @@ $db = dbConnect();
             <a href="edit-coefficient.php" class="btn btn-danger">Coefficient</a>
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-        <div class="edition d-flex flex-row" >
+        <div class="edition d-flex flex-row justify-content-around">
             <!--------------------------- tableau ---------------------------------------------------->
-            <div class="tableform" style="width : 60%">
+            <div class="tableform" >
                 <table class="table table-striped table-hover table-bordered align-middle">
                     <thead style="color : #dc3545">
                         <tr>
@@ -124,7 +125,7 @@ $db = dbConnect();
                         <?php
                             $notes = getNoteOfEnseignant($db, $_SESSION['id']);
                             foreach($notes as $note){
-                                print_r($note);
+                                // print_r($note);
                                 echo "<tr>";
                                 echo "<td>".dbGetPersonneOfEtudiant($db, $note['id_etudiant'])[0]['nom']."</td>"; 
                                 echo "<td>".dbGetPersonneOfEtudiant($db, $note['id_etudiant'])[0]['prenom']."</td>"; 
@@ -134,11 +135,12 @@ $db = dbConnect();
                                 }else{
                                     echo "<td> <form action=\"edit-note.php\" method=\"post\">
                                     <input type=\"text\"name=\"new-note-".$note['id_note']."\"/>
-                                    <button name='edit-".$note['id_note']."-done' type=\"submit\" class=\"btn btn-outline-danger\">DONE</button>
+                                    <button name='edit-".$note['id_note']."-done' type=\"submit\" class=\"btn btn-outline-danger\" >DONE</button>
                                     </form></td>"; 
                                 }
                                 if(isset($_POST['edit-'.$note['id_note'].'-done'])){
                                     editeNote($db, $note['id_note'], $_POST['new-note-'.$note['id_note'].'']);
+                                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
                                 }
                                 echo "<td>".$note['nom_ds']."</td>"; 
                                 echo "<td>".dbGetMatiereById($db, $note['id_matiere'])[0]['value_matiere']."</td>"; 
@@ -150,6 +152,7 @@ $db = dbConnect();
                                 echo "</tr>";
                                 if(isset($_POST['supr-'.$note['id_note'].''])){
                                     deleteNote($db, $note['id_note']);
+                                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
                                 }
                                 
                             }
@@ -157,14 +160,14 @@ $db = dbConnect();
                     </tbody>
                 </table>
             </div>
-            <div class="connection ">
+            <div class="connection d-flex flex-column ">
                 <!--------------------------- création ---------------------------------------------------->
-                <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
+                <div class="titre  text-body-tertiary h2">
                     Entrer les informations
                 </div>
 
-                <div class="d-flex flex-column justify-content-center ">
-                    <div class="form-group d-flex justify-content-center">
+                <div class="d-flex flex-column justify-content-center align-self-center align-items-center">
+                    <div class="form-group d-flex flex-row">
                         <form action="edit-note.php" method="post">
                             <select class="form-select" name="semestre" required>
                                 <option selected disabled>Semestre</option>
@@ -176,38 +179,60 @@ $db = dbConnect();
                                     
                                 ?>
                             </select>
-                            <button type="submit" class="btn btn-outline-danger" name="submit-semestre">Set</button>
+                            <button type="submit" class="btn btn-outline-danger" name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
                         </form>
+                        <?php
+                            if(isset($_POST['submit-semestre'])){
+                                $_SESSION['semestre'] = $_POST['semestre'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
                         <form action="edit-note.php" method="post">
                             <select class="form-select" name="classe">
                                 <option selected disabled value="">Classe</option>
                                 <?php
-                                
-                                    $classes = getClasseOfSemestreOfEnseignant($db, $_SESSION['semestre'],$_SESSION['id']);
-                                    foreach($classes as $classe){
-                                        echo '<option value="'.$classe['id_classe'].'">'.$classe['cycle'].$classe['annee'].'</option>';
-                                    } 
+                                    if(isset($_SESSION['semestre'])){                                                                                                                                              
+                                        $classes = getClasseOfSemestreOfEnseignant($db, $_SESSION['semestre'],$_SESSION['id']);
+                                        foreach($classes as $classe){
+                                            echo '<option value="'.$classe['id_classe'].'">'.$classe['cycle'].$classe['annee'].'</option>';
+                                        } 
+                                        
+                                    }
                                 ?>
                             </select>
-                            <button type="submit" class="btn btn-outline-danger" name="submit-classe">Set</button>
+                            <button type="submit" class="btn btn-outline-danger" name="submit-classe"><?php if(!empty($_SESSION['classe'])){$classe = getClasse($db, $_SESSION['classe']); print($classe[0]['cycle'].' '.$classe[0]['annee']);}else{print('SET');}  ?></button>
                         </form>
-
+                        <?php
+                            if(isset($_POST['submit-classe'])){
+                                $_SESSION['classe'] = $_POST['classe'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>         
                         <form action="edit-note.php" method="post">
                             <select class="form-select" name="ds">
                                 <option selected disabled value="">DS</option>
                                 <?php
+                                if(isset($_SESSION['classe'])){
                                     $dss = getDsOfEnseignantOfClasseOfSemestre($db, $_SESSION['id'], $_SESSION['classe'], $_SESSION['semestre']);
                                     foreach($dss as $ds){
                                         echo '<option value="'.$ds['id_evaluation'].'">'.$ds['nom_ds'].'</option>';
                                     } 
+                                }
                                 ?>
                             </select>
-                            <button type="submit" class="btn btn-outline-danger" name="submit-ds">Set</button>
+                            <button type="submit" class="btn btn-outline-danger" name="submit-ds"><?php if(!empty($_SESSION['ds'])){print(getDs($db, $_SESSION['ds']))[0]['nom_ds'];}else{print('SET');}  ?></button>
                         </form>
+                        <?php
+                            if(isset($_POST['submit-ds'])){
+                                $_SESSION['ds'] = $_POST['ds'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>  
                         <form action="edit-note.php" method="post">
                             <select class="form-select" name="eleve">
                                 <option selected disabled value="">Elève</option>
                                 <?php
+                                if(isset($_SESSION['ds'])){
                                     $eleves = getEtudiantOfDs($db, $_SESSION['ds'] );
                                     foreach($eleves as $eleve){
                                         $personne = dbGetPersonneOfEtudiant($db, $eleve['id_etudiant']);
@@ -215,53 +240,55 @@ $db = dbConnect();
                                             echo '<option value="'.$eleve['id_etudiant'].'">'.$personne[0]['prenom']." ".$personne[0]['nom'].'</option>';
                                         }
                                     } 
+                                }
                                 ?>
                             </select>
-                            <button type="submit" class="btn btn-outline-danger" name="submit-eleve">Set</button>
+                            <button type="submit" class="btn btn-outline-danger" name="submit-eleve"><?php if(!empty($_SESSION['eleve'])){$personne = dbGetPersonneOfEtudiant($db, $_SESSION['eleve']); print($personne[0]['prenom']." ".$personne[0]['nom']);}else{print('SET');}  ?></button>
                         </form>
+                    <?php
+                            if(isset($_POST['submit-eleve'])){
+                                $_SESSION['eleve'] = $_POST['eleve'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?> 
                     </div>
-                    <form action="edit-note.php" method="post">
+                    <form action="edit-note.php" method="post" class="d-flex flex-column justify-content-center align-self-center align-items-center">
                         <div class="p-2">
-                            <label for="note" class="form-label">Note*</label>
-                            <input type="text" class="form-control" id="note" name="value-note"
-                                placeholder="Entrer une note sur 20" required>
+                            <?php
+                                if(isset($_SESSION['eleve'])){
+                                    echo"<input type=\"text\" class=\"form-control\" id=\"note\" name=\"value-note\"
+                                    placeholder=\"Entrer la note \" required>";
+                                }
+                            ?>
+                            
                         </div>
                         <button type="submit" name="add-note" class="btn btn-danger">Ajouter une note</button>
 
                     </form>
                     <form action="edit-note.php" method="post">
-                        <button name="clear-note" class="btn btn-danger">Supprimer les informations</button>
+                        <button name="clear-note" class="btn btn-outline-danger" style="font-size: 0.5em;">Supprimer les informations</button>
                     </form>
                     <?php
-                            if(isset($_POST['submit-semestre'])){
-                                $_SESSION['semestre'] = $_POST['semestre'];
-
-                            }
-                            if(isset($_POST['submit-classe'])){
-                                $_SESSION['classe'] = $_POST['classe'];
-
-                            }
-                            if(isset($_POST['submit-ds'])){
-                                $_SESSION['ds'] = $_POST['ds'];
-
-                            }
-                            if(isset($_POST['submit-eleve'])){
-                                $_SESSION['eleve'] = $_POST['eleve'];
-
-                            }
                             if(isset($_POST['add-note'])){
-                                print(addNotes($db, $_POST['value-note'], $_SESSION['eleve'], $_SESSION['ds']));
-                                unset($_SESSION["semestre"]);
-                                unset($_SESSION["classe"]);
-                                unset($_SESSION["ds"]);
-                                unset($_SESSION["eleve"]);   
-                                print('note ajouter');
+                                if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["ds"]) and isset($_SESSION["eleve"])){
+                                    addNotes($db, $_POST['value-note'], $_SESSION['eleve'], $_SESSION['ds']);
+                                    unset($_SESSION["semestre"]);
+                                    unset($_SESSION["classe"]);
+                                    unset($_SESSION["ds"]);
+                                    unset($_SESSION["eleve"]);   
+                                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                                    
+                                }else{
+                                    echo "<div class=\"alert alert-danger\" role=\"alert\">Veuillez renplit tout les champs</div>";
+
+                                }
                             }
                             if(isset($_POST['clear-note'])){
                                 unset($_SESSION["semestre"]);
                                 unset($_SESSION["classe"]);
                                 unset($_SESSION["ds"]);
                                 unset($_SESSION["eleve"]);   
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
                             }
                         ?>
                 </div>
@@ -269,17 +296,7 @@ $db = dbConnect();
             </div>
 
         </div>
-        <?php
 
-            // print('semestre : '.$_SESSION['semestre']);
-            // print('classe : '.$_SESSION['classe']);
-            // print('ds : '.$_SESSION['ds']);
-            // print('eleve : '.$_SESSION['eleve']);
-            // unset($_SESSION["semestre"]);
-            // unset($_SESSION["classe"]);
-            // unset($_SESSION["ds"]);
-            // unset($_SESSION["eleve"]);  
-        ?>
 </body>
 
 </html>

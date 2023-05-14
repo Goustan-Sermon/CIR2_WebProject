@@ -1,1 +1,1 @@
-SELECT mot_de_passe FROM personne WHERE mail = 'freixasjeremy@isen.fr'
+DELETE FROM note WHERE id_note = '16'
