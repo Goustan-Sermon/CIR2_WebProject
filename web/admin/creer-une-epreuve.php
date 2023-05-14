@@ -109,7 +109,6 @@ if(!isset($_SESSION['id'])){
                                 <th scope="col">Matière</th>
                                 <th scope="col">Semestre</th>
                                 <th scope="col">Enseignant</th>
-                                <th scope="col">Coefficient</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
@@ -131,15 +130,16 @@ if(!isset($_SESSION['id'])){
                                     $nom = dbGetPersonneNameByMail($db, $mailprof[0]['mail']);
                                     $semestre = dbGetNomSemestreById($db, $epreuve['id_semestre']);
                                     $matiereds = dbGetMatiereById($db, $epreuve['id_matiere']);
+                                    $anneeds = dbGetAnneeById($db, $epreuve['id_classe']);
+                                    $cycleds = dbGetCycleById($db, $epreuve['id_classe']);
                                     echo '<tr>';
                                     echo '<td>' . $epreuve['nom_ds'] . '</td>';
-                                    echo '<td>' . 'date' . '</td>';
-                                    echo '<td>' . 'cycle' . '</td>';
-                                    echo '<td>' . 'annee' . '</td>';
+                                    echo '<td>' . $epreuve['date_ds'] . '</td>';
+                                    echo '<td>' . $cycleds[0]['cycle'] . '</td>';
+                                    echo '<td>' . $anneeds[0]['annee'] . '</td>';
                                     echo '<td>' . $matiereds[0]['value_matiere'] . '</td>';
                                     echo '<td>' . $semestre[0]['nom_semestre'] . '</td>';
                                     echo '<td>' . $nom[0]['nom'] . '</td>';
-                                    echo '<td>' . $epreuve['coefficient'] . '</td>';
                                     echo '</tr>';
                                 }
                             ?>
@@ -157,10 +157,6 @@ if(!isset($_SESSION['id'])){
                         <div class="p-2">
                             <label for="nom" class="form-label">Nom*</label>
                             <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp" placeholder="Nom" required>
-                        </div>
-                        <div class="p-2">
-                            <label for="coefficient" class="form-label">Coefficient*</label>
-                            <input type="number" class="form-control" id="coefficient" name="coefficient" aria-describedby="emailHelp" placeholder="Coefficient" required>
                         </div>
                         <div class="form-group d-flex justify-content-center">
                             <div class="p-2">
@@ -263,14 +259,15 @@ if(!isset($_SESSION['id'])){
                             if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['date']) && isset($_POST['cycle']) && isset($_POST['annee']) && isset($_POST['matiere']) && isset($_POST['semestre'])){
                                 $nom = $_POST['nom'];
                                 $date = $_POST['date'];
-                                //$cycle = $_POST['cycle'];
-                                //$annee = $_POST['annee'];
+                                $cycle = $_POST['cycle'];
+                                $annee = $_POST['annee'];
                                 $matiere = $_POST['matiere'];
                                 $id_semestre = $_POST['semestre'];
-                                $coefficient = $_POST['coefficient'];
+                                $coefficient = 0;
                                 $id_prof = $_POST['prof'];
                                 $id_matiere = dbGetMatiereIdByValue_matiere($db, $matiere);
-                                addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_matiere[0]['id_matiere']);
+                                $id_classe = getClasseId($db, $annee, $cycle);
+                                addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_matiere[0]['id_matiere'], $id_classe[0]['id_classe']);
                             }
                         ?>
                     </div>

@@ -1,1 +1,1 @@
-UPDATE note Set value_note = '5' WHERE id_note = '3'
+SELECT cycle FROM classe WHERE id_classe = 5

@@ -119,8 +119,8 @@ if(!isset($_SESSION['id'])){
                     </div>
                     <div class="form-group d-flex justify-content-center">
                         <div class="p-2">
-                            <select class="custom-select" name="matiere" required>
-                                <option value="">Matière</option>
+                        <select class="form-select" multiple aria-label="multiple select example" name="matiere" require>
+                                <option selected>Matière</option>
                                 <?php
                                     require_once('../../php/database.php');
 
@@ -139,6 +139,7 @@ if(!isset($_SESSION['id'])){
                                     }
                                 ?>
                             </select>
+                            
                         </div>
                     </div>
                     <div class="p-2">

@@ -80,15 +80,16 @@ function addSemestre($db, $date_debut, $date_fin, $nom_semestre, $id_classe){
     return true;
 } 
 
-function addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_matiere){
+function addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_matiere, $id_classe){
     try{
-        $statement = $db->prepare('INSERT INTO ds (coefficient, nom_ds, date_ds, id_enseignant, id_semestre, id_matiere) VALUES (:coefficient, :nom, :date, :id_prof, :id_semestre, :id_matiere)');
+        $statement = $db->prepare('INSERT INTO ds (coefficient, nom_ds, date_ds, id_enseignant, id_semestre, id_matiere, id_classe) VALUES (:coefficient, :nom, :date, :id_prof, :id_semestre, :id_matiere, :id_classe)');
         $statement->bindParam(':coefficient', $coefficient);
         $statement->bindParam(':nom', $nom);
         $statement->bindParam(':date', $date);
         $statement->bindParam(':id_prof', $id_prof);
         $statement->bindParam(':id_semestre', $id_semestre);
         $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->bindParam(':id_classe', $id_classe);
         $statement->execute();
     }
     catch (PDO $exception){
@@ -181,6 +182,32 @@ function dbGetPersonne($db, $id_personne){
     try{
         $statement = $db->prepare('SELECT * FROM personne WHERE mail =:id_personne');
         $statement->bindParam(':id_personne', $id_personne);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function dbGetAnneeById($db, $id_classe){
+    try{
+        $statement = $db->prepare('SELECT annee FROM classe WHERE id_classe = :id_classe');
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function dbGetCycleById($db, $id_classe){
+    try{
+        $statement = $db->prepare('SELECT cycle FROM classe WHERE id_classe = :id_classe');
+        $statement->bindParam(':id_classe', $id_classe);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
