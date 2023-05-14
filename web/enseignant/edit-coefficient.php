@@ -99,13 +99,103 @@ $db = dbConnect();
             </span>
             Coefficient
         </div>
-        <!--------------------------- contenue ---------------------------------------------------->
         <div class="btn-group" style="width : 30%">
             <a href="edit-note.php" class="btn btn-danger ">Note</a>
             <a href="edit-appreciation.php" class="btn btn-danger ">Appréciation</a>
             <a href="edit-coefficient.php" class="btn btn-danger active">Coefficient</a>
         </div>
-    </div>
+        <!--------------------------- contenue ---------------------------------------------------->
+        <div class="edition d-flex flex-row">
+            <!--------------------------- tableau ---------------------------------------------------->
+            <div class="tableform">
+                <table class="table table-striped table-hover table-bordered align-middle">
+                    <thead style="color : #dc3545">
+                        <tr>
+                            <th scope="col">Libellé</th>
+                            <th scope="col">Matière</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Coefficient</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td>ds 4</td>
+                            <td>maths</td>
+                            <td>20/11/2003</td>
+                            <th>20</th>
+                        </tr>
+                        <tr>
+                            <td>ds 4</td>
+                            <td>maths</td>
+                            <td>20/11/2003</td>
+                            <th>20</th>
+                        </tr>
+                        <tr>
+                            <td>ds 4</td>
+                            <td>maths</td>
+                            <td>20/11/2003</td>
+                            <th>20</th>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="connection">
+                <!--------------------------- création ---------------------------------------------------->
+                <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
+                    Entrer les informations
+                </div>
+
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group d-flex justify-content-center">
+                        <form action="edit-note.php" method="post">
+                            <select class="form-select" name="semestre" required>
+                                <option selected disabled value="">Semestre</option>
+                                <?php
+                                    $semestres = getSemestreOfEnseignant($db, $_SESSION['id']);
+                                    foreach($semestres as $semestre){
+                                        echo '<option value="'.$semestre['id_semestre'].'">'.$semestre['nom_semestre'].'</option>';
+                                    } 
+                                ?>
+                            </select>
+                        </form>
+                        <form action="edit-note.php" method="post">
+                            <select class="form-select" name="classe">
+                                <option selected disabled value="">Classe</option>
+                                <?php
+                                    $classes = getClasseOfSemestreOfEnseignant($db, $_GET['semestre'],$_SESSION['id']);
+                                    foreach($classes as $classe){
+                                        echo '<option value="'.$classe['id_classe'].'">'.$classe['cycle'].$classe['annee'].'</option>';
+                                    } 
+                                ?>
+                            </select>
+                        </form>
+                        <form action="edit-note.php" method="post">
+                            <select class="form-select" name="ds">
+                                <option selected disabled value="">DS</option>
+                                <?php
+                                    $dss = getDsOfEnseignantOfClasseOfSemestre($db, $_SESSION['id'], $_GET['classe'], $_GET['semestre']);
+                                    foreach($ds as $ds){
+                                        echo '<option value="'.$ds['id_evaluation'].'">'.$ds['nom_ds'].'</option>';
+                                    } 
+                                ?>
+                            </select>
+                        </form>
+                    </div>
+                    <form action="edit-note.php" method="post">
+                        <div class="p-2">
+                            <label for="coefficient" class="form-label">Coefficient*</label>
+                            <input type="text" class="form-control" id="coefficient" name="coefficient"
+                                placeholder="Entrer un coefficient" required>
+                        </div>
+                        <button type="submit" name="add" class="btn btn-danger">Ajouter un coefficient</button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </body>

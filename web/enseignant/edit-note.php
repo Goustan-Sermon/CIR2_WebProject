@@ -105,122 +105,181 @@ $db = dbConnect();
             <a href="edit-coefficient.php" class="btn btn-danger">Coefficient</a>
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-        <div class="edition d-flex flex-row">
+        <div class="edition d-flex flex-row" >
             <!--------------------------- tableau ---------------------------------------------------->
-            <div class="tableform">
+            <div class="tableform" style="width : 60%">
                 <table class="table table-striped table-hover table-bordered align-middle">
                     <thead style="color : #dc3545">
                         <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Matière</th>
-                            <th scope="col">Libellé</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prenom</th>
                             <th scope="col">Note/20</th>
-                            <th scope="col">Enseignant</th>
+                            <th scope="col">Libelé</th>
+                            <th scope="col">Matière</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Options</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr>
-                            <td>20/11/2003</td>
-                            <th>maths</th>
-                            <td>ds 4</td>
-                            <th>20</th>
-                            <td>abdc</td>
-                        </tr>
-                        <tr>
-                            <td>20/11/2003</td>
-                            <th>maths</th>
-                            <td>ds 4</td>
-                            <th>20</th>
-                            <td>abdc</td>
-                        </tr>
-                        <tr>
-                            <td>20/11/2003</td>
-                            <th>maths</th>
-                            <td>ds 4</td>
-                            <th>20</th>
-                            <td>abdc</td>
-                        </tr>
-                        <tr>
-                            <td>20/11/2003</td>
-                            <th>maths</th>
-                            <td>ds 4</td>
-                            <th>20</th>
-                            <td>abdc</td>
-                        </tr>
-
-
-
+                        <?php
+                            $notes = getNoteOfEnseignant($db, $_SESSION['id']);
+                            foreach($notes as $note){
+                                print_r($note);
+                                echo "<tr>";
+                                echo "<td>".dbGetPersonneOfEtudiant($db, $note['id_etudiant'])[0]['nom']."</td>"; 
+                                echo "<td>".dbGetPersonneOfEtudiant($db, $note['id_etudiant'])[0]['prenom']."</td>"; 
+                                if(!isset($_POST['edit-'.$note['id_note'].''])){
+                                    echo "<td>".$note['value_note']."</td>"; 
+                                    
+                                }else{
+                                    echo "<td> <form action=\"edit-note.php\" method=\"post\">
+                                    <input type=\"text\"name=\"new-note-".$note['id_note']."\"/>
+                                    <button name='edit-".$note['id_note']."-done' type=\"submit\" class=\"btn btn-outline-danger\">DONE</button>
+                                    </form></td>"; 
+                                }
+                                if(isset($_POST['edit-'.$note['id_note'].'-done'])){
+                                    editeNote($db, $note['id_note'], $_POST['new-note-'.$note['id_note'].'']);
+                                }
+                                echo "<td>".$note['nom_ds']."</td>"; 
+                                echo "<td>".dbGetMatiereById($db, $note['id_matiere'])[0]['value_matiere']."</td>"; 
+                                echo "<td>".$note['date_ds']."</td>"; 
+                                echo "<td> <form action=\"edit-note.php\" method=\"post\">
+                                <button name='edit-".$note['id_note']."' type=\"submit\" class=\"btn btn-outline-danger\">EDIT</button>
+                                <button name='supr-".$note['id_note']."' type=\"submit\" class=\"btn btn-outline-danger\">X</button>
+                                </form></td>"; 
+                                echo "</tr>";
+                                if(isset($_POST['supr-'.$note['id_note'].''])){
+                                    deleteNote($db, $note['id_note']);
+                                }
+                                
+                            }
+                        ?>
                     </tbody>
                 </table>
             </div>
-            <div class="connection">
+            <div class="connection ">
                 <!--------------------------- création ---------------------------------------------------->
                 <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
                     Entrer les informations
                 </div>
 
-                <div class="d-flex flex-column justify-content-center">
+                <div class="d-flex flex-column justify-content-center ">
                     <div class="form-group d-flex justify-content-center">
                         <form action="edit-note.php" method="post">
                             <select class="form-select" name="semestre" required>
-                                <option selected disabled value="">Semestre</option>
+                                <option selected disabled>Semestre</option>
                                 <?php
                                     $semestres = getSemestreOfEnseignant($db, $_SESSION['id']);
                                     foreach($semestres as $semestre){
                                         echo '<option value="'.$semestre['id_semestre'].'">'.$semestre['nom_semestre'].'</option>';
                                     } 
+                                    
                                 ?>
                             </select>
+                            <button type="submit" class="btn btn-outline-danger" name="submit-semestre">Set</button>
                         </form>
                         <form action="edit-note.php" method="post">
                             <select class="form-select" name="classe">
                                 <option selected disabled value="">Classe</option>
                                 <?php
-                                    $classes = getClasseOfSemestreOfEnseignant($db, $_GET['semestre'],$_SESSION['id']);
+                                
+                                    $classes = getClasseOfSemestreOfEnseignant($db, $_SESSION['semestre'],$_SESSION['id']);
                                     foreach($classes as $classe){
                                         echo '<option value="'.$classe['id_classe'].'">'.$classe['cycle'].$classe['annee'].'</option>';
                                     } 
                                 ?>
                             </select>
+                            <button type="submit" class="btn btn-outline-danger" name="submit-classe">Set</button>
                         </form>
+
                         <form action="edit-note.php" method="post">
                             <select class="form-select" name="ds">
                                 <option selected disabled value="">DS</option>
                                 <?php
-                                    $dss = getDsOfEnseignantOfClasseOfSemestre($db, $_SESSION['id'], $_GET['classe'], $_GET['semestre']);
-                                    foreach($ds as $ds){
+                                    $dss = getDsOfEnseignantOfClasseOfSemestre($db, $_SESSION['id'], $_SESSION['classe'], $_SESSION['semestre']);
+                                    foreach($dss as $ds){
                                         echo '<option value="'.$ds['id_evaluation'].'">'.$ds['nom_ds'].'</option>';
                                     } 
                                 ?>
                             </select>
+                            <button type="submit" class="btn btn-outline-danger" name="submit-ds">Set</button>
                         </form>
                         <form action="edit-note.php" method="post">
                             <select class="form-select" name="eleve">
                                 <option selected disabled value="">Elève</option>
                                 <?php
-                                    $eleves = getEtudiantOfDs($db, $_GET['ds'] );
+                                    $eleves = getEtudiantOfDs($db, $_SESSION['ds'] );
                                     foreach($eleves as $eleve){
                                         $personne = dbGetPersonneOfEtudiant($db, $eleve['id_etudiant']);
-                                        echo '<option value="'.$eleve['id_etudiant'].'">'.$personne['prenom'].$personne['nom'].'</option>';
+                                        if(!isNoteOfEtudiantOfDS($db, $eleve['id_etudiant'], $_SESSION['ds'])){
+                                            echo '<option value="'.$eleve['id_etudiant'].'">'.$personne[0]['prenom']." ".$personne[0]['nom'].'</option>';
+                                        }
                                     } 
                                 ?>
                             </select>
+                            <button type="submit" class="btn btn-outline-danger" name="submit-eleve">Set</button>
                         </form>
                     </div>
                     <form action="edit-note.php" method="post">
                         <div class="p-2">
                             <label for="note" class="form-label">Note*</label>
-                            <input type="text" class="form-control" id="note" name="note"
+                            <input type="text" class="form-control" id="note" name="value-note"
                                 placeholder="Entrer une note sur 20" required>
                         </div>
-                        <button type="submit" name="add" class="btn btn-danger">Ajouter une note</button>
+                        <button type="submit" name="add-note" class="btn btn-danger">Ajouter une note</button>
+
                     </form>
+                    <form action="edit-note.php" method="post">
+                        <button name="clear-note" class="btn btn-danger">Supprimer les informations</button>
+                    </form>
+                    <?php
+                            if(isset($_POST['submit-semestre'])){
+                                $_SESSION['semestre'] = $_POST['semestre'];
+
+                            }
+                            if(isset($_POST['submit-classe'])){
+                                $_SESSION['classe'] = $_POST['classe'];
+
+                            }
+                            if(isset($_POST['submit-ds'])){
+                                $_SESSION['ds'] = $_POST['ds'];
+
+                            }
+                            if(isset($_POST['submit-eleve'])){
+                                $_SESSION['eleve'] = $_POST['eleve'];
+
+                            }
+                            if(isset($_POST['add-note'])){
+                                print(addNotes($db, $_POST['value-note'], $_SESSION['eleve'], $_SESSION['ds']));
+                                unset($_SESSION["semestre"]);
+                                unset($_SESSION["classe"]);
+                                unset($_SESSION["ds"]);
+                                unset($_SESSION["eleve"]);   
+                                print('note ajouter');
+                            }
+                            if(isset($_POST['clear-note'])){
+                                unset($_SESSION["semestre"]);
+                                unset($_SESSION["classe"]);
+                                unset($_SESSION["ds"]);
+                                unset($_SESSION["eleve"]);   
+                            }
+                        ?>
                 </div>
 
             </div>
 
         </div>
+        <?php
 
+            // print('semestre : '.$_SESSION['semestre']);
+            // print('classe : '.$_SESSION['classe']);
+            // print('ds : '.$_SESSION['ds']);
+            // print('eleve : '.$_SESSION['eleve']);
+            // unset($_SESSION["semestre"]);
+            // unset($_SESSION["classe"]);
+            // unset($_SESSION["ds"]);
+            // unset($_SESSION["eleve"]);  
+        ?>
 </body>
 
 </html>

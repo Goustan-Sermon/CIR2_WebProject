@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['id'])){
-    header('Location: identification.php');
+    // header('Location: identification.php');
 }
 ?>
 <!DOCTYPE html>

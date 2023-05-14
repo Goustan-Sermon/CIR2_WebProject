@@ -1,1 +1,1 @@
-SELECT value_note FROM note JOIN ds ON ds.id_evaluation = note.id_evaluation WHERE ds.id_semestre = 
+DELETE FROM note WHERE id_note = '16'

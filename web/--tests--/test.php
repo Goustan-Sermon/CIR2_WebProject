@@ -1,25 +1,28 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <link href="test.css" rel="stylesheet">
-    <meta charset="utf-8">
-    <title> index </title>
-</head>
-
-<body>
 <?php
-    require_once('../../php/database.php');
+require_once('../../php/database.php');
+// Enable all warnings and errors.
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-    // Enable all warnings and errors.
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-    
-    // Database connection.
-    $db = dbConnect();
-    $a=getNoteEleve($db, 'test@gmail.com');
-    print_r($a);
+// Database connection.
+$db = dbConnect();
 ?>
-</body>
+<form action="test.php" method="post">
+    <select class="form-select" name="semestre" required>
+        <option selected disabled value="hey">Semestre</option>
+        <?php
+            $semestres = getSemestreOfEnseignant($db, '4');
+            foreach($semestres as $semestre){
+                echo '<option value="'.$semestre['id_semestre'].'">'.$semestre['nom_semestre'].'</option>';
+            } 
+        ?>
+    </select>
+    <button type="submit">Submit POST Data</button>
 
-</html>
+    
+</form>
+
+<?php
+            print($_POST['semestre']);
+
+?>
