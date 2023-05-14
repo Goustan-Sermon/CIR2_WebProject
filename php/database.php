@@ -416,6 +416,7 @@ function getStatut($db , $id_personne){
             $admin = $statement->fetchAll(PDO::FETCH_ASSOC);
             
             if ($etudiant[0]['count'] == 1 ){
+                
                 $result = 'etudiant';
             } elseif ($enseignant[0]['count'] == 1 ){
                 $result = 'enseignant';
@@ -436,14 +437,14 @@ function getIdOfStatutOfPersonne($db, $id_personne){
     try{
         if (isExistPersonne($db, $id_personne)){
             $statut = getStatut($db, $id_personne);
-            if($statut = 'enseignant'){
+            if($statut == 'enseignant'){
                 $prepare = 'SELECT * FROM enseignant WHERE mail= :id_personne';
                 $statement = $db->prepare($prepare);
                 $statement->bindParam(':id_personne', $id_personne);
                 $statement->execute();
                 $enseignant = $statement->fetchAll(PDO::FETCH_ASSOC);
                 $result = $enseignant[0]['id_enseignant'];
-            }elseif($statut = 'etudiant'){
+            }elseif($statut == 'etudiant'){
                 $prepare = 'SELECT * FROM etudiant WHERE mail= :id_personne';
                 $statement = $db->prepare($prepare);
                 $statement->bindParam(':id_personne', $id_personne);
