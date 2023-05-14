@@ -1,1 +1,1 @@
-DELETE FROM note WHERE id_note = '16'
+INSERT INTO enseigner (id_enseignant, id_matiere) VALUES (5, 2);

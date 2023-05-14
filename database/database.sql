@@ -34,11 +34,8 @@ CREATE TABLE public.enseignant(
 ------------------------------------------------------------
 CREATE TABLE public.matiere(
 	id_matiere      SERIAL NOT NULL ,
-	value_matiere   VARCHAR (50) NOT NULL ,
-	id_enseignant   INT  NOT NULL  ,
+	value_matiere   VARCHAR (50) NOT NULL  ,
 	CONSTRAINT matiere_PK PRIMARY KEY (id_matiere)
-
-	,CONSTRAINT matiere_enseignant_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
 )WITHOUT OIDS;
 
 
@@ -144,6 +141,19 @@ CREATE TABLE public.admin(
 	CONSTRAINT admin_PK PRIMARY KEY (id_admin)
 
 	,CONSTRAINT admin_personne_FK FOREIGN KEY (mail) REFERENCES public.personne(mail)
+)WITHOUT OIDS;
+
+
+------------------------------------------------------------
+-- Table: enseigner
+------------------------------------------------------------
+CREATE TABLE public.enseigner(
+	id_matiere      INT  NOT NULL ,
+	id_enseignant   INT  NOT NULL  ,
+	CONSTRAINT enseigner_PK PRIMARY KEY (id_matiere,id_enseignant)
+
+	,CONSTRAINT enseigner_matiere_FK FOREIGN KEY (id_matiere) REFERENCES public.matiere(id_matiere)
+	,CONSTRAINT enseigner_enseignant0_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
 )WITHOUT OIDS;
 
 

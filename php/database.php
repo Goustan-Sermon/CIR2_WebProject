@@ -50,11 +50,10 @@ function addEtudiant($db, $mail, $id_classe){
     return true;
 }
 
-function addEnseignant($db, $mail, $id_matiere){
+function addEnseignant($db, $mail){
     try{
-        $statement = $db->prepare('INSERT INTO enseignant (mail, id_matiere) VALUES (:mail, :id_matiere)');
+        $statement = $db->prepare('INSERT INTO enseignant (mail) VALUES (:mail)');
         $statement->bindParam(':mail', $mail);
-        $statement->bindParam(':id_matiere', $id_matiere);
         $statement->execute();
     }
     catch (PDO $exception){
@@ -114,6 +113,21 @@ function addAppreciation($db, $id_enseignant, $id_matiere, $id_semestre, $value_
     }
     return true;
 }
+
+function addEnseignantToMatiere($db, $id_enseignant, $id_matiere){
+    try{
+        $statement = $db->prepare('INSERT INTO enseigner (id_enseignant, id_matiere) VALUES (:id_enseignant, :id_matiere)');
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->execute();
+    }
+    catch (PDO $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
+
 function addConsulter($db, $id_appreciation, $id_etudiant){
     try{
         $statement = $db->prepare('INSERT INTO consulter (id_appreciation, id_etudiant) VALUES (:id_appreciation, :id_etudiant)');
@@ -164,6 +178,8 @@ function setCoeffficient($db, $coefficient, $id_evaluation){
     }
     return true;
 }
+
+
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------Get----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
@@ -256,6 +272,21 @@ function dbGetMatiereIdByValue_matiere($db, $value_matiere){
     return $result;
 }
 
+function dbGetIdEnseignantByMail($db, $mail){
+    try{
+        $statement = $db->prepare('SELECT id_enseignant FROM enseignant WHERE mail =:mail');
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+
+    return $result;
+}
+
 function dbGetMatiereById($db, $id_matiere){
     try{
         $statement = $db->prepare('SELECT value_matiere FROM matiere WHERE id_matiere =:id_matiere');
@@ -304,6 +335,20 @@ function dbGetIdMatieres($db){
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbGetIdMatiereByValue($db, $value_matiere){
+    try{
+        $statement = $db->prepare('SELECT id_matiere FROM matiere WHERE value_matiere =:value_matiere');
+        $statement->bindParam(':value_matiere', $value_matiere);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $exception){
         error_log('Request error: '.$exception->getMessage());
         return false;
     }
