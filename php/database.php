@@ -314,6 +314,22 @@ function getMatiereOfEnseignant($db, $id_enseignant){
     }
     return $result;
 }
+
+function getMatiereOfClasseOfEnseignant($db, $id_enseignant, $id_classe){
+    try{
+        $prepare='SELECT * FROM matiere JOIN enseigner ON matiere.id_matiere = enseigner.id_matiere WHERE enseigner.id_enseignant = :id_enseignant AND (SELECT COUNT(*) FROM ds WHERE ds.id_enseignant = :id_enseignant AND ds.id_classe = :id_classe AND ds.id_matiere = matiere.id_matiere )';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 function dbGetMailProfById($db, $id_enseignant){
     try{
         $statement = $db->prepare('SELECT mail FROM enseignant WHERE id_enseignant =:id_enseignant');
