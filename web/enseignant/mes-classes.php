@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['id'])){
-    header('Location: identification.php');
+    header('Location: ../identification.php');
 }
 ?>
 <!DOCTYPE html>
@@ -62,7 +62,7 @@ if(!isset($_SESSION['id'])){
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="edit.php">
+                        <a class="nav-link" href="edit-note.php">
                             Saisir
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 edit

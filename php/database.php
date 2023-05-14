@@ -97,13 +97,26 @@ function addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_
     }
     return true;
 }
-function addAppreciation($db, $id_enseignant, $id_matiere, $id_etudiant, $id_semestre, $value_appreciation){
+function addAppreciation($db, $id_enseignant, $id_matiere, $id_semestre, $value_appreciation){
     try{
-        $statement = $db->prepare('INSERT INTO appreciation (value_appreciation, id_semestre, id_enseignant, id_etudiant, id_matiere) VALUES (:value_appreciation, :id_semestre, :id_enseignant, :id_etudiant, :id_matiere)');
+        $prepare = 'INSERT INTO appreciation (value_apprecition, id_semestre, id_enseignant, id_matiere) VALUES (:value_appreciation, :id_semestre, :id_enseignant, :id_matiere)';
+        $statement = $db->prepare($prepare);
         $statement->bindParam(':value_appreciation', $value_appreciation);
         $statement->bindParam(':id_semestre', $id_semestre);
         $statement->bindParam(':id_enseignant', $id_enseignant);
         $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->execute();
+    }
+    catch (PDO $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
+function addConsulter($db, $id_appreciation, $id_etudiant){
+    try{
+        $statement = $db->prepare('INSERT INTO consulter (id_appreciation, id_etudiant) VALUES (:id_appreciation, :id_etudiant)');
+        $statement->bindParam(':id_appreciation', $id_appreciation);
         $statement->bindParam(':id_etudiant', $id_etudiant);
         $statement->execute();
     }
@@ -112,6 +125,11 @@ function addAppreciation($db, $id_enseignant, $id_matiere, $id_etudiant, $id_sem
         return false;
     }
     return true;
+}
+function addAppreciationAndConsulter($db, $id_enseignant, $id_matiere, $id_semestre, $value_appreciation, $id_etudiant){
+    addAppreciation($db, $id_enseignant, $id_matiere, $id_semestre, $value_appreciation);
+    $id_appreciation = getAppreciationLast($db)[0]['id_appreciation'];
+    addConsulter($db, $id_appreciation, $id_etudiant);
 }
 function addNotes($db, $value_note, $id_etudiant, $id_evaluation){
     try{
@@ -317,7 +335,19 @@ function dbGetSemestre($db){
     }
     return $result;
 }
-
+function getSemestreOne($db, $id_semestre){
+    try{
+        $statement = $db->prepare('SELECT * FROM semestre WHERE id_semestre = :id_semestre');
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 function dbGetIdMatiere($db, $nom_matiere){
     try{
         $statement = $db->prepare('SELECT id_matiere FROM matiere WHERE value_matiere =:nom_matiere');
@@ -331,7 +361,6 @@ function dbGetIdMatiere($db, $nom_matiere){
     }
     return $result;
 }
-
 function getClasseId($db, $annee, $cycle){
     try{
         $statement = $db->prepare('SELECT id_classe FROM classe WHERE annee =:annee AND cycle =:cycle');
@@ -582,6 +611,34 @@ function getSemestreOfEnseignant($db, $id_enseignant){
     }
     return $result;
 }
+function getDs($db, $id_evaluation){
+    try{
+        $prepare='SELECT * FROM ds WHERE id_evaluation = :id_evaluation ';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_evaluation', $id_evaluation);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getDSOfEnseignant($db, $id_enseignant){
+    try{
+        $prepare='SELECT * FROM ds WHERE  id_enseignant = :id_enseignant';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 function getDsOfEnseignantOfClasseOfSemestre($db, $id_enseignant, $id_classe, $id_semestre){
     try{
         $prepare='SELECT * FROM ds WHERE id_classe = :id_classe AND id_enseignant = :id_enseignant AND  id_semestre = :id_semestre';
@@ -615,6 +672,7 @@ function getEtudiantOfClasse($db, $id_classe){
 function getEtudiantOfDs($db, $id_evaluation){
     try{
         $classe = getClasseOfDS($db, $id_evaluation);
+        print_r($classe);
         $result = getEtudiantOfClasse($db, $classe[0]['id_classe']);
     }
     catch(PDOException $exception){
@@ -623,7 +681,47 @@ function getEtudiantOfDs($db, $id_evaluation){
     }
     return $result;
 }
-
+function getEtudiantIdOfAppreciation($db, $id_appreciation){
+    try{
+        $prepare='SELECT * FROM consulter WHERE id_appreciation = :id_appreciation';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_appreciation', $id_appreciation);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getAppreciationOfEnseignant($db, $id_enseignant){
+    try{
+        $prepare='SELECT * FROM appreciation WHERE id_enseignant = :id_enseignant';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function getAppreciationLast($db){
+    try{
+        $prepare='SELECT * FROM appreciation WHERE id_appreciation = (SELECT MAX(id_appreciation) FROM appreciation)';
+        $statement = $db->prepare($prepare);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------Delete----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
@@ -657,6 +755,7 @@ function editeNote($db, $id_note, $new_value){
     }
     return true;
 }
+
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------CHECK----------------------------------------------
 //--------------------------------------------------------------------------------------------------------

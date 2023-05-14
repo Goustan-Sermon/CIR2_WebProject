@@ -1,1 +1,1 @@
-DELETE FROM note WHERE id_note = '16'
+SELECT * FROM appreciation WHERE id_appreciation = (SELECT MAX(id_appreciation) FROM appreciation)

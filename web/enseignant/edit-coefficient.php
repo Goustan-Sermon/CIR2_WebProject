@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['id'])){
-    header('Location: identification.php');
+    header('Location: ../identification.php');
 }
 require_once('../../php/database.php');
 // Enable all warnings and errors.
@@ -69,7 +69,7 @@ $db = dbConnect();
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="edit.php">
+                        <a class="nav-link" href="edit-note.php">
                             Saisir
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 edit
@@ -105,98 +105,179 @@ $db = dbConnect();
             <a href="edit-coefficient.php" class="btn btn-danger active">Coefficient</a>
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-        <div class="edition d-flex flex-row">
+        <div class="edition d-flex flex-row justify-content-around">
             <!--------------------------- tableau ---------------------------------------------------->
             <div class="tableform">
                 <table class="table table-striped table-hover table-bordered align-middle">
                     <thead style="color : #dc3545">
                         <tr>
-                            <th scope="col">Libellé</th>
+                            <th scope="col">Libelé</th>
                             <th scope="col">Matière</th>
                             <th scope="col">Date</th>
                             <th scope="col">Coefficient</th>
+                            <th scope="col">Options</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr>
-                            <td>ds 4</td>
-                            <td>maths</td>
-                            <td>20/11/2003</td>
-                            <th>20</th>
-                        </tr>
-                        <tr>
-                            <td>ds 4</td>
-                            <td>maths</td>
-                            <td>20/11/2003</td>
-                            <th>20</th>
-                        </tr>
-                        <tr>
-                            <td>ds 4</td>
-                            <td>maths</td>
-                            <td>20/11/2003</td>
-                            <th>20</th>
-                        </tr>
+                        <?php
+                            $dss = getDSOfEnseignant($db, $_SESSION['id']);
+                            // print_r($dss);
+                            foreach($dss as $ds){
+                                if($ds['coefficient'] != 0){
+                                    echo "<tr>";
+                                    echo "<td>".$ds['nom_ds']."</td>"; 
+                                    echo "<td>".dbGetMatiereById($db, $ds['id_matiere'])[0]['value_matiere']."</td>"; 
+                                    echo "<td>".$ds['date_ds']."</td>"; 
+                                    if(!isset($_POST['edit-'.$ds['id_evaluation'].''])){
+                                        echo "<td>".$ds['coefficient']."</td>"; 
+                                        
+                                    }else{
+                                        echo "<td> <form action=\"edit-coefficient.php\" method=\"post\">
+                                        <input type=\"text\"name=\"new-ds-".$ds['id_evaluation']."\"/>
+                                        <button name='edit-".$ds['id_evaluation']."-done' type=\"submit\" class=\"btn btn-outline-danger\" >DONE</button>
+                                        </form></td>"; 
+                                    }
 
+                                    if(isset($_POST['edit-'.$ds['id_evaluation'].'-done'])){
+                                        setCoeffficient($db, $_POST['new-ds-'.$ds['id_evaluation']], $ds['id_evaluation']);
+                                        echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                                    }
+                                    
+                                    echo "<td> <form action=\"edit-coefficient.php\" method=\"post\">
+                                    <button name='edit-".$ds['id_evaluation']."' type=\"submit\" class=\"btn btn-outline-danger\">EDIT</button>
+                                    <button name='supr-".$ds['id_evaluation']."' type=\"submit\" class=\"btn btn-outline-danger\">X</button>
+                                    </form></td>"; 
+                                    echo "</tr>";
+                                    if(isset($_POST['supr-'.$ds['id_evaluation'].''])){
+                                        setCoeffficient($db,'0', $ds['id_evaluation']);
+                                        echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                                    }
+                                }
+                                
+                            }
+                        ?>
                     </tbody>
                 </table>
             </div>
-            <div class="connection">
+            <div class="connection d-flex flex-column ">
                 <!--------------------------- création ---------------------------------------------------->
-                <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
+                <div class="titre  text-body-tertiary h2">
                     Entrer les informations
                 </div>
 
-                <div class="d-flex flex-column justify-content-center">
-                    <div class="form-group d-flex justify-content-center">
-                        <form action="edit-note.php" method="post">
+                <div class="d-flex flex-column justify-content-center align-self-center align-items-center">
+                    <div class="form-group d-flex flex-row">
+                        <form action="edit-coefficient.php" method="post">
                             <select class="form-select" name="semestre" required>
-                                <option selected disabled value="">Semestre</option>
+                                <option selected disabled>Semestre</option>
                                 <?php
                                     $semestres = getSemestreOfEnseignant($db, $_SESSION['id']);
                                     foreach($semestres as $semestre){
                                         echo '<option value="'.$semestre['id_semestre'].'">'.$semestre['nom_semestre'].'</option>';
                                     } 
+                                    
                                 ?>
                             </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
                         </form>
-                        <form action="edit-note.php" method="post">
+                        <?php
+                            if(isset($_POST['submit-semestre'])){
+                                $_SESSION['semestre'] = $_POST['semestre'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                        <form action="edit-coefficient.php" method="post">
                             <select class="form-select" name="classe">
                                 <option selected disabled value="">Classe</option>
                                 <?php
-                                    $classes = getClasseOfSemestreOfEnseignant($db, $_GET['semestre'],$_SESSION['id']);
-                                    foreach($classes as $classe){
-                                        echo '<option value="'.$classe['id_classe'].'">'.$classe['cycle'].$classe['annee'].'</option>';
-                                    } 
+                                    if(isset($_SESSION['semestre'])){                                                                                                                                              
+                                        $classes = getClasseOfSemestreOfEnseignant($db, $_SESSION['semestre'],$_SESSION['id']);
+                                        foreach($classes as $classe){
+                                            echo '<option value="'.$classe['id_classe'].'">'.$classe['cycle'].$classe['annee'].'</option>';
+                                        } 
+                                        
+                                    }
                                 ?>
                             </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-classe"><?php if(!empty($_SESSION['classe'])){$classe = getClasse($db, $_SESSION['classe']); print($classe[0]['cycle'].' '.$classe[0]['annee']);}else{print('SET');}  ?></button>
                         </form>
-                        <form action="edit-note.php" method="post">
+                        <?php
+                            if(isset($_POST['submit-classe'])){
+                                $_SESSION['classe'] = $_POST['classe'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                        <form action="edit-coefficient.php" method="post">
                             <select class="form-select" name="ds">
                                 <option selected disabled value="">DS</option>
                                 <?php
-                                    $dss = getDsOfEnseignantOfClasseOfSemestre($db, $_SESSION['id'], $_GET['classe'], $_GET['semestre']);
-                                    foreach($ds as $ds){
-                                        echo '<option value="'.$ds['id_evaluation'].'">'.$ds['nom_ds'].'</option>';
+                                if(isset($_SESSION['classe'])){
+                                    $dss = getDsOfEnseignantOfClasseOfSemestre($db, $_SESSION['id'], $_SESSION['classe'], $_SESSION['semestre']);
+                                    foreach($dss as $ds){
+                                        if(getDs($db, $ds['id_evaluation'])[0]['coefficient'] == 0){
+                                            echo '<option value="'.$ds['id_evaluation'].'">'.$ds['nom_ds'].'</option>';
+                                        }
                                     } 
+                                }
                                 ?>
                             </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-ds"><?php if(!empty($_SESSION['ds'])){print(getDs($db, $_SESSION['ds']))[0]['nom_ds'];}else{print('SET');}  ?></button>
                         </form>
+                        <?php
+                            if(isset($_POST['submit-ds'])){
+                                $_SESSION['ds'] = $_POST['ds'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
                     </div>
-                    <form action="edit-note.php" method="post">
+                    <form action="edit-coefficient.php" method="post"
+                        class="d-flex flex-column justify-content-center align-self-center align-items-center">
                         <div class="p-2">
-                            <label for="coefficient" class="form-label">Coefficient*</label>
-                            <input type="text" class="form-control" id="coefficient" name="coefficient"
-                                placeholder="Entrer un coefficient" required>
+                            <?php
+                                if(isset($_SESSION['ds'])){
+                                    echo"<input type=\"text\" class=\"form-control\" id=\"note\" name=\"value-note\"
+                                    placeholder=\"Entrer le coefficient \" required>";
+                                }
+                            ?>
+
                         </div>
-                        <button type="submit" name="add" class="btn btn-danger">Ajouter un coefficient</button>
+                        <button type="submit" name="add-coefficient" class="btn btn-danger">Ajouter un coefficient</button>
+
                     </form>
+                    <form action="edit-coefficient.php" method="post">
+                        <button name="clear-note" class="btn btn-outline-danger" style="font-size: 0.5em;">Supprimer les
+                            informations</button>
+                    </form>
+                    <?php
+                            if(isset($_POST['add-coefficient'])){
+                                if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["ds"])){
+                                    setCoeffficient($db, $_POST['value-note'], $_SESSION['ds']);
+                                    unset($_SESSION["semestre"]);
+                                    unset($_SESSION["classe"]);
+                                    unset($_SESSION["ds"]);
+                                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                                    
+                                }else{
+                                    echo "<div class=\"alert alert-danger\" role=\"alert\">Veuillez renplit tout les champs</div>";
+
+                                }
+                            }
+                            if(isset($_POST['clear-note'])){
+                                unset($_SESSION["semestre"]);
+                                unset($_SESSION["classe"]);
+                                unset($_SESSION["ds"]);
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
                 </div>
 
             </div>
-
         </div>
 
-    </div>
+
 
 </body>
 
