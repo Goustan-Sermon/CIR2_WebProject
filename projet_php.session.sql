@@ -1,1 +1,1 @@
-DELETE FROM note WHERE id_note = '16'
+SELECT mot_de_passe FROM personne WHERE mail = 'freixasjeremy@isen.fr'

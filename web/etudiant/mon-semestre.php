@@ -158,9 +158,6 @@ $db = dbConnect();
                         <th class="table-danger">12</th>
                         <th class="table-danger">/</th>
                     </tr>
-
-
-
                 </tbody>
             </table>
         </div>
