@@ -104,8 +104,15 @@ $db = dbConnect();
         <!--------------------------- contenue ---------------------------------------------------->
         <div class="card text-bg-danger mb-3 align-self-center" style="max-width: 18rem; text-align : center;">
             <div class="card-body">
-                <h4 class="card-title">S4</h4>
-                <p class="card-text">20/05/2022 - 20/09/2023</p>
+                <?php
+                    $currentSemestre = getCurrentSemestre($db);
+
+                    $nomSemestre = $currentSemestre['nom_semestre'];
+                    $date_debut = $currentSemestre['date_debut'];
+                    $date_fin = $currentSemestre['date_fin'];
+                    echo "<h4 class='card-title'>$nomSemestre</h4>";
+                    echo "<p class='card-text'>$date_debut - $date_fin</p>";
+                ?>
             </div>
         </div>
         <div class="tableform">
@@ -121,43 +128,31 @@ $db = dbConnect();
                 </thead>
                 <tbody class="table-group-divider">
                     <?php
-                        $semestres = getSemestreOfClasse($db, getClasse($db, $_SESSION['classe']))
-                    ?>
-                    <tr>
-                        <td>Maths</td>
-                        <th>3</th>
-                        <td>13.2</td>
-                        <th>12.5</th>
-                        <td>/</td>
-                    </tr>
-                    <tr>
-                        <td>Maths</td>
-                        <th>3</th>
-                        <td>13.2</td>
-                        <th>12.5</th>
-                        <td>/</td>
-                    </tr>
-                    <tr>
-                        <td>Maths</td>
-                        <th>3</th>
-                        <td>13.2</td>
-                        <th>12.5</th>
-                        <td>/</td>
-                    </tr>
-                    <tr>
-                        <td>Maths</td>
-                        <th>3</th>
-                        <td>13.2</td>
-                        <th>12.5</th>
-                        <td>/</td>
-                    </tr>
+                        $matieres = dbGetIdMatieres($db);
+                        $classe = getClasseById($db, $_SESSION['id']);
 
-                    <tr>
-                        <th colspan="2" class="table-secondary">TOTAL : </th>
-                        <th class="table-danger">15</th>
-                        <th class="table-danger">12</th>
-                        <th class="table-danger">/</th>
-                    </tr>
+                        // Display all matieres.
+                        foreach($matieres as $matiere) {
+                            $id_matiere = dbGetIdMatiere($db, $matiere['value_matiere']);
+                            $nbDs = getNumberOfDsOfCurrentSemestreByMatiere($db, $id_matiere[0]['id_matiere'], $currentSemestre['id_semestre']);
+                            $moyenneClasse = getAverageFromCurrentSemestreByMatiere($db, $id_matiere[0]['id_matiere'], $currentSemestre['id_semestre']);
+                            $moyenneEtu = getAverageFromCurrentSemestreByMatiereAndId_etudiant($db, $id_matiere[0]['id_matiere'], $currentSemestre['id_semestre'], $_SESSION['id']);
+                            $moyenneTotale = getAverageFromClasseByCurrentSemestre($db, $classe[0]['id_classe'], $currentSemestre['id_semestre']);
+                            echo '<tr>';
+                            echo '<td>' . $matiere['value_matiere'] . '</td>';
+                            echo '<th>' . $nbDs['count'] . '</th>';
+                            echo '<th>' . $moyenneEtu['avg'] . '</th>';
+                            echo '<th>' . $moyenneClasse['avg'] . '</th>';
+                            echo '</tr>';
+                        }
+                    
+                            echo '<tr>
+                                    <th colspan="2" class="table-secondary">TOTAL : </th>';
+                            echo '<th class="table-danger">' . "oui" . '</th>';
+                            echo '<th class="table-danger">' . $moyenneTotale['avg'] . '</th>';
+                            echo '<th class="table-danger">/</th>';
+                            echo '</tr>';
+                    ?>
                 </tbody>
             </table>
         </div>

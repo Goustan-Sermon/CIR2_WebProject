@@ -339,6 +339,90 @@ function dbGetMatiereById($db, $id_matiere){
     }
     return $result;
 }
+
+function getAverageFromCurrentSemestreByMatiere($db, $id_matiere, $id_semestre){
+    try{
+        $statement = $db->prepare('SELECT AVG(value_note) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE ds.id_matiere = :id_matiere AND ds.id_semestre = :id_semestre');
+        $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
+function getAverageFromCurrentSemestreByMatiereAndId_etudiant($db, $id_matiere, $id_semestre, $id_etudiant){
+    try{
+        $statement = $db->prepare('SELECT AVG(value_note) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE ds.id_matiere = :id_matiere AND ds.id_semestre = :id_semestre AND note.id_etudiant = :id_etudiant');
+        $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
+function getAverageFromClasse($db, $id_classe){
+    try{
+        $statement = $db->prepare('SELECT AVG(value_note) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation JOIN etudiant ON note.id_etudiant = etudiant.id_etudiant WHERE etudiant.id_classe = :id_classe');
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
+function getAverageFromClasseByCurrentSemestre($db, $id_classe, $id_semestre){
+    try{
+        $statement = $db->prepare('SELECT AVG(value_note) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation JOIN etudiant ON note.id_etudiant = etudiant.id_etudiant WHERE etudiant.id_classe = :id_classe AND ds.id_semestre = :id_semestre');
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
+function getAverageTotalFromEtudiantWithCoef($db, $id_etudiant){
+    try{
+        $statement = $db->prepare('SELECT SUM(value_note*coef)/SUM(coef) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE note.id_etudiant = :id_etudiant');
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
+function getNumberOfDsOfCurrentSemestreByMatiere($db, $id_matiere, $id_semestre){
+    try{
+        $statement = $db->prepare('SELECT COUNT(*) FROM ds WHERE id_matiere =:id_matiere AND id_semestre =:id_semestre');
+        $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
 function getMatiereOfEnseignant($db, $id_enseignant){
     try{
         $prepare='SELECT * FROM matiere JOIN enseigner ON matiere.id_matiere = enseigner.id_matiere WHERE enseigner.id_enseignant = :id_enseignant';
@@ -839,6 +923,21 @@ function getDSOfEnseignant($db, $id_enseignant){
     }
     return $result;
 }
+function dbGetNomdsById_evaluation($db, $id_evaluation){
+    try{
+        $prepare='SELECT nom_ds FROM ds WHERE id_evaluation = :id_evaluation';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_evaluation', $id_evaluation);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+
+    return $result;
+}
 function getDsOfEnseignantOfClasseOfSemestre($db, $id_enseignant, $id_classe, $id_semestre){
     try{
         $prepare='SELECT * FROM ds WHERE id_classe = :id_classe AND id_enseignant = :id_enseignant AND  id_semestre = :id_semestre';
@@ -868,6 +967,21 @@ function getEtudiantOfClasse($db, $id_classe){
         return false;
     }
     return $result;
+}
+function getCurrentSemestre($db){
+    try{
+        $date = date("Y-m-d");
+        $prepare='SELECT * FROM semestre WHERE date_debut <= :date AND date_fin >= :date';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':date', $date);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result[0];
 }
 function getEtudiantOfDs($db, $id_evaluation){
     try{
