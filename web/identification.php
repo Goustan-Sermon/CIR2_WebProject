@@ -97,7 +97,7 @@ if (isset($_POST['connect'])){
                 </div>
                 <div class="mb-2">
                     <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-                    <input type="password" class="form-control" name="InputPassword" placeholder="Entré votre mot de passe" value = "<?php if(!isset($_SESSION['mail']) and isset($_COOKIE['mdp']) and !empty($_COOKIE['mdp'])){echo $_COOKIE['mdp'];}?>">
+                    <input type="password" class="form-control" name="InputPassword" placeholder="Entrer votre mot de passe" value = "<?php if(!isset($_SESSION['mail']) and isset($_COOKIE['mdp']) and !empty($_COOKIE['mdp'])){echo $_COOKIE['mdp'];}?>">
                 </div>
                 <!--------------------------- Se souvenir +  oublier ---------------------------------------------------->
 
