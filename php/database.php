@@ -242,11 +242,24 @@ function dbGetMatiereById($db, $id_matiere){
     }
     return $result;
 }
-
-function dbGetMailProfById($db, $id_prof){
+function getMatiereOfEnseignant($db, $id_enseignant){
     try{
-        $statement = $db->prepare('SELECT mail FROM enseignant WHERE id_enseignant =:id_prof');
-        $statement->bindParam(':id_prof', $id_prof);
+        $prepare='SELECT * FROM matiere JOIN enseigner ON matiere.id_matiere = enseigner.id_matiere WHERE enseigner.id_enseignant = :id_enseignant';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function dbGetMailProfById($db, $id_enseignant){
+    try{
+        $statement = $db->prepare('SELECT mail FROM enseignant WHERE id_enseignant =:id_enseignant');
+        $statement->bindParam(':id_enseignant', $id_enseignant);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -433,6 +446,7 @@ function getStatut($db , $id_personne){
     }
     return $result;
 }
+
 function getIdOfStatutOfPersonne($db, $id_personne){
     try{
         if (isExistPersonne($db, $id_personne)){
@@ -723,6 +737,7 @@ function getAppreciationLast($db){
     }
     return $result;
 }
+
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------Delete----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
@@ -739,12 +754,42 @@ function deleteNote($db, $id_note){
     }
     return true;
 }
+function deleteConsulter($db, $id_appreciation){
+    try{
+        $prepare = 'DELETE FROM consulter WHERE id_appreciation = :id_appreciation';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_appreciation', $id_appreciation);
+        $statement->execute();
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
+function deleteAppreciation($db, $id_appreciation){
+    try{
+        $prepare = 'DELETE FROM appreciation WHERE id_appreciation = :id_appreciation';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_appreciation', $id_appreciation);
+        $statement->execute();
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
+function deleteAppreciationAndConsulter($db, $id_appreciation){
+    deleteAppreciation($db, $id_appreciation);
+    deleteConsulter($db, $id_appreciation);
+}
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------EDIT----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
 function editeNote($db, $id_note, $new_value){
     try{
-        $prepare = 'UPDATE note Set value_note = :new_value WHERE id_note = :id_note';
+        $prepare = 'UPDATE note SET value_note = :new_value WHERE id_note = :id_note';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_note', $id_note);
         $statement->bindParam(':new_value', $new_value);
@@ -756,7 +801,20 @@ function editeNote($db, $id_note, $new_value){
     }
     return true;
 }
-
+function editeAppreciation($db, $id_appreciation, $new_value){
+    try{
+        $prepare = 'UPDATE appreciation SET value_apprecition = :new_value WHERE id_appreciation = :id_appreciation';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_appreciation', $id_appreciation);
+        $statement->bindParam(':new_value', $new_value);
+        $statement->execute();
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------CHECK----------------------------------------------
 //--------------------------------------------------------------------------------------------------------

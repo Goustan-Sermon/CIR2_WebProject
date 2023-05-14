@@ -114,6 +114,7 @@ $db = dbConnect();
                             <th scope="col">Nom</th>
                             <th scope="col">Prenom</th>
                             <th scope="col">Semestre</th>
+                            <th scope="col">Appreciation</th>
                             <th scope="col">Matière</th>
                             <th scope="col">Options</th>
                         </tr>
@@ -122,32 +123,33 @@ $db = dbConnect();
                         <?php
                             $appreciations = getAppreciationOfEnseignant($db, $_SESSION['id']);
                             foreach($appreciations as $appreciation){
-                                // print_r($note);
                                 echo "<tr>";
-                                echo "<td>".dbGetPersonneOfEtudiant($db, getEtudiantIdOfAppreciation($db, $note['id_appreciation'])[0]['nom'])."</td>"; 
-                                echo "<td>".dbGetPersonneOfEtudiant($db, getEtudiantIdOfAppreciation($db, $note['id_appreciation'])[0]['prenom'])."</td>"; 
+                                $etudiant = getEtudiantIdOfAppreciation($db, $appreciation['id_appreciation']);
+                                $personne = dbGetPersonneOfEtudiant($db, $etudiant[0]['id_etudiant']);
+                                echo "<td>".$personne[0]['nom']."</td>"; 
+                                echo "<td>".$personne[0]['prenom']."</td>"; 
+                                echo "<td>".getSemestreOne($db, $appreciation['id_semestre'])[0]['nom_semestre']."</td>"; 
                                 if(!isset($_POST['edit-'.$appreciation['id_appreciation'].''])){
                                     echo "<td>".$appreciation['value_apprecition']."</td>"; 
                                     
                                 }else{
-                                    echo "<td> <form action=\"edit-note.php\" method=\"post\">
-                                    <input type=\"text\"name=\"new-note-".$appreciation['id_appreciation']."\"/>
+                                    echo "<td> <form action=\"edit-appreciation.php\" method=\"post\">
+                                    <input type=\"text\"name=\"new-appreciation-".$appreciation['id_appreciation']."\"/>
                                     <button name='edit-".$appreciation['id_appreciation']."-done' type=\"submit\" class=\"btn btn-outline-danger\" >DONE</button>
                                     </form></td>"; 
                                 }
                                 if(isset($_POST['edit-'.$appreciation['id_appreciation'].'-done'])){
-                                    editeNote($db, $appreciation['id_appreciation'], $_POST['new-note-'.$appreciation['id_appreciation'].'']);
+                                    editeAppreciation($db, $appreciation['id_appreciation'], $_POST['new-appreciation-'.$appreciation['id_appreciation']]);
                                     echo"<meta http-equiv=\"refresh\" content=\"0\">";
                                 }
-                                echo "<td>".$appreciation['nom_ds']."</td>"; 
                                 echo "<td>".dbGetMatiereById($db, $appreciation['id_matiere'])[0]['value_matiere']."</td>"; 
-                                echo "<td> <form action=\"edit-note.php\" method=\"post\">
+                                echo "<td> <form action=\"edit-appreciation.php\" method=\"post\">
                                 <button name='edit-".$appreciation['id_appreciation']."' type=\"submit\" class=\"btn btn-outline-danger\">EDIT</button>
                                 <button name='supr-".$appreciation['id_appreciation']."' type=\"submit\" class=\"btn btn-outline-danger\">X</button>
                                 </form></td>"; 
                                 echo "</tr>";
                                 if(isset($_POST['supr-'.$appreciation['id_appreciation'].''])){
-                                    // deleteNote($db, $appreciation['id_appreciation']);
+                                    deleteAppreciationAndConsulter($db, $appreciation['id_appreciation']);
                                     echo"<meta http-equiv=\"refresh\" content=\"0\">";
                                 }
                                 
@@ -164,6 +166,26 @@ $db = dbConnect();
 
                 <div class="d-flex flex-column justify-content-center align-self-center align-items-center">
                     <div class="form-group d-flex flex-row">
+                    <form action="edit-appreciation.php" method="post">
+                            <select class="form-select" name="matiere" required>
+                                <option selected disabled>Semestre</option>
+                                <?php
+                                    $matieres = getMatiereOfEnseignant($db, $_SESSION['id']);
+                                    foreach($semestres as $matiere){
+                                        echo '<option value="'.$matiere['id_semestre'].'">'.$matiere['nom_semestre'].'</option>';
+                                    } 
+                                    
+                                ?>
+                            </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-semestre"><?php if(!empty($_SESSION['matiere'])){print(getSemestreOne($db, $_SESSION['matiere']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
+                        </form>
+                        <?php
+                            if(isset($_POST['submit-semestre'])){
+                                $_SESSION['semestre'] = $_POST['semestre'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
                         <form action="edit-appreciation.php" method="post">
                             <select class="form-select" name="semestre" required>
                                 <option selected disabled>Semestre</option>
@@ -251,7 +273,7 @@ $db = dbConnect();
                     <?php
                             if(isset($_POST['add-appreciation'])){
                                 if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["eleve"])){
-                                    // addAppreciationAndConsulter($db,$_SESSION["id"],  ,$_SESSION["semestre"], $_POST['value-appreciation'], $_SESSION["eleve"]);
+                                    addAppreciationAndConsulter($db,$_SESSION["id"],  '1',$_SESSION["semestre"], $_POST['value-appreciation'], $_SESSION["eleve"]);
                                     unset($_SESSION["semestre"]);
                                     unset($_SESSION["classe"]);
                                     unset($_SESSION["eleve"]);   
