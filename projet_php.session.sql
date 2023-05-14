@@ -1,1 +1,1 @@
-INSERT INTO enseigner (id_enseignant, id_matiere) VALUES (5, 2);
+SELECT enseignant.* FROM enseignant JOIN ds ON enseignant.id_enseignant = ds.id_enseignant WHERE ds.id_evaluation = 5;

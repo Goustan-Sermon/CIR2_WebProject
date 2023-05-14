@@ -105,37 +105,37 @@ if(!isset($_SESSION['id'])){
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <tr>
-                        <td>20/11/2003</td>
-                        <th>maths</th> 
-                        <td>ds 4</td> 
-                        <th>20</th>
-                        <td>abdc</td>
-                    </tr>
-                    <tr>
-                        <td>20/11/2003</td>
-                        <th>maths</th> 
-                        <td>ds 4</td> 
-                        <th>20</th>
-                        <td>abdc</td>
-                    </tr>
-                    <tr>
-                        <td>20/11/2003</td>
-                        <th>maths</th> 
-                        <td>ds 4</td> 
-                        <th>20</th>
-                        <td>abdc</td>
-                    </tr>
-                    <tr>
-                        <td>20/11/2003</td>
-                        <th>maths</th> 
-                        <td>ds 4</td> 
-                        <th>20</th>
-                        <td>abdc</td>
-                    </tr>
+                    <?php
+                        require_once('../../php/database.php');
 
-                    
+                        // Enable all warnings and errors.
+                        ini_set('display_errors', 1);
+                        error_reporting(E_ALL);
+            
+                        // Database connection.
+                        $db = dbConnect();
+                        
+                        // Get the student's id.
+                        $id = $_SESSION['id'];
 
+                        // Get the student's notes.
+                        $notes = getNoteOfEtudiant($db, $id);
+
+                        foreach ($notes as $note) {
+                            $id_matiere = getMatiereOfNote($db, $note['id_evaluation']);
+                            $matiere = dbGetMatiereById($db, $id_matiere[0]['id_matiere']);
+                            $dateds = dbGetDateById_evaluation($db, $note['id_evaluation']);
+                            $enseignant = dbGetEnseignantOfNoteById_evaluation($db, $note['id_evaluation']);
+                            $nomEnseignant = dbGetNomEnseignantByMail($db, $enseignant[0]['mail']);
+                            echo '<tr>';
+                            echo '<td>' . $dateds[0]['date_ds'] . '</td>';
+                            echo '<td><b>' . $matiere[0]['value_matiere']. '<b></td>';
+                            echo '<td>' . "quoi" . '</td>';
+                            echo '<td>' . $note['value_note'] . '</td>';
+                            echo '<td>' . $nomEnseignant[0]['nom'] . '</td>';
+                            echo '</tr>';
+                        }
+                    ?>
                 </tbody>
             </table>
         </div>

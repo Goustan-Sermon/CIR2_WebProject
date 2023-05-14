@@ -104,30 +104,28 @@ if(!isset($_SESSION['id'])){
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <tr>
-                        <td>20/11/2003</td>
-                        <td>20/11/2023</td>
-                        <th>ds 4</th>
-                        <td>oui</td>
-                    </tr>
-                    <tr>
-                        <td>20/11/2003</td>
-                        <td>20/11/2023</td>
-                        <th>ds 4</th>
-                        <td>oui</td>
-                    </tr>
-                    <tr>
-                        <td>20/11/2003</td>
-                        <td>20/11/2023</td>
-                        <th>ds 4</th>
-                        <td>oui</td>
-                    </tr>
-                    <tr>
-                        <td>20/11/2003</td>
-                        <td>20/11/2023</td>
-                        <th>ds 4</th>
-                        <td>oui</td>
-                    </tr>
+                    <?php
+                        require_once('../../php/database.php');
+
+                        // Enable all warnings and errors.
+                        ini_set('display_errors', 1);
+                        error_reporting(E_ALL);
+            
+                        // Database connection.
+                        $db = dbConnect();
+
+                        $id_classe = getClasseById($db, $_SESSION['id']);
+                        $semestres = dbGetSemestreByClasse($db, $id_classe[0]['id_classe']);
+                        
+
+                        foreach($semestres as $semestre){
+                            echo '<tr>';
+                            echo '<td>'.$semestre['date_debut'].'</td>';
+                            echo '<td>'.$semestre['date_fin'].'</td>';
+                            echo '<td>'.$semestre['nom_semestre'].'</td>';
+                            echo '<td>'."oui".'</td>';
+                        }
+                    ?>
                 </tbody>
             </table>
         </div>

@@ -1,4 +1,5 @@
 DELETE FROM admin;
+DELETE FROM note;
 DELETE FROM etudiant;
 DELETE FROM ds;
 DELETE FROM enseigner;
@@ -7,7 +8,6 @@ DELETE FROM enseignant;
 DELETE FROM personne;
 DELETE FROM semestre;
 DELETE FROM classe;
-DELETE FROM note;
 DELETE FROM appreciation;
 DELETE FROM consulter;
 
@@ -42,6 +42,9 @@ INSERT INTO etudiant (mail, id_classe) VALUES
 ALTER SEQUENCE enseignant_id_enseignant_seq RESTART;
 INSERT INTO enseignant (mail) VALUES 
 ('karineayoub@isen.fr'), ('abdelaqabdelkari@isen.fr'), ('nilsbosse@isen.fr'), ('jean-jacquesmeuneu@isen.fr');
+
+INSERT INTO enseigner (id_enseignant, id_matiere) VALUES
+(4, 5), (4, 3), (1, 2), (2, 1), (3, 4), (3, 5), (3, 3), (3, 2), (3, 1);
 
 ALTER SEQUENCE semestre_id_semestre_seq RESTART;
 INSERT INTO semestre (date_debut, date_fin, nom_semestre, id_classe) VALUES
