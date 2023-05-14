@@ -50,11 +50,10 @@ function addEtudiant($db, $mail, $id_classe){
     return true;
 }
 
-function addEnseignant($db, $mail, $id_matiere){
+function addEnseignant($db, $mail){
     try{
-        $statement = $db->prepare('INSERT INTO enseignant (mail, id_matiere) VALUES (:mail, :id_matiere)');
+        $statement = $db->prepare('INSERT INTO enseignant (mail) VALUES (:mail)');
         $statement->bindParam(':mail', $mail);
-        $statement->bindParam(':id_matiere', $id_matiere);
         $statement->execute();
     }
     catch (PDO $exception){
@@ -80,15 +79,16 @@ function addSemestre($db, $date_debut, $date_fin, $nom_semestre, $id_classe){
     return true;
 } 
 
-function addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_matiere){
+function addEpreuve($db, $coefficient, $nom, $date, $id_prof, $id_semestre, $id_matiere, $id_classe){
     try{
-        $statement = $db->prepare('INSERT INTO ds (coefficient, nom_ds, date_ds, id_enseignant, id_semestre, id_matiere) VALUES (:coefficient, :nom, :date, :id_prof, :id_semestre, :id_matiere)');
+        $statement = $db->prepare('INSERT INTO ds (coefficient, nom_ds, date_ds, id_enseignant, id_semestre, id_matiere, id_classe) VALUES (:coefficient, :nom, :date, :id_prof, :id_semestre, :id_matiere, :id_classe)');
         $statement->bindParam(':coefficient', $coefficient);
         $statement->bindParam(':nom', $nom);
         $statement->bindParam(':date', $date);
         $statement->bindParam(':id_prof', $id_prof);
         $statement->bindParam(':id_semestre', $id_semestre);
         $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->bindParam(':id_classe', $id_classe);
         $statement->execute();
     }
     catch (PDO $exception){
@@ -113,6 +113,21 @@ function addAppreciation($db, $id_enseignant, $id_matiere, $id_semestre, $value_
     }
     return true;
 }
+
+function addEnseignantToMatiere($db, $id_enseignant, $id_matiere){
+    try{
+        $statement = $db->prepare('INSERT INTO enseigner (id_enseignant, id_matiere) VALUES (:id_enseignant, :id_matiere)');
+        $statement->bindParam(':id_enseignant', $id_enseignant);
+        $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->execute();
+    }
+    catch (PDO $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return true;
+}
+
 function addConsulter($db, $id_appreciation, $id_etudiant){
     try{
         $statement = $db->prepare('INSERT INTO consulter (id_appreciation, id_etudiant) VALUES (:id_appreciation, :id_etudiant)');
@@ -163,6 +178,8 @@ function setCoeffficient($db, $coefficient, $id_evaluation){
     }
     return true;
 }
+
+
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------Get----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
@@ -181,6 +198,32 @@ function dbGetPersonne($db, $id_personne){
     try{
         $statement = $db->prepare('SELECT * FROM personne WHERE mail =:id_personne');
         $statement->bindParam(':id_personne', $id_personne);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function dbGetAnneeById($db, $id_classe){
+    try{
+        $statement = $db->prepare('SELECT annee FROM classe WHERE id_classe = :id_classe');
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+function dbGetCycleById($db, $id_classe){
+    try{
+        $statement = $db->prepare('SELECT cycle FROM classe WHERE id_classe = :id_classe');
+        $statement->bindParam(':id_classe', $id_classe);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -226,6 +269,21 @@ function dbGetMatiereIdByValue_matiere($db, $value_matiere){
         error_log('Request error: '.$exception->getMessage());
         return false;
     }
+    return $result;
+}
+
+function dbGetIdEnseignantByMail($db, $mail){
+    try{
+        $statement = $db->prepare('SELECT id_enseignant FROM enseignant WHERE mail =:mail');
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+
     return $result;
 }
 
@@ -290,6 +348,20 @@ function dbGetIdMatieres($db){
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbGetIdMatiereByValue($db, $value_matiere){
+    try{
+        $statement = $db->prepare('SELECT id_matiere FROM matiere WHERE value_matiere =:value_matiere');
+        $statement->bindParam(':value_matiere', $value_matiere);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $exception){
         error_log('Request error: '.$exception->getMessage());
         return false;
     }

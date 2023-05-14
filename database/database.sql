@@ -18,26 +18,24 @@ CREATE TABLE public.personne(
 
 
 ------------------------------------------------------------
+-- Table: enseignant
+------------------------------------------------------------
+CREATE TABLE public.enseignant(
+	id_enseignant   SERIAL NOT NULL ,
+	mail            VARCHAR (50) NOT NULL  ,
+	CONSTRAINT enseignant_PK PRIMARY KEY (id_enseignant)
+
+	,CONSTRAINT enseignant_personne_FK FOREIGN KEY (mail) REFERENCES public.personne(mail)
+)WITHOUT OIDS;
+
+
+------------------------------------------------------------
 -- Table: matiere
 ------------------------------------------------------------
 CREATE TABLE public.matiere(
 	id_matiere      SERIAL NOT NULL ,
 	value_matiere   VARCHAR (50) NOT NULL  ,
 	CONSTRAINT matiere_PK PRIMARY KEY (id_matiere)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: enseignant
-------------------------------------------------------------
-CREATE TABLE public.enseignant(
-	id_enseignant   SERIAL NOT NULL ,
-	id_matiere      INT  NOT NULL ,
-	mail            VARCHAR (50) NOT NULL  ,
-	CONSTRAINT enseignant_PK PRIMARY KEY (id_enseignant)
-
-	,CONSTRAINT enseignant_matiere_FK FOREIGN KEY (id_matiere) REFERENCES public.matiere(id_matiere)
-	,CONSTRAINT enseignant_personne0_FK FOREIGN KEY (mail) REFERENCES public.personne(mail)
 )WITHOUT OIDS;
 
 
@@ -147,6 +145,19 @@ CREATE TABLE public.admin(
 
 
 ------------------------------------------------------------
+-- Table: enseigner
+------------------------------------------------------------
+CREATE TABLE public.enseigner(
+	id_matiere      INT  NOT NULL ,
+	id_enseignant   INT  NOT NULL  ,
+	CONSTRAINT enseigner_PK PRIMARY KEY (id_matiere,id_enseignant)
+
+	,CONSTRAINT enseigner_matiere_FK FOREIGN KEY (id_matiere) REFERENCES public.matiere(id_matiere)
+	,CONSTRAINT enseigner_enseignant0_FK FOREIGN KEY (id_enseignant) REFERENCES public.enseignant(id_enseignant)
+)WITHOUT OIDS;
+
+
+------------------------------------------------------------
 -- Table: consulter
 ------------------------------------------------------------
 CREATE TABLE public.consulter(
@@ -157,6 +168,3 @@ CREATE TABLE public.consulter(
 	,CONSTRAINT consulter_appreciation_FK FOREIGN KEY (id_appreciation) REFERENCES public.appreciation(id_appreciation)
 	,CONSTRAINT consulter_etudiant0_FK FOREIGN KEY (id_etudiant) REFERENCES public.etudiant(id_etudiant)
 )WITHOUT OIDS;
-
-
-
