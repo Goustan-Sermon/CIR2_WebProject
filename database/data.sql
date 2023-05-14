@@ -20,19 +20,19 @@ ALTER SEQUENCE matiere_id_matiere_seq RESTART;
 INSERT INTO matiere (value_matiere) VALUES
 ('Mathématiques'), ('Physique'), ('Web'), ('C++'), ('Python');
 
-INSERT INTO personne VALUES ('admin@admin.fr', 'admin', 'ad', ' $2y$10$pSNXTa1u56n753P634bdh.OwKKY8.2H/2r2I.GhzVd44Ru5JWb5Ou', '00 00 00 00 00');
+INSERT INTO personne VALUES ('admin@admin.fr', 'admin', 'ad', '$2y$10$ej0a/0b8OK89l5AWEkxg0eCs1suGr9FiNsm0Sp2BNwn/iDiLNmTzG', '00 00 00 00 00');
 ALTER SEQUENCE admin_id_admin_seq RESTART;
 INSERT INTO admin (mail) VALUES ('admin@admin.fr');
 
 INSERT INTO personne VALUES 
-('jeandupont@isen.fr', 'DUPONT', 'Jean', ' $2y$10$pSNXTa1u56n753P634bdh.OwKKY8.2H/2r2I.GhzVd44Ru5JWb5Ou' , '06 00 00 00 00' ), 
-('abdelauger@isen.fr', 'AUGER', 'Abdel', ' $2y$10$pSNXTa1u56n753P634bdh.OwKKY8.2H/2r2I.GhzVd44Ru5JWb5Ou' , '06 00 00 00 01' ), 
-('vincentheroux@isen.fr', 'HEROUX', 'Vincent', '$2y$10$gndyldpmDz7LxEgB8mZGquXGuQKEzbN9C7vPe2X6XAYFxkL2d1fGq' , '06 00 00 00 02' ),
-('clementsoupai@isen.fr', 'SOUPAI', 'Clement', '$2y$10$gndyldpmDz7LxEgB8mZGquXGuQKEzbN9C7vPe2X6XAYFxkL2d1fGq' , '06 00 00 00 03' ),
-('karineayoub@isen.fr', 'AYOUB', 'Karine', '$2y$10$gndyldpmDz7LxEgB8mZGquXGuQKEzbN9C7vPe2X6XAYFxkL2d1fGq' , '06 00 00 00 04' ),
-('abdelaqabdelkari@isen.fr', 'ABDELKARI', 'Abdelaq', '$2y$10$gndyldpmDz7LxEgB8mZGquXGuQKEzbN9C7vPe2X6XAYFxkL2d1fGq' , '06 00 00 00 05' ),
-('nilsbosse@isen.fr', 'BOSSE', 'Nils', '$2y$10$gndyldpmDz7LxEgB8mZGquXGuQKEzbN9C7vPe2X6XAYFxkL2d1fGq' , '06 00 00 00 06' ),
-('jean-jacquesmeuneu@isen.fr', 'MEUNEU', 'Jean-Jacques', '$2y$10$gndyldpmDz7LxEgB8mZGquXGuQKEzbN9C7vPe2X6XAYFxkL2d1fGq' , '06 00 00 00 07' );
+('jeandupont@isen.fr', 'DUPONT', 'Jean', '$2y$10$dyyOuREZApPLLm.z4cZnM.J4W8kUymxnOdkRPaiu3LEdyidaBagEq' , '06 00 00 00 00' ), 
+('abdelauger@isen.fr', 'AUGER', 'Abdel', '$2y$10$dyyOuREZApPLLm.z4cZnM.J4W8kUymxnOdkRPaiu3LEdyidaBagEq' , '06 00 00 00 01' ), 
+('vincentheroux@isen.fr', 'HEROUX', 'Vincent', '$2y$10$dyyOuREZApPLLm.z4cZnM.J4W8kUymxnOdkRPaiu3LEdyidaBagEq' , '06 00 00 00 02' ),
+('clementsoupai@isen.fr', 'SOUPAI', 'Clement', '$2y$10$dyyOuREZApPLLm.z4cZnM.J4W8kUymxnOdkRPaiu3LEdyidaBagEq' , '06 00 00 00 03' ),
+('karineayoub@isen.fr', 'AYOUB', 'Karine', '$2y$10$dyyOuREZApPLLm.z4cZnM.J4W8kUymxnOdkRPaiu3LEdyidaBagEq' , '06 00 00 00 04' ),
+('abdelaqabdelkari@isen.fr', 'ABDELKARI', 'Abdelaq', '$2y$10$dyyOuREZApPLLm.z4cZnM.J4W8kUymxnOdkRPaiu3LEdyidaBagEq' , '06 00 00 00 05' ),
+('nilsbosse@isen.fr', 'BOSSE', 'Nils', '$2y$10$dyyOuREZApPLLm.z4cZnM.J4W8kUymxnOdkRPaiu3LEdyidaBagEq' , '06 00 00 00 06' ),
+('jean-jacquesmeuneu@isen.fr', 'MEUNEU', 'Jean-Jacques', '$2y$10$dyyOuREZApPLLm.z4cZnM.J4W8kUymxnOdkRPaiu3LEdyidaBagEq' , '06 00 00 00 07' );
 
 ALTER SEQUENCE etudiant_id_etudiant_seq RESTART;
 INSERT INTO etudiant (mail, id_classe) VALUES
