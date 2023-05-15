@@ -1268,6 +1268,7 @@ function checkIdentification($db, $id_personne, $mdp){
     }
     return $result;
 }
+
 function isNoteOfEtudiantOfDS($db, $id_etudiant, $id_evaluation){
     try{
         $prepare = 'SELECT COUNT(*) FROM note WHERE id_etudiant= :id_etudiant AND id_evaluation = :id_evaluation';
