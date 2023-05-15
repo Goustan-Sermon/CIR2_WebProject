@@ -93,6 +93,41 @@ if(!isset($_SESSION['id'])){
             Mes notes
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
+        
+
+            <div class="form-group d-flex flex-row">
+                <form action="mes-notes.php" method="post">
+                    <select class="form-select" name="semestre" required>
+                        <option selected disabled>Semestre</option>
+                        <?php
+                            require_once('../../php/database.php');
+
+                            // Enable all warnings and errors.
+                            ini_set('display_errors', 1);
+                            error_reporting(E_ALL);
+                
+                            // Database connection.
+                            $db = dbConnect();
+                            $semestres = dbGetSemestreOfEtudiant($db, $_SESSION['id']);
+                            foreach($semestres as $semestre){
+                                echo '<option value="'.$semestre['id_semestre'].'">'.$semestre['nom_semestre'].'</option>';
+                            } 
+                            
+                        ?>
+                    </select>
+                    <button type="submit" class="btn btn-outline-danger" name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
+                </form>
+                <?php
+                    if(isset($_POST['submit-semestre'])){
+                        $_SESSION['semestre'] = $_POST['semestre'];  
+                        echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                    }
+                ?>
+
+            </div>
+
+
+
         <div class="tableform">
             <table class="table table-striped table-hover table-bordered align-middle">
                 <thead style="color : #dc3545">
@@ -106,21 +141,11 @@ if(!isset($_SESSION['id'])){
                 </thead>
                 <tbody class="table-group-divider">
                     <?php
-                        require_once('../../php/database.php');
-
-                        // Enable all warnings and errors.
-                        ini_set('display_errors', 1);
-                        error_reporting(E_ALL);
-            
-                        // Database connection.
-                        $db = dbConnect();
-                        
                         // Get the student's id.
                         $id = $_SESSION['id'];
-
+                        $semestre = $_SESSION['semestre'];
                         // Get the student's notes.
-                        $notes = getNoteOfEtudiant($db, $id);
-
+                        $notes = getNoteInfoOfEtudiantOfSemestre($db, $id, $semestre);
                         foreach ($notes as $note) {
                             $id_matiere = getMatiereOfNote($db, $note['id_evaluation']);
                             $matiere = dbGetMatiereById($db, $id_matiere[0]['id_matiere']);

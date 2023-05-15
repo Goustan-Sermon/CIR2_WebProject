@@ -84,3 +84,10 @@ INSERT INTO note (value_note, id_etudiant, id_evaluation) VALUES
 (17, 3, 8), (10, 4, 8), (16, 1, 9), (1, 2, 9), (9, 3, 9), (15, 4, 9),
 (10, 1, 10), (11, 2, 10), (12, 3, 10), (13, 4, 10), (14, 1, 11), (15, 2, 11),
 (16, 3, 11), (17, 4, 11);
+
+ALTER SEQUENCE appreciation_id_appreciation_seq RESTART;
+INSERT INTO appreciation (value_apprecition, id_semestre, id_enseignant, id_matiere) VALUES
+('Pas bien du tout', 7, 2, 1);
+
+INSERT INTO consulter (id_appreciation, id_etudiant) VALUES
+(1, 1);
