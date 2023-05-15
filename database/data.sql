@@ -23,9 +23,9 @@ ALTER SEQUENCE matiere_id_matiere_seq RESTART;
 INSERT INTO matiere (value_matiere) VALUES
 ('Mathématiques'), ('Physique'), ('Web'), ('C++'), ('Python');
 
-INSERT INTO personne VALUES ('admin@admin.fr', 'admin', 'ad', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu', '00 00 00 00 00');
+INSERT INTO personne VALUES ('clementfouche@admin.fr', 'FOUCHE', 'Clement', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu', '00 00 00 00 00');
 ALTER SEQUENCE admin_id_admin_seq RESTART;
-INSERT INTO admin (mail) VALUES ('admin@admin.fr');
+INSERT INTO admin (mail) VALUES ('clementfouche@admin.fr');
 
 INSERT INTO personne VALUES 
 ('jeandupont@isen.fr', 'DUPONT', 'Jean', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu' , '06 00 00 00 00' ), 
@@ -48,7 +48,7 @@ INSERT INTO personne VALUES
 ('abdelaqabdelkari@isen.fr', 'ABDELKARI', 'Abdelaq', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu' , '06 00 00 00 15' ),
 ('nilsbosse@isen.fr', 'BOSSE', 'Nils', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu' , '06 00 00 00 16' ),
 ('jean-jacquesmeuneu@isen.fr', 'MEUNEU', 'Jean-Jacques', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu' , '06 00 00 00 17' ),
-('freixasjeremy@isen.fr', 'FREIXAS', 'Jeremy', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu', '06 00 00 00 18');
+('jeremyfreixas@isen.fr', 'FREIXAS', 'Jeremy', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu', '06 00 00 00 18');
 
 ALTER SEQUENCE etudiant_id_etudiant_seq RESTART;
 INSERT INTO etudiant (mail, id_classe) VALUES
@@ -59,7 +59,7 @@ INSERT INTO etudiant (mail, id_classe) VALUES
 
 ALTER SEQUENCE enseignant_id_enseignant_seq RESTART;
 INSERT INTO enseignant (mail) VALUES 
-('karineayoub@isen.fr'), ('abdelaqabdelkari@isen.fr'), ('nilsbosse@isen.fr'), ('jean-jacquesmeuneu@isen.fr'), ('freixasjeremy@isen.fr');
+('karineayoub@isen.fr'), ('abdelaqabdelkari@isen.fr'), ('nilsbosse@isen.fr'), ('jean-jacquesmeuneu@isen.fr'), ('jeremyfreixas@isen.fr');
 
 INSERT INTO enseigner (id_enseignant, id_matiere) VALUES
 (4, 5), (4, 3), (1, 2), (2, 1), (3, 4), (3, 5), (3, 3), (3, 2), (3, 1), (5, 2);
@@ -103,12 +103,6 @@ INSERT INTO note (value_note, id_etudiant, id_evaluation) VALUES
 
 ALTER SEQUENCE appreciation_id_appreciation_seq RESTART;
 INSERT INTO appreciation (value_apprecition, id_semestre, id_enseignant, id_matiere) VALUES
-<<<<<<< HEAD
-('Pas bien du tout il faut vous ressaisir !', 7, 2, 1), ('Semestre passable', 7, 5, 2), ('Bon semestre', 7, 5, 3), ('Bon semestre continuez ainsi !', 7, 5, 4), ('Semestre acceptable', 7, 5, 5);
-
-INSERT INTO consulter (id_appreciation, id_etudiant) VALUES
-(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (5, 2), (5, 3), (5, 4);
-=======
 ('Pas bien du tout il faut vous ressaisir !', 7, 2, 1), ('Semestre passable', 7, 5, 2), ('Bon semestre', 7, 5, 3), ('Bon semestre continuez ainsi !', 7, 5, 4), ('Semestre acceptable', 7, 5, 5),
 ('Pas bien du tout il faut vous ressaisir !', 5, 2, 1), ('Semestre passable', 5, 5, 2), ('Bon semestre', 5, 5, 3), ('Bon semestre continuez ainsi !', 5, 5, 4), ('Semestre acceptable', 5, 5, 5);
 
@@ -127,4 +121,3 @@ INSERT INTO consulter (id_appreciation, id_etudiant) VALUES
 (6, 12), (7, 12), (8, 12), (9, 12), (10, 12),
 (6, 13), (7, 13), (8, 13), (9, 13), (10, 13),
 (6, 14), (7, 14), (8, 14), (9, 14), (10, 14);
->>>>>>> f146a90251b4e74d4b120f111abe2dbad4eeed1b
