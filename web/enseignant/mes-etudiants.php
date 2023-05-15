@@ -80,7 +80,7 @@ $db = dbConnect();
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="../deconnexion.php">
-                        Déconnexion
+                        <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
                         </span>
@@ -243,12 +243,10 @@ $db = dbConnect();
                         ?>
                 </tbody>
             </table>
-            <p>* Rouge si risque rattrapage
-            <p>
-                    <?php
+            <?php
                     if(isset($_POST['afficher-rattrapages'] )){
                         if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["matiere"])){
-                           echo" <h4>Etudiants en rattrapage :</h4>
+                           echo"<hr><h4>Etudiants en rattrapage :</h4>
                             <table class=\"table table-striped table-hover table-bordered align-middle\">
                                 <thead style=\"color : #dc3545\">
                                     <tr>
@@ -293,7 +291,7 @@ $db = dbConnect();
                         ?>
 
         </div>
-
+        <p>* Rouge si risque rattrapage</p>
 
 </body>
 

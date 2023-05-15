@@ -72,9 +72,9 @@ if(!isset($_SESSION['id'])){
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="../deconnexion.php">
-                        Déconnexion
+                        <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
-                        logout
+                            logout
                         </span>
                     </a>
                 </form>
@@ -92,28 +92,63 @@ if(!isset($_SESSION['id'])){
             Créer un compte
         </div>
         <!--------------------------- contenue  ---------------------------------------------------->
-        <div class="blocks justify-content-evenly">
-            <!--------------------------- Block 1 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center shadow-lg">
-                <a href="creer-un-etudiant.php" class="stretched-link"></a>
-                <span class="material-symbols-outlined logo " style="font-size: 8rem">
-                    account_circle
-                </span>
-                <p class="type">
-                    Créer <br> un étudiant
-                </p>
-
+        <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
+            Entrer les informations
+        </div>
+        <form action="creer-un-compte.php" method="post">
+            <div class="d-flex justify-content-center">
+                <div class="p-2">Enseignant</div>
+                <div class="p-2">
+                    <div class="form-check form-switch form-check-reverse" for="etu">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse" name="etu">
+                    </div>
+                </div>
+                <div class="p-2">Etudiant</div>
             </div>
-            <!--------------------------- Block 2 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center shadow-lg">
-                <a href="creer-un-enseignant.php" class="stretched-link"></a>
-                <span class="material-symbols-outlined logo " style="font-size: 8rem">
-                    account_circle
-                </span>
-                <p class="type">
-                    Créer <br> un enseignant
-                </p>
 
+            <div class="d-flex flex-column justify-content-center">
+                <div class="p-2">
+                    <label for="nom" class="form-label">Nom*</label>
+                    <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp"
+                        placeholder="Nom">
+                </div>
+                <div class="p-2">
+                    <label for="prenom" class="form-label">Prénom*</label>
+                    <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom">
+                </div>
+                <?php
+                    if(!empty($_POST['etu'])){
+                        echo '<div class="p-2">ok</div>';
+                    }
+
+                ?>
+                <div class="p-2">
+                    <label for="telephone" class="form-label">Téléphone*</label>
+                    <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="Téléphone">
+                </div>
+                <div class="p-2">
+                    <label for="email" class="form-label">Mail*</label>
+                    <input type="email" class="form-control" id="mail" name="mail" placeholder="Mail">
+                </div>
+                <div class="p-2">
+                    <label for="email" class="form-label">Mail (confirmation)*</label>
+                    <input type="email" class="form-control" id="mailconf" name="mailconf"
+                        placeholder="Confirmez le mail">
+                </div>
+                <div class="p-2">
+                    <label for="mdp" class="form-label">Mot de passe*</label>
+                    <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de passe">
+                </div>
+                <div class="p-2">
+                    <label for="mdp" class="form-label">Mot de passe (confirmation)*</label>
+                    <input type="password" class="form-control" id="mdpconf" name="mdpconf"
+                        placeholder="Confirmez le mot de passe">
+                </div>
+                <div class="p-2">
+                    <label for="photo" class="form-label">Photo</label>
+                    <input type="file" class="form-control" id="photo" name="photo">
+                </div>
+                <button type="submit" name="add" class="btn btn-outline-danger">Créer un enseignant</button>
             </div>
         </div>
     </div>

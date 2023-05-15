@@ -72,9 +72,9 @@ if(!isset($_SESSION['id'])){
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="../deconnexion.php">
-                        Déconnexion
+                        <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
-                        logout
+                            logout
                         </span>
                     </a>
                 </form>
@@ -95,7 +95,7 @@ if(!isset($_SESSION['id'])){
         <div class="connection">
             <!--------------------------- contenue  ---------------------------------------------------->
             <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
-                Entrer les informations        
+                Entrer les informations
             </div>
             <?php
                 if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] == $_POST['mail'] && $_POST['mdp'] == $_POST['mdpconf']){
@@ -109,10 +109,11 @@ if(!isset($_SESSION['id'])){
                 }
             ?>
             <form action="creer-un-etudiant.php" method="post">
-                <div class="d-flex flex-column justify-content-center">  
+                <div class="d-flex flex-column justify-content-center">
                     <div class="p-2">
                         <label for="nom" class="form-label">Nom*</label>
-                        <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp" placeholder="Nom" required>
+                        <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp"
+                            placeholder="Nom" required>
                     </div>
                     <div class="p-2">
                         <label for="prenom" class="form-label">Prénom*</label>
@@ -146,15 +147,18 @@ if(!isset($_SESSION['id'])){
                     </div>
                     <div class="p-2">
                         <label for="email" class="form-label">Mail (confirmation)*</label>
-                        <input type="email" class="form-control" id="mailconf" name="mailconf" placeholder="Confirmez le mail" required>
+                        <input type="email" class="form-control" id="mailconf" name="mailconf"
+                            placeholder="Confirmez le mail" required>
                     </div>
                     <div class="p-2">
                         <label for="mdp" class="form-label">Mot de passe*</label>
-                        <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de passe" required>
+                        <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de passe"
+                            required>
                     </div>
                     <div class="p-2">
                         <label for="mdp" class="form-label">Mot de passe (confirmation)*</label>
-                        <input type="password" class="form-control" id="mdpconf" name="mdpconf" placeholder="Confirmez le mot de passe" required>
+                        <input type="password" class="form-control" id="mdpconf" name="mdpconf"
+                            placeholder="Confirmez le mot de passe" required>
                     </div>
                     <!--
                     <div class="p-2">
