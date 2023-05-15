@@ -1018,6 +1018,21 @@ function getEtudiantOfClasse($db, $id_classe){
     }
     return $result;
 }
+function getEtudiantOfSemestreOfMatiere($db, $id_semestre, $id_matiere){
+    try{
+        $prepare='SELECT etudiant.* FROM etudiant WHERE 0<(SELECT COUNT(*) FROM ds WHERE id_semestre=:id_semestre AND id_matiere=:id_matiere)';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 function getCurrentSemestre($db){
     try{
         $date = date("Y-m-d");
