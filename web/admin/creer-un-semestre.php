@@ -71,7 +71,7 @@ if(!isset($_SESSION['id'])){
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="../deconnexion.php">
-                        Déconnexion
+                        <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
                         </span>
@@ -95,7 +95,7 @@ if(!isset($_SESSION['id'])){
             <!--------------------------- Block 1 ---------------------------------------------------->
             <div class="mb-2 align-items-center align-self-center">
                 <div class="text-body-tertiary h2">
-                    Les semestres déjà existants        
+                    Les semestres déjà existants
                 </div>
                 <!-- Exemple -->
                 <div class="tableform">
@@ -136,13 +136,14 @@ if(!isset($_SESSION['id'])){
             <!--------------------------- Block 2 ---------------------------------------------------->
             <div class="mb-2 align-items-center align-self-center">
                 <div class="text-body-tertiary h2">
-                    Entrer les informations        
+                    Entrer les informations
                 </div>
                 <form action="creer-un-semestre.php" method="post">
-                    <div class="d-flex flex-column justify-content-center">  
+                    <div class="d-flex flex-column justify-content-center">
                         <div class="p-2">
                             <label for="nom" class="form-label">Nom*</label>
-                            <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp" placeholder="Nom" required>
+                            <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp"
+                                placeholder="Nom" required>
                         </div>
                         <div class="form-group d-flex justify-content-center">
                             <div class="p-2">
@@ -164,11 +165,13 @@ if(!isset($_SESSION['id'])){
                         </div>
                         <div class="p-2">
                             <label for="date_debut" class="form-label">Date de début*</label>
-                            <input type="date" class="form-control" id="date_debut" name="date_debut" placeholder="Date de début">
+                            <input type="date" class="form-control" id="date_debut" name="date_debut"
+                                placeholder="Date de début">
                         </div>
                         <div class="p-2">
                             <label for="date_fin" class="form-label">Date de fin*</label>
-                            <input type="date" class="form-control" id="date_fin" name="date_fin" placeholder="Date de fin" required>
+                            <input type="date" class="form-control" id="date_fin" name="date_fin"
+                                placeholder="Date de fin" required>
                         </div>
                         <button type="submit" name="add" class="btn btn-danger">Créer un semestre</button>
                         <?php

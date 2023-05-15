@@ -73,7 +73,7 @@ if(!isset($_SESSION['id'])){
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="deconnexion.php">
-                        Déconnexion
+                    <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
                         </span>
@@ -124,12 +124,6 @@ if(!isset($_SESSION['id'])){
                 <p class="type">
                     <br> Edit
                 </p>
-                <h3>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark ">
-                        9
-                        <span class="visually-hidden">unread messages</span>
-                    </span>
-                </h3>
             </div>
         </div>
     </div>

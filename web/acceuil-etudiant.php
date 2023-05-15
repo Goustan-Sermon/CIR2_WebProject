@@ -32,7 +32,7 @@ if(!isset($_SESSION['id'])){
             <a class="navbar-brand" href="acceuil-etudiant.php">
                 <img src="images/navbar/ISEN-blanc.png" alt="Logo" style="width : 4.5rem; margin-right : 8px"
                     class="d-inline-block align-text-top">
-                    Etudiant
+                Etudiant
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -73,7 +73,7 @@ if(!isset($_SESSION['id'])){
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="deconnexion.php">
-                        Déconnexion
+                        <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
                         </span>
@@ -94,7 +94,8 @@ if(!isset($_SESSION['id'])){
         </div>
         <!--------------------------- Block 1 ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
+            <div
+                class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
                 <a href="etudiant/mes-notes.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
                     grade
@@ -105,8 +106,9 @@ if(!isset($_SESSION['id'])){
 
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
-                <a href="etudiant/mes-semestres.php" class="stretched-link"></a>
+            <div
+                class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
+                <a href="etudiant/mon-semestre.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     school
                 </span>
@@ -116,7 +118,8 @@ if(!isset($_SESSION['id'])){
 
             </div>
             <!--------------------------- Block 3 ---------------------------------------------------->
-            <div class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
+            <div
+                class="card rounded-5 text-bg-danger mb-2 align-items-center align-self-center border-danger shadow-lg">
                 <a href="etudiant/mon-annee.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo" style="font-size: 8rem">
                     note
@@ -124,12 +127,6 @@ if(!isset($_SESSION['id'])){
                 <p class="type">
                     Mon<br> année
                 </p>
-                <h3>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark ">
-                        9
-                        <span class="visually-hidden">unread messages</span>
-                    </span>
-                </h3>
             </div>
         </div>
     </div>
