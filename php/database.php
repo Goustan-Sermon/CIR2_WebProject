@@ -462,7 +462,20 @@ function getAverageFromCurrentSemestreByMatiereAndId_etudiant($db, $id_matiere, 
     }
     return $result;
 }
-
+function getAverageAndEtudiantIdFromCurrentSemestreByMatiereAndId_etudiant($db, $id_matiere, $id_semestre, $id_etudiant){
+    try{
+        $statement = $db->prepare('SELECT CAST(SUM(value_note*coefficient)/SUM(coefficient) AS numeric(10,2)) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE ds.id_matiere = :id_matiere AND ds.id_semestre = :id_semestre AND note.id_etudiant = :id_etudiant');
+        $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
 function getTotalAverageFromCurrentSemestreForEtudiant($db, $id_etudiant, $id_semestre){
     try{
         $statement = $db->prepare('SELECT CAST(SUM(value_note*coefficient)/SUM(coefficient) AS numeric(10,2)) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE ds.id_semestre = :id_semestre AND note.id_etudiant = :id_etudiant');
@@ -1232,7 +1245,50 @@ function getAppreciationLast($db){
     }
     return $result;
 }
+function trier_etudiants_par_moyenne($array) {
+    usort($array, function($a, $b) {
+        return $a["moyenne"] > $b["moyenne"];
+    });
+    return $array;
+}
+function getClassementOfEtudiantBySemestreBymatiere($db, $id_etudiant, $id_semestre, $id_matiere, $id_classe){
+    try{
+        $personnes = getEtudiantOfClasse($db, $id_classe);
+        // print_r($personnes);
+        $array =  [];
+        foreach($personnes as $personne){
+            // print("<br> - - - id : ");
+            // print_r($personne);
+            // print("<br> - - - moyennne :");
+            $moy = getAverageAndEtudiantIdFromCurrentSemestreByMatiereAndId_etudiant($db, $id_matiere, $id_semestre, $personne['id_etudiant'])['numeric'];
+            if(!isset($moy)){
+                $moy = 0;
+            }
+            // print($moy);
+            array_push($array, ["id_etudiant" =>$personne['id_etudiant'], "moyenne" =>  $moy]);
+        }
+        // print("<br> <br>====== array :<br>");
+        // print_r($array);
+        $arraynew = trier_etudiants_par_moyenne($array);
+        // print("<br><br>==== array trié :<br>");
+        // print_r($arraynew);
+        $i=0;
 
+        foreach($arraynew as $stock){
+            // print_r($stock);
+            if($stock['id_etudiant'] == $id_etudiant){
+                $place=$i;
+            }
+            $i++;
+        }
+        $result = $i-$place;
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 //--------------------------------------------------------------------------------------------------------
 //----------------------------------------------Delete----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
