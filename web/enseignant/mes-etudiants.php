@@ -69,7 +69,7 @@ $db = dbConnect();
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="edit-notes.php">
+                        <a class="nav-link" href="edit-note.php">
                             Saisir
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 edit
@@ -100,72 +100,200 @@ $db = dbConnect();
             Mes étudiants
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-        <div class="menu-selection d-flex flex-row mb-3 justify-content-start" style="width : 35%">
-            <select class="form-select">
-                <option selected disabled>Classe</option>
+        <div class="form-group d-flex flex-row d-flex justify-content-between">
+            <div class=" d-flex flex-row ">
+                <form action="mes-etudiants.php" method="post">
+                    <select class="form-select" name="semestre" required>
+                        <option selected disabled>Semestre</option>
+                        <?php
+                                    $semestres = getSemestreOfEnseignant($db, $_SESSION['id']);
+                                    foreach($semestres as $semestre){
+                                        echo '<option value="'.$semestre['id_semestre'].'">'.$semestre['nom_semestre'].'</option>';
+                                    } 
+                                    
+                                ?>
+                    </select>
+                    <button type="submit" class="btn btn-outline-danger"
+                        name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
+                </form>
                 <?php
-                    // $classe = getSemestreOfClasse();
-                ?>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-            <select class="form-select">
-                <option selected disabled>Semestre</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
+                            if(isset($_POST['submit-semestre'])){
+                                $_SESSION['semestre'] = $_POST['semestre'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                <form action="mes-etudiants.php" method="post">
+                    <select class="form-select" name="classe">
+                        <option selected disabled value="">Classe</option>
+                        <?php
+                                    if(isset($_SESSION['semestre'])){                                                                                                                                              
+                                        $classes = getClasseOfSemestreOfEnseignant($db, $_SESSION['semestre'],$_SESSION['id']);
+                                        foreach($classes as $classe){
+                                            echo '<option value="'.$classe['id_classe'].'">'.$classe['cycle'].$classe['annee'].'</option>';
+                                        } 
+                                        
+                                    }
+                                ?>
+                    </select>
+                    <button type="submit" class="btn btn-outline-danger"
+                        name="submit-classe"><?php if(!empty($_SESSION['classe'])){$classe = getClasse($db, $_SESSION['classe']); print($classe[0]['cycle'].' '.$classe[0]['annee']);}else{print('SET');}  ?></button>
+                </form>
+                <?php
+                            if(isset($_POST['submit-classe'])){
+                                $_SESSION['classe'] = $_POST['classe'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                <form action="mes-etudiants.php" method="post">
+                    <select class="form-select" name="matiere" required>
+                        <option selected disabled>Matiere</option>
+                        <?php
+                                    $matieres = getMatiereOfClasseOfEnseignant($db, $_SESSION['id'], $_SESSION['classe']);
+                                    foreach($matieres as $matiere){
+                                        echo '<option value="'.$matiere['id_matiere'].'">'.$matiere['value_matiere'].'</option>';
+                                    } 
+                                    
+                                ?>
+                    </select>
+                    <button type="submit" class="btn btn-outline-danger"
+                        name="submit-matiere"><?php if(!empty($_SESSION['matiere'])){print(dbGetMatiereById($db, $_SESSION['matiere']))[0]['value_matiere'];}else{print('SET');}  ?></button>
+                </form>
+                <?php
+                            if(isset($_POST['submit-matiere'])){
+                                $_SESSION['matiere'] = $_POST['matiere'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                <div class="d-flex flex-column mb-2 align-items-center align-self-center">
+                    <form action="mes-etudiants.php" method="post">
+                        <button type="submit" name="afficher" class="btn btn-danger">Afficher</button>
 
+                    </form>
+                    <form action="mes-etudiants.php" method="post">
+                        <button name="clear-note" class="btn btn-outline-danger" style="font-size: 0.5em;">Supprimer les
+                            informations</button>
+                    </form>
+                </div>
+            </div>
+            <form action="mes-etudiants.php" method="post">
+                <button name="afficher-rattrapages" class="btn btn-danger" style="font-size: 0.5em;">Afficher les
+                    étudiants en rattrapages</button>
+            </form>
+            <?php
+                if(isset($_POST['afficher'])){
+                    if(!isset($_SESSION["semestre"]) or !isset($_SESSION["classe"]) or !isset($_SESSION["matiere"])){
+                        echo "<div class=\"alert alert-danger\" role=\"alert\">Veuillez remplir tout les champs</div>";
+
+                    }
+                }
+                if(isset($_POST['clear-note'])){
+                    unset($_SESSION["semestre"]);
+                    unset($_SESSION["classe"]);
+                    unset($_SESSION["matiere"]);
+                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                }
+            ?>
         </div>
+
         <div class="tableform">
             <table class="table table-striped table-hover table-bordered align-middle">
                 <thead style="color : #dc3545">
                     <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Matière</th>
-                        <th scope="col">Libellé</th>
-                        <th scope="col">Note/20</th>
-                        <th scope="col">Enseignant</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prenom</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Classe</th>
+                        <th scope="col">Moyenne /20 *</th>
+                        <th scope="col">appreciation</th>
+
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <tr>
-                        <td>20/11/2003</td>
-                        <th>maths</th>
-                        <td>ds 4</td>
-                        <th>20</th>
-                        <td>abdc</td>
-                    </tr>
-                    <tr>
-                        <td>20/11/2003</td>
-                        <th>maths</th>
-                        <td>ds 4</td>
-                        <th>20</th>
-                        <td>abdc</td>
-                    </tr>
-                    <tr>
-                        <td>20/11/2003</td>
-                        <th>maths</th>
-                        <td>ds 4</td>
-                        <th>20</th>
-                        <td>abdc</td>
-                    </tr>
-                    <tr>
-                        <td>20/11/2003</td>
-                        <th>maths</th>
-                        <td>ds 4</td>
-                        <th>20</th>
-                        <td>abdc</td>
-                    </tr>
+                    <?php
+                    if(isset($_POST['afficher']) or isset($_POST['afficher-rattrapages'])){
+                        if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["matiere"])){
 
+                            $etudiants  = getEtudiantOfClasse($db, $_SESSION['classe'] );
+                            foreach($etudiants as $etudiant){
+                                $personne = dbGetPersonneOfEtudiant($db, $etudiant['id_etudiant']);
+                                $moyenne = getAverageFromCurrentSemestreByMatiereAndId_etudiant($db, $_SESSION['matiere'], $_SESSION['semestre'], $etudiant['id_etudiant'])['numeric'];
+                                $classe = getClasse($db, $_SESSION["classe"]);
+                                if(isset($moyenne) and $moyenne < 10){
+                                    echo"<tr class=\"table-danger\">";
+                                }else{
+                                    echo "<tr>";
+                                }
+                                echo "<td>".$etudiant['id_etudiant']."</td>"; 
+                                echo "<td>".$personne[0]['nom']."</td>"; 
+                                echo "<td>".$personne[0]['prenom']."</td>";
+                                echo "<td>".$personne[0]['mail']."</td>";
+                                echo "<td>".$classe[0]['cycle']." ".$classe[0]['annee']."</td>";
+                                echo "<td>".$moyenne."</td>";                                
+                                    if(isAppreciation($db, $etudiant['id_etudiant'], $_SESSION['semestre'], $_SESSION['matiere'])){                                    
+                                        echo"<td>".getAppreciationOfEtudiantOfMatiereOfSemestre($db, $etudiant['id_etudiant'], $_SESSION['matiere'] , $_SESSION['semestre'])[0]['value_apprecition']."</td>";
+                                    }else{
+                                        echo"<td> </td>";
+                                    }
+                                echo "</tr>";                                
+                            }
+                        }
+                    }
 
-
+                        ?>
                 </tbody>
             </table>
+            <p>* Rouge si risque rattrapage
+            <p>
+                    <?php
+                    if(isset($_POST['afficher-rattrapages'] )){
+                        if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["matiere"])){
+                           echo" <h4>Etudiants en rattrapage :</h4>
+                            <table class=\"table table-striped table-hover table-bordered align-middle\">
+                                <thead style=\"color : #dc3545\">
+                                    <tr>
+                                        <th scope=\"col\">Id</th>
+                                        <th scope=\"col\">Nom</th>
+                                        <th scope=\"col\">Prenom</th>
+                                        <th scope=\"col\">E-mail</th>
+                                        <th scope=\"col\">Classe</th>
+                                        <th scope=\"col\">Moyenne /20 *</th>
+                                        <th scope=\"col\">appreciation</th>
+                
+                                    </tr>
+                                </thead>
+                                <tbody class=\"table-group-divider\">";
+                            $etudiants  = getEtudiantOfClasse($db, $_SESSION['classe'] );
+                            foreach($etudiants as $etudiant){
+                                $personne = dbGetPersonneOfEtudiant($db, $etudiant['id_etudiant']);
+                                $moyenne = getAverageFromCurrentSemestreByMatiereAndId_etudiant($db, $_SESSION['matiere'], $_SESSION['semestre'], $etudiant['id_etudiant'])['numeric'];
+                                $classe = getClasse($db, $_SESSION["classe"]);
+                                if(isset($moyenne) and $moyenne < 10){
+                                    echo"<tr class=\"table-danger\">";
+                                    echo "<td>".$etudiant['id_etudiant']."</td>"; 
+                                    echo "<td>".$personne[0]['nom']."</td>"; 
+                                    echo "<td>".$personne[0]['prenom']."</td>";
+                                    echo "<td>".$personne[0]['mail']."</td>";
+                                    echo "<td>".$classe[0]['cycle']." ".$classe[0]['annee']."</td>";
+                                    echo "<td>".$moyenne."</td>";                                
+                                        if(isAppreciation($db, $etudiant['id_etudiant'], $_SESSION['semestre'], $_SESSION['matiere'])){                                    
+                                            echo"<td>".getAppreciationOfEtudiantOfMatiereOfSemestre($db, $etudiant['id_etudiant'], $_SESSION['matiere'] , $_SESSION['semestre'])[0]['value_apprecition']."</td>";
+                                        }else{
+                                            echo"<td> </td>";
+                                        }
+                                    echo "</tr>"; 
+                                    echo"</tbody>
+                                    </table>";
+                                }
+                               
+                            }
+                        }
+                    }
+
+                        ?>
+
         </div>
 
-    </div>
 
 </body>
 

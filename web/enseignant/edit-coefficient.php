@@ -210,15 +210,34 @@ $db = dbConnect();
                             }
                         ?>
                         <form action="edit-coefficient.php" method="post">
+                            <select class="form-select" name="matiere" required>
+                                <option selected disabled>Matiere</option>
+                                <?php
+                                    $matieres = getMatiereOfClasseOfEnseignant($db, $_SESSION['id'], $_SESSION['classe']);
+                                    foreach($matieres as $matiere){
+                                        echo '<option value="'.$matiere['id_matiere'].'">'.$matiere['value_matiere'].'</option>';
+                                    } 
+                                    
+                                ?>
+                            </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-matiere"><?php if(!empty($_SESSION['matiere'])){print(dbGetMatiereById($db, $_SESSION['matiere']))[0]['value_matiere'];}else{print('SET');}  ?></button>
+                        </form>
+                        <?php
+                            if(isset($_POST['submit-matiere'])){
+                                $_SESSION['matiere'] = $_POST['matiere'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                        <form action="edit-coefficient.php" method="post">
                             <select class="form-select" name="ds">
                                 <option selected disabled value="">DS</option>
                                 <?php
-                                if(isset($_SESSION['classe'])){
-                                    $dss = getDsOfEnseignantOfClasseOfSemestre($db, $_SESSION['id'], $_SESSION['classe'], $_SESSION['semestre']);
+                                if(isset($_SESSION['matiere'])){
+                                    $dss = getDsOfEnseignantOfClasseOfSemestreOfmatiere($db, $_SESSION['id'], $_SESSION['classe'], $_SESSION['semestre'], $_SESSION['matiere']);
                                     foreach($dss as $ds){
-                                        if(getDs($db, $ds['id_evaluation'])[0]['coefficient'] == 0){
                                             echo '<option value="'.$ds['id_evaluation'].'">'.$ds['nom_ds'].'</option>';
-                                        }
+                                        
                                     } 
                                 }
                                 ?>
@@ -244,7 +263,8 @@ $db = dbConnect();
                             ?>
 
                         </div>
-                        <button type="submit" name="add-coefficient" class="btn btn-danger">Ajouter un coefficient</button>
+                        <button type="submit" name="add-coefficient" class="btn btn-danger">Ajouter un
+                            coefficient</button>
 
                     </form>
                     <form action="edit-coefficient.php" method="post">
@@ -253,11 +273,12 @@ $db = dbConnect();
                     </form>
                     <?php
                             if(isset($_POST['add-coefficient'])){
-                                if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["ds"])){
+                                if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["ds"]) and isset($_SESSION["matiere"])){
                                     setCoeffficient($db, $_POST['value-note'], $_SESSION['ds']);
                                     unset($_SESSION["semestre"]);
                                     unset($_SESSION["classe"]);
                                     unset($_SESSION["ds"]);
+                                    unset($_SESSION["matiere"]);
                                     echo"<meta http-equiv=\"refresh\" content=\"0\">";
                                     
                                 }else{
@@ -269,6 +290,7 @@ $db = dbConnect();
                                 unset($_SESSION["semestre"]);
                                 unset($_SESSION["classe"]);
                                 unset($_SESSION["ds"]);
+                                unset($_SESSION["matiere"]);
                                 echo"<meta http-equiv=\"refresh\" content=\"0\">";
                             }
                         ?>

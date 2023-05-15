@@ -1,1 +1,1 @@
-SELECT semestre.* FROM semestre JOIN classe ON semestre.id_classe = classe.id_classe JOIN etudiant ON classe.id_classe = etudiant.id_classe WHERE etudiant.id_etudiant = 1;
+SELECT * FROM appreciation JOIN consulter ON appreciation.id_appreciation = consulter.id_appreciation WHERE appreciation.id_matiere = '5' AND appreciation.id_semestre = '5' AND consulter.id_etudiant =    '5'
