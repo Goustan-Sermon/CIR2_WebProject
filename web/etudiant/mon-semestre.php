@@ -105,8 +105,7 @@ $db = dbConnect();
         <div class="card text-bg-danger mb-3 align-self-center" style="max-width: 18rem; text-align : center;">
             <div class="card-body">
                 <?php
-                    $currentSemestre = getCurrentSemestre($db);
-
+                    $currentSemestre = getCurrentSemestreFromEtudiant($db, $_SESSION['id']);
                     $nomSemestre = $currentSemestre['nom_semestre'];
                     $date_debut = $currentSemestre['date_debut'];
                     $date_fin = $currentSemestre['date_fin'];
