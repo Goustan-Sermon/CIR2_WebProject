@@ -1,1 +1,1 @@
-SELECT COUNT(*) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE note.id_etudiant = 1 AND ds.id_matiere = 1 AND value_note < 10
+SELECT * FROM appreciation JOIN consulter ON appreciation.id_appreciation = consulter.id_appreciation WHERE appreciation.id_matiere = '5' AND appreciation.id_semestre = '5' AND consulter.id_etudiant =    '5'

@@ -207,13 +207,33 @@ $db = dbConnect();
                                 $_SESSION['classe'] = $_POST['classe'];  
                                 echo"<meta http-equiv=\"refresh\" content=\"0\">";
                             }
-                        ?>         
+                        ?>       
+                        <form action="edit-note.php" method="post">
+                            <select class="form-select" name="matiere" required>
+                                <option selected disabled>Matiere</option>
+                                <?php
+                                    $matieres = getMatiereOfClasseOfEnseignant($db, $_SESSION['id'], $_SESSION['classe']);
+                                    foreach($matieres as $matiere){
+                                        echo '<option value="'.$matiere['id_matiere'].'">'.$matiere['value_matiere'].'</option>';
+                                    } 
+                                    
+                                ?>
+                            </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-matiere"><?php if(!empty($_SESSION['matiere'])){print(dbGetMatiereById($db, $_SESSION['matiere']))[0]['value_matiere'];}else{print('SET');}  ?></button>
+                        </form>
+                        <?php
+                            if(isset($_POST['submit-matiere'])){
+                                $_SESSION['matiere'] = $_POST['matiere'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>  
                         <form action="edit-note.php" method="post">
                             <select class="form-select" name="ds">
                                 <option selected disabled value="">DS</option>
                                 <?php
-                                if(isset($_SESSION['classe'])){
-                                    $dss = getDsOfEnseignantOfClasseOfSemestre($db, $_SESSION['id'], $_SESSION['classe'], $_SESSION['semestre']);
+                                if(isset($_SESSION['matiere'])){
+                                    $dss = getDsOfEnseignantOfClasseOfSemestreOfmatiere($db, $_SESSION['id'], $_SESSION['classe'], $_SESSION['semestre'], $_SESSION['matiere']);
                                     foreach($dss as $ds){
                                         echo '<option value="'.$ds['id_evaluation'].'">'.$ds['nom_ds'].'</option>';
                                     } 
@@ -270,14 +290,14 @@ $db = dbConnect();
                     </form>
                     <?php
                             if(isset($_POST['add-note'])){
-                                if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["ds"]) and isset($_SESSION["eleve"])){
+                                if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["ds"]) and isset($_SESSION["eleve"]) and isset($_SESSION["matiere"]) ){
                                     addNotes($db, $_POST['value-note'], $_SESSION['eleve'], $_SESSION['ds']);
                                     unset($_SESSION["semestre"]);
                                     unset($_SESSION["classe"]);
                                     unset($_SESSION["ds"]);
                                     unset($_SESSION["eleve"]);   
-                                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
-                                    
+                                    unset($_SESSION["matiere"]); 
+                                    echo"<meta http-equiv=\"refresh\" content=\"0\">";                                    
                                 }else{
                                     echo "<div class=\"alert alert-danger\" role=\"alert\">Veuillez renplit tout les champs</div>";
 
@@ -288,6 +308,7 @@ $db = dbConnect();
                                 unset($_SESSION["classe"]);
                                 unset($_SESSION["ds"]);
                                 unset($_SESSION["eleve"]);   
+                                unset($_SESSION["matiere"]); 
                                 echo"<meta http-equiv=\"refresh\" content=\"0\">";
                             }
                         ?>

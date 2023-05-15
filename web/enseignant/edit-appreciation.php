@@ -106,6 +106,7 @@ $db = dbConnect();
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
         <div class="edition d-flex flex-row justify-content-around">
+            
             <!--------------------------- tableau ---------------------------------------------------->
             <div class="tableform">
                 <table class="table table-striped table-hover table-bordered align-middle">
@@ -166,26 +167,7 @@ $db = dbConnect();
 
                 <div class="d-flex flex-column justify-content-center align-self-center align-items-center">
                     <div class="form-group d-flex flex-row">
-                    <form action="edit-appreciation.php" method="post">
-                            <select class="form-select" name="matiere" required>
-                                <option selected disabled>Semestre</option>
-                                <?php
-                                    $matieres = getMatiereOfEnseignant($db, $_SESSION['id']);
-                                    foreach($semestres as $matiere){
-                                        echo '<option value="'.$matiere['id_semestre'].'">'.$matiere['nom_semestre'].'</option>';
-                                    } 
-                                    
-                                ?>
-                            </select>
-                            <button type="submit" class="btn btn-outline-danger"
-                                name="submit-semestre"><?php if(!empty($_SESSION['matiere'])){print(getSemestreOne($db, $_SESSION['matiere']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
-                        </form>
-                        <?php
-                            if(isset($_POST['submit-semestre'])){
-                                $_SESSION['semestre'] = $_POST['semestre'];  
-                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
-                            }
-                        ?>
+
                         <form action="edit-appreciation.php" method="post">
                             <select class="form-select" name="semestre" required>
                                 <option selected disabled>Semestre</option>
@@ -229,14 +211,36 @@ $db = dbConnect();
                             }
                         ?>
                         <form action="edit-appreciation.php" method="post">
+                            <select class="form-select" name="matiere" required>
+                                <option selected disabled>Matiere</option>
+                                <?php
+                                    $matieres = getMatiereOfClasseOfEnseignant($db, $_SESSION['id'], $_SESSION['classe']);
+                                    foreach($matieres as $matiere){
+                                        echo '<option value="'.$matiere['id_matiere'].'">'.$matiere['value_matiere'].'</option>';
+                                    } 
+                                    
+                                ?>
+                            </select>
+                            <button type="submit" class="btn btn-outline-danger"
+                                name="submit-matiere"><?php if(!empty($_SESSION['matiere'])){print(dbGetMatiereById($db, $_SESSION['matiere']))[0]['value_matiere'];}else{print('SET');}  ?></button>
+                        </form>
+                        <?php
+                            if(isset($_POST['submit-matiere'])){
+                                $_SESSION['matiere'] = $_POST['matiere'];  
+                                echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                            }
+                        ?>
+                        <form action="edit-appreciation.php" method="post">
                             <select class="form-select" name="eleve">
                                 <option selected disabled value="">Elève</option>
                                 <?php
                                 if(isset($_SESSION['classe'])){
                                     $eleves = getEtudiantOfClasse($db, $_SESSION['classe'] );
                                     foreach($eleves as $eleve){
-                                        $personne = dbGetPersonneOfEtudiant($db, $eleve['id_etudiant']);
-                                        echo '<option value="'.$eleve['id_etudiant'].'">'.$personne[0]['prenom']." ".$personne[0]['nom'].'</option>';
+                                        if(!isAppreciation($db, $eleve['id_etudiant'], $_SESSION["semestre"], $_SESSION["matiere"])){
+                                            $personne = dbGetPersonneOfEtudiant($db, $eleve['id_etudiant']);
+                                            echo '<option value="'.$eleve['id_etudiant'].'">'.$personne[0]['prenom']." ".$personne[0]['nom'].'</option>';
+                                        }   
                                         
                                     } 
                                 }
@@ -263,24 +267,27 @@ $db = dbConnect();
                             ?>
 
                         </div>
-                        <button type="submit" name="add-appreciation" class="btn btn-danger">Ajouter une appréciation</button>
+                        <button type="submit" name="add-appreciation" class="btn btn-danger">Ajouter une
+                            appréciation</button>
 
                     </form>
                     <form action="edit-appreciation.php" method="post">
                         <button name="clear-note" class="btn btn-outline-danger" style="font-size: 0.5em;">Supprimer les
                             informations</button>
                     </form>
-                    <?php
+                    <?php 
                             if(isset($_POST['add-appreciation'])){
-                                if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["eleve"])){
-                                    addAppreciationAndConsulter($db,$_SESSION["id"],  '1',$_SESSION["semestre"], $_POST['value-appreciation'], $_SESSION["eleve"]);
+                                if(isset($_SESSION["semestre"]) and isset($_SESSION["classe"]) and isset($_SESSION["eleve"])  and isset($_SESSION["matiere"])){
+                                    addAppreciationAndConsulter($db,$_SESSION["id"],  $_SESSION['matiere'],$_SESSION["semestre"], $_POST['value-appreciation'], $_SESSION["eleve"]);
                                     unset($_SESSION["semestre"]);
                                     unset($_SESSION["classe"]);
                                     unset($_SESSION["eleve"]);   
+                                    unset($_SESSION["matiere"]); 
                                     echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                                    echo "<div class=\"alert alert-danger\" role=\"alert\">Appéciation ajouter</div>";
                                     
                                 }else{
-                                    echo "<div class=\"alert alert-danger\" role=\"alert\">Veuillez renplit tout les champs</div>";
+                                    echo "<div class=\"alert alert-danger\" role=\"alert\">Veuillez renplir tout les champs</div>";
 
                                 }
                             }
@@ -288,6 +295,7 @@ $db = dbConnect();
                                 unset($_SESSION["semestre"]);
                                 unset($_SESSION["classe"]);
                                 unset($_SESSION["eleve"]);   
+                                unset($_SESSION["matiere"]); 
                                 echo"<meta http-equiv=\"refresh\" content=\"0\">";
                             }
                         ?>

@@ -3,6 +3,13 @@ session_start();
 if(!isset($_SESSION['id'])){
     header('Location: ../identification.php');
 }
+require_once('../../php/database.php');
+// Enable all warnings and errors.
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// Database connection.
+$db = dbConnect();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -93,92 +100,113 @@ if(!isset($_SESSION['id'])){
             Mes classes
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-        <!---------------------------affichae des classes avec les eleves ---------------------------------------------------->
-       
-    
-        <div class="p-2">
+        <div class="form-group d-flex flex-row">
+            <form action="mes-classes.php " class="d-flex flex-row" method="post">
+                <select class="form-select" name="semestre" required>
+                    <option selected disabled>Semestre</option>
+                    <?php
+                        $semestres = getSemestreOfEnseignant($db, $_SESSION['id']);
+                        foreach($semestres as $semestre){
+                            echo '<option value="'.$semestre['id_semestre'].'">'.$semestre['nom_semestre'].'</option>';
+                        } 
+                        
+                    ?>
+                </select>
+                <button type="submit" class="btn btn-outline-danger"
+                    name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
+            </form>
+            <?php
+                if(isset($_POST['submit-semestre'])){
+                    $_SESSION['semestre'] = $_POST['semestre'];  
+                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                }
+            ?>
+            <form action="mes-classes.php" class="d-flex flex-row" method="post">
+                <select class="form-select" name="matiere" required>
+                    <option selected disabled>Matiere</option>
+                    <?php
+                        $matieres = getMatiereOfEnseignantOfSemestre($db, $_SESSION['id'], $_SESSION['semestre']);
+                        foreach($matieres as $matiere){
+                            echo '<option value="'.$matiere['id_matiere'].'">'.$matiere['value_matiere'].'</option>';
+                        } 
+                        
+                    ?>
+                </select>
+                <button type="submit" class="btn btn-outline-danger"
+                    name="submit-matiere"><?php if(!empty($_SESSION['matiere'])){print(dbGetMatiereById($db, $_SESSION['matiere']))[0]['value_matiere'];}else{print('SET');}  ?></button>
+            </form>
+            <?php
+                if(isset($_POST['submit-matiere'])){
+                    $_SESSION['matiere'] = $_POST['matiere'];  
+                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                }
+            ?>
+            <div class="d-flex flex-column mb-2 align-items-center align-self-center">
+                <form action="mes-classes.php" method="post">
+                    <button type="submit" name="afficher" class="btn btn-danger">Afficher</button>
 
-        <select class="custom-select" required>
-            <option value="">Tri</option>
-            <option value="cir">Option 1</option>
-            <option value="cgsi">Option 2</option>
-            <option value="cest">Option 3</option>
-        </select>
-        
-        <select class="custom-select" required>
-            <option value="">Cycle</option>
-            <option value="cir">CIR</option>
-            <option value="cgsi">CGSI</option>
-            <option value="cest">CEST</option>
-        </select>
-        <select class="custom-select" required>
-            <option value="">Année</option>
-            <option value="a1">A1</option>
-            <option value="a2">A2</option>
-            <option value="a3">A3</option>
-            <option value="a2">M1</option>
-            <option value="a3">M2</option>
-        </select>      
-        <select class="custom-select" required>
-            <option value="">Matière</option>
-            <option value="a1">Option 1</option>
-            <option value="a2">Option 2</option>
-            <option value="a3">Option 3</option>
-            <option value="a2">Option 4</option>
-            <option value="a3">Option 5</option>
-        </select>
-        <div class="d-flex flex-row-reverse">
-            
-            <button type="button" class="btn btn-danger" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
-            </svg>
-            Rechercher</button>
-            
+                </form>
+                <form action="mes-classes.php" method="post">
+                    <button name="clear-note" class="btn btn-outline-danger" style="font-size: 0.5em;">Supprimer les
+                        informations</button>
+                </form>
+            </div>
+            <?php
+                if(isset($_POST['afficher'])){
+                    if(!isset($_SESSION["semestre"]) or !isset($_SESSION["matiere"])){
+                        echo "<div class=\"alert alert-danger\" role=\"alert\">Veuillez remplir tout les champs</div>";
+
+                    }
+                }
+                if(isset($_POST['clear-note'])){
+                    unset($_SESSION["semestre"]);
+                    unset($_SESSION["matiere"]);
+                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                }
+            ?>
         </div>
-        
-    
-        
-    </div>
+        <div class="tableform">
+            <table class="table table-striped table-hover table-bordered align-middle">
+                <thead style="color : #dc3545">
+                    <tr>
+                        <th scope="col">Cycle</th>
+                        <th scope="col">Année</th>
+                        <th scope="col">Matière</th>
+                        <th scope="col">Nombre d'élève</th>
+                        <th scope="col">Moyenne /20 *</th>
 
-
-        
-
-        <div class="block ">
-        <table class="table table table-striped"> <!--- permet d'alterner les colonnes de couleurs différentes -->
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Cycle</th>
-                    <th scope="col">Moyenne classe /20</th>
-                    <th scope="col">modifier</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider">
-                <tr>
-                    <th scope="row">1</th>
-                    <td>CIR1</td>
-                    <td>Text line</td>
-                    <td>Edit</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>EST2</td>
-                    <td>Text line</td>
-                    <td>Edit</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>CSI3</td>
-                    <td>Text line</td>
-                    <td>Edit</td>
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <?php
+                    if(isset($_POST['afficher'] )){
+                        if(isset($_SESSION["semestre"]) and isset($_SESSION["matiere"])){
+            
+                            $classes = getClasseOfSemestreOfEnseignantOfMatiere($db,$_SESSION['semestre'], $_SESSION['id'], $_SESSION['matiere']);
+                            foreach($classes as $classe){
+                                // print_r($classe);
+                                echo "<tr>";
+                                echo "<td>".$classe['cycle']."</td>"; 
+                                echo "<td>".$classe['annee']."</td>";
+                                echo "<td>".dbGetMatiereById($db, $_SESSION['matiere'])[0]['value_matiere']."</td>";
+                                echo "<td>".getNumberEtudiantOfClasse($db, $classe['id_classe'])[0]['count']."</td>";
+                                $moyenne = getAverageFromCurrentSemestreByMatiere($db,$_SESSION['matiere'], $_SESSION['semestre'])['numeric'];
+                                if($moyenne < 12){                                    
+                                    echo "<td style=\"color : #dc3545\">".$moyenne."</td>";
+                                }else{
+                                    echo "<td>".$moyenne."</td>";
+                                }
+                                echo "</tr>";                                
+                            }
+                        }
+                    }
+                        ?>
+                </tbody>
+            </table>
+            <p>* Rouge si inférieur à 12
+            <p>
         </div>
-        
-                            
-    </div>
+
     </div>
 
 </body>
