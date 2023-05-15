@@ -44,7 +44,7 @@ if(!isset($_SESSION['id'])){
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="creer-un-compteV2.php">
+                        <a class="nav-link " href="creer-un-compte.php">
                             Créer un compte
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 account_circle
@@ -71,7 +71,7 @@ if(!isset($_SESSION['id'])){
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="../deconnexion.php">
-                        Déconnexion
+                        <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
                         </span>
@@ -95,7 +95,7 @@ if(!isset($_SESSION['id'])){
             <!--------------------------- Block 1 ---------------------------------------------------->
             <div class="mb-2 align-items-center align-self-center">
                 <div class="text-body-tertiary h2">
-                    Les dernières épreuves créées       
+                    Les dernières épreuves créées
                 </div>
                 <!-- Exemple -->
                 <div class="tableform">
@@ -150,13 +150,14 @@ if(!isset($_SESSION['id'])){
             <!--------------------------- Block 2 ---------------------------------------------------->
             <div class="mb-2 align-items-center align-self-center">
                 <div class="text-body-tertiary h2">
-                    Entrer les informations        
+                    Entrer les informations
                 </div>
                 <form action="creer-une-epreuve.php" method="post">
-                    <div class="d-flex flex-column justify-content-center">  
+                    <div class="d-flex flex-column justify-content-center">
                         <div class="p-2">
                             <label for="nom" class="form-label">Nom*</label>
-                            <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp" placeholder="Nom" required>
+                            <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp"
+                                placeholder="Nom" required>
                         </div>
                         <div class="form-group d-flex justify-content-center">
                             <div class="p-2">

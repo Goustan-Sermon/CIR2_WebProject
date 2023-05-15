@@ -44,7 +44,7 @@ if(!isset($_SESSION['id'])){
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="admin/creer-un-compteV2.php">
+                        <a class="nav-link " href="admin/creer-un-compte.php">
                             Créer un compte
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 account_circle
@@ -71,7 +71,7 @@ if(!isset($_SESSION['id'])){
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="deconnexion.php">
-                        Déconnexion
+                    <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
                         </span>
@@ -93,7 +93,7 @@ if(!isset($_SESSION['id'])){
         <!--------------------------- Block 1 ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
             <div class="card rounded-5 text-bg-primary  mb-2 align-items-center align-self-center shadow-lg">
-                <a href="admin/creer-un-compteV2.php" class="stretched-link"></a>
+                <a href="admin/creer-un-compte.php" class="stretched-link"></a>
                 <span class="material-symbols-outlined logo " style="font-size: 8rem">
                     account_circle
                 </span>

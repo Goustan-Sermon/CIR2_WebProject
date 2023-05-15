@@ -72,9 +72,9 @@ if(!isset($_SESSION['id'])){
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="../deconnexion.php">
-                        Déconnexion
+                        <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
-                        logout
+                            logout
                         </span>
                     </a>
                 </form>
@@ -93,22 +93,24 @@ if(!isset($_SESSION['id'])){
         </div>
         <!--------------------------- contenue  ---------------------------------------------------->
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
-            Entrer les informations        
+            Entrer les informations
         </div>
         <form action="creer-un-compte.php" method="post">
-            <div class="d-flex justify-content-center">  
+            <div class="d-flex justify-content-center">
                 <div class="p-2">Enseignant</div>
-                <div class="p-2">       
+                <div class="p-2">
                     <div class="form-check form-switch form-check-reverse" for="etu">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse" name="etu"></div>
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse" name="etu">
                     </div>
+                </div>
                 <div class="p-2">Etudiant</div>
             </div>
 
-            <div class="d-flex flex-column justify-content-center">  
+            <div class="d-flex flex-column justify-content-center">
                 <div class="p-2">
                     <label for="nom" class="form-label">Nom*</label>
-                    <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp" placeholder="Nom">
+                    <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp"
+                        placeholder="Nom">
                 </div>
                 <div class="p-2">
                     <label for="prenom" class="form-label">Prénom*</label>
@@ -130,7 +132,8 @@ if(!isset($_SESSION['id'])){
                 </div>
                 <div class="p-2">
                     <label for="email" class="form-label">Mail (confirmation)*</label>
-                    <input type="email" class="form-control" id="mailconf" name="mailconf" placeholder="Confirmez le mail">
+                    <input type="email" class="form-control" id="mailconf" name="mailconf"
+                        placeholder="Confirmez le mail">
                 </div>
                 <div class="p-2">
                     <label for="mdp" class="form-label">Mot de passe*</label>
@@ -138,7 +141,8 @@ if(!isset($_SESSION['id'])){
                 </div>
                 <div class="p-2">
                     <label for="mdp" class="form-label">Mot de passe (confirmation)*</label>
-                    <input type="password" class="form-control" id="mdpconf" name="mdpconf" placeholder="Confirmez le mot de passe">
+                    <input type="password" class="form-control" id="mdpconf" name="mdpconf"
+                        placeholder="Confirmez le mot de passe">
                 </div>
                 <div class="p-2">
                     <label for="photo" class="form-label">Photo</label>
@@ -146,35 +150,7 @@ if(!isset($_SESSION['id'])){
                 </div>
                 <button type="submit" name="add" class="btn btn-outline-danger">Créer un enseignant</button>
             </div>
-            <?php
-                require_once('../../php/database.php');
-
-                // Enable all warnings and errors.
-                ini_set('display_errors', 1);
-                error_reporting(E_ALL);
-    
-                // Database connection.
-                $db = dbConnect();
-            
-                if(isset($_POST['add'])){
-                    $nom = $_POST['nom'];
-                    $prenom = $_POST['prenom'];
-                    if(!empty($_POST['etu'])){
-                        $etu = 1;
-                    }else{
-                        $etu = 0;
-                    }
-                    $telephone = $_POST['telephone'];
-                    $mail = $_POST['mail'];
-                    $mailconf = $_POST['mailconf'];
-                    $mdp = $_POST['mdp'];
-                    $mdpconf = $_POST['mdpconf'];
-                    $photo = $_POST['photo'];
-                    echo $nom;
-                    echo $prenom;
-                    echo $etu;
-                }?>
-        </form>
+        </div>
     </div>
 </body>
 

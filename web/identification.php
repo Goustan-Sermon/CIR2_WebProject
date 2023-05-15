@@ -10,15 +10,16 @@ error_reporting(E_ALL);
 
 // Database connection.
 $db = dbConnect();
-$redirection=FALSE;
+
 
 if (isset($_POST['connect'])){
     if(checkIdentification($db, $_POST['InputEmail'], $_POST['InputPassword'])){
+        $personne = dbGetPersonne($db, $_POST['InputEmail']);
         if(isset($_POST['souvenir'])) {
+            
                 setcookie('mail',$_POST['InputEmail'],time()+7*24*3600);
                 setcookie('mdp',$_POST['InputPassword'],time()+7*24*3600);
         }
-        $personne = dbGetPersonne($db, $_POST['InputEmail']);
         $_SESSION['nom'] = $personne[0]['nom'];
         $_SESSION['prenom'] = $personne[0]['prenom'];
         $_SESSION['id'] = getIdOfStatutOfPersonne($db, $personne[0]['mail']);
@@ -59,15 +60,7 @@ if (isset($_POST['connect'])){
                     class="d-inline-block align-text-top">
                 Inscription
             </a>
-            <!--------------------------- Log out ---------------------------------------------------->
-            <form class="d-flex" role="search">
-                <a class="btn btn-outline-danger" type="submit" href="identification.php">
-                    Déconnexion
-                    <span class="material-symbols-outlined" style="font-size: 1rem">
-                        logout
-                    </span>
-                </a>
-            </form>
+
         </div>
     </nav>
 
@@ -93,21 +86,21 @@ if (isset($_POST['connect'])){
             <form class="form-identification" style="margin-bottom : 20px" method="post">
                 <div class="mb-2">
                     <label for="exampleInputEmail1" class="form-label">E-mail</label>
-                    <input type="email" class="form-control" name="InputEmail" placeholder="Entrer votre E-mail" value = "<?php if(!isset($_SESSION['mail']) and isset($_COOKIE['mail']) and !empty($_COOKIE['mail'])){echo $_COOKIE['mail'];}?>">
+                    <input type="email" class="form-control" name="InputEmail" placeholder="Entrer votre E-mail" value = "<?php if(!isset($_SESSION['id']) and isset($_COOKIE['mail']) and !empty($_COOKIE['mail'])){echo $_COOKIE['mail'];}?>">
                 </div>
                 <div class="mb-2">
                     <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-                    <input type="password" class="form-control" name="InputPassword" placeholder="Entrer votre mot de passe" value = "<?php if(!isset($_SESSION['mail']) and isset($_COOKIE['mdp']) and !empty($_COOKIE['mdp'])){echo $_COOKIE['mdp'];}?>">
+                    <input type="password" class="form-control" name="InputPassword" placeholder="Entrer votre mot de passe" value = "<?php if(!isset($_SESSION['id']) and isset($_COOKIE['mdp']) and !empty($_COOKIE['mdp'])){echo $_COOKIE['mdp'];}?>">
                 </div>
                 <!--------------------------- Se souvenir +  oublier ---------------------------------------------------->
 
-                <div style="margin-top: 20px" class="d-flex justify-content-between">
+                <div style="margin-top: 20px" class="d-flex justify-content-center">
                     <input name ="souvenir" type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off"></input>
                     <label class="btn btn-outline-danger" for="btn-check-2-outlined"
-                        style="margin : 5px; padding : 6.5px"></label>
-                    Se souvenir de moi
-                    <a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover  "
-                        href="#">Mot de passe oublié</a>
+                        style="margin : 5px; height:0px;"></label>
+                        <p style="color :#dc3545">Se souvenir de moi</p>
+
+                    <a></a>
                 </div>
                 <!--------------------------- Se connecter ---------------------------------------------------->
                 <button type="submit" class="btn btn-danger" style=" width:100% ; margin-top: 20px;" name="connect">
@@ -149,11 +142,6 @@ if (isset($_POST['connect'])){
             }
             ?>
 
-        </div>
-        <div class="btn-group" role="group" style="margin : 180px auto">
-            <a type="button" class="btn btn-outline-danger" href="acceuil-enseignant.php">Enseignant</a>
-            <a type="button" class="btn btn-outline-danger" href="acceuil-etudiant.php">Etudiant</a>
-            <a type="button" class="btn btn-outline-danger" href="acceuil-admin.php">Administrateur</a>
         </div>
 
 

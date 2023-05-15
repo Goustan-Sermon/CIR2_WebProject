@@ -73,7 +73,7 @@ if(!isset($_SESSION['id'])){
                 <!--------------------------- Log out ---------------------------------------------------->
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-danger" type="submit" href="../deconnexion.php">
-                        Déconnexion
+                        <?php print($_SESSION['nom']." ".$_SESSION['prenom'])?>
                         <span class="material-symbols-outlined" style="font-size: 1rem">
                             logout
                         </span>
@@ -93,13 +93,13 @@ if(!isset($_SESSION['id'])){
             Mes notes
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-        
 
-            <div class="form-group d-flex flex-row">
-                <form action="mes-notes.php" method="post">
-                    <select class="form-select" name="semestre" required>
-                        <option selected disabled>Semestre</option>
-                        <?php
+
+        <div class="form-group d-flex flex-row">
+            <form action="mes-notes.php" method="post">
+                <select class="form-select" name="semestre" required>
+                    <option selected disabled>Semestre</option>
+                    <?php
                             require_once('../../php/database.php');
 
                             // Enable all warnings and errors.
@@ -114,17 +114,18 @@ if(!isset($_SESSION['id'])){
                             } 
                             
                         ?>
-                    </select>
-                    <button type="submit" class="btn btn-outline-danger" name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
-                </form>
-                <?php
+                </select>
+                <button type="submit" class="btn btn-outline-danger"
+                    name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
+            </form>
+            <?php
                     if(isset($_POST['submit-semestre'])){
                         $_SESSION['semestre'] = $_POST['semestre'];  
                         echo"<meta http-equiv=\"refresh\" content=\"0\">";
                     }
                 ?>
 
-            </div>
+        </div>
 
 
 

@@ -1,1 +1,1 @@
-SELECT * FROM appreciation JOIN consulter ON appreciation.id_appreciation = consulter.id_appreciation WHERE appreciation.id_matiere = '5' AND appreciation.id_semestre = '5' AND consulter.id_etudiant =    '5'
+SELECT appreciation.* FROM appreciation JOIN consulter ON appreciation.id_appreciation = consulter.id_appreciation WHERE appreciation.id_matiere = 1 AND appreciation.id_semestre = 7 AND consulter.id_etudiant = 1;

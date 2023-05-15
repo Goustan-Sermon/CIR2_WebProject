@@ -526,6 +526,18 @@ function rattrapageByMatiereByEtu($db, $id_matiere, $currentSemestre, $id){
     }
 }
 
+function getNumerOfDsOfSemestre($db, $id_semestre){
+    try{
+        $statement = $db->prepare('SELECT COUNT(*) FROM ds WHERE id_semestre =:id_semestre');
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
 
 function getNumberOfDsOfCurrentSemestreByMatiere($db, $id_matiere, $id_semestre){
     try{
