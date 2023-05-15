@@ -436,7 +436,7 @@ function dbGetMatiereById($db, $id_matiere){
 
 function getAverageFromCurrentSemestreByMatiere($db, $id_matiere, $id_semestre){
     try{
-        $statement = $db->prepare('SELECT AVG(value_note) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE ds.id_matiere = :id_matiere AND ds.id_semestre = :id_semestre');
+        $statement = $db->prepare('SELECT CAST(SUM(value_note*coefficient)/SUM(coefficient) AS numeric(10,2)) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE ds.id_matiere = :id_matiere AND ds.id_semestre = :id_semestre');
         $statement->bindParam(':id_matiere', $id_matiere);
         $statement->bindParam(':id_semestre', $id_semestre);
         $statement->execute();
@@ -450,8 +450,22 @@ function getAverageFromCurrentSemestreByMatiere($db, $id_matiere, $id_semestre){
 
 function getAverageFromCurrentSemestreByMatiereAndId_etudiant($db, $id_matiere, $id_semestre, $id_etudiant){
     try{
-        $statement = $db->prepare('SELECT AVG(value_note) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE ds.id_matiere = :id_matiere AND ds.id_semestre = :id_semestre AND note.id_etudiant = :id_etudiant');
+        $statement = $db->prepare('SELECT CAST(SUM(value_note*coefficient)/SUM(coefficient) AS numeric(10,2)) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE ds.id_matiere = :id_matiere AND ds.id_semestre = :id_semestre AND note.id_etudiant = :id_etudiant');
         $statement->bindParam(':id_matiere', $id_matiere);
+        $statement->bindParam(':id_semestre', $id_semestre);
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
+function getTotalAverageFromCurrentSemestreForEtudiant($db, $id_etudiant, $id_semestre){
+    try{
+        $statement = $db->prepare('SELECT CAST(SUM(value_note*coefficient)/SUM(coefficient) AS numeric(10,2)) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE ds.id_semestre = :id_semestre AND note.id_etudiant = :id_etudiant');
         $statement->bindParam(':id_semestre', $id_semestre);
         $statement->bindParam(':id_etudiant', $id_etudiant);
         $statement->execute();
@@ -478,7 +492,7 @@ function getAverageFromClasse($db, $id_classe){
 
 function getAverageFromClasseByCurrentSemestre($db, $id_classe, $id_semestre){
     try{
-        $statement = $db->prepare('SELECT AVG(value_note) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation JOIN etudiant ON note.id_etudiant = etudiant.id_etudiant WHERE etudiant.id_classe = :id_classe AND ds.id_semestre = :id_semestre');
+        $statement = $db->prepare('SELECT CAST(SUM(value_note*coefficient)/SUM(coefficient) AS numeric(10,2))FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation JOIN etudiant ON note.id_etudiant = etudiant.id_etudiant WHERE etudiant.id_classe = :id_classe AND ds.id_semestre = :id_semestre');
         $statement->bindParam(':id_classe', $id_classe);
         $statement->bindParam(':id_semestre', $id_semestre);
         $statement->execute();
@@ -502,6 +516,16 @@ function getAverageTotalFromEtudiantWithCoef($db, $id_etudiant){
     }
     return $result;
 }
+
+function rattrapageByMatiereByEtu($db, $id_matiere, $currentSemestre, $id){
+    if(getAverageFromCurrentSemestreByMatiereAndId_etudiant($db, $id_matiere, $currentSemestre, $id)['numeric'] < 10){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 
 function getNumberOfDsOfCurrentSemestreByMatiere($db, $id_matiere, $id_semestre){
     try{

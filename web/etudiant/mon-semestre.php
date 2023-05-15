@@ -130,27 +130,34 @@ $db = dbConnect();
                     <?php
                         $matieres = dbGetIdMatieres($db);
                         $classe = getClasseById($db, $_SESSION['id']);
-
+                        $rattrapage = 0;
                         // Display all matieres.
                         foreach($matieres as $matiere) {
                             $id_matiere = dbGetIdMatiere($db, $matiere['value_matiere']);
                             $nbDs = getNumberOfDsOfCurrentSemestreByMatiere($db, $id_matiere[0]['id_matiere'], $currentSemestre['id_semestre']);
                             $moyenneClasse = getAverageFromCurrentSemestreByMatiere($db, $id_matiere[0]['id_matiere'], $currentSemestre['id_semestre']);
                             $moyenneEtu = getAverageFromCurrentSemestreByMatiereAndId_etudiant($db, $id_matiere[0]['id_matiere'], $currentSemestre['id_semestre'], $_SESSION['id']);
+                            $moyenneTotaleEtu = getTotalAverageFromCurrentSemestreForEtudiant($db, $_SESSION['id'], $currentSemestre['id_semestre']);
                             $moyenneTotale = getAverageFromClasseByCurrentSemestre($db, $classe[0]['id_classe'], $currentSemestre['id_semestre']);
                             echo '<tr>';
                             echo '<td>' . $matiere['value_matiere'] . '</td>';
-                            echo '<th>' . $nbDs['count'] . '</th>';
-                            echo '<th>' . $moyenneEtu['avg'] . '</th>';
-                            echo '<th>' . $moyenneClasse['avg'] . '</th>';
+                            echo '<td>' . $nbDs['count'] . '</td>';
+                            echo '<th>' . $moyenneEtu['numeric'] . '</th>';
+                            echo '<td>' . $moyenneClasse['numeric'] . '</td>';
+                            if(rattrapageByMatiereByEtu($db, $id_matiere[0]['id_matiere'], $currentSemestre['id_semestre'], $_SESSION['id'])){
+                                $rattrapage = 1;
+                                echo '<th>Oui</th>';
+                            }
+                            else{
+                                echo '<td>Non</td>';
+                            }
                             echo '</tr>';
                         }
-                    
                             echo '<tr>
                                     <th colspan="2" class="table-secondary">TOTAL : </th>';
-                            echo '<th class="table-danger">' . "oui" . '</th>';
-                            echo '<th class="table-danger">' . $moyenneTotale['avg'] . '</th>';
-                            echo '<th class="table-danger">/</th>';
+                            echo '<th class="table-danger">' . $moyenneTotaleEtu['numeric'] . '</th>';
+                            echo '<td class="table-danger">' . $moyenneTotale['numeric'] . '</td>';
+                            echo '<th class="table-danger">' . ($rattrapage == 1 ? "Oui" : "Non") . '</th>';
                             echo '</tr>';
                     ?>
                 </tbody>
