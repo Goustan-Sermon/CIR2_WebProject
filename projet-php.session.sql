@@ -1,1 +1,1 @@
-SELECT cycle FROM classe WHERE id_classe = 5
+SELECT COUNT(*) FROM note JOIN ds ON note.id_evaluation = ds.id_evaluation WHERE note.id_etudiant = 1 AND ds.id_matiere = 1 AND value_note < 10

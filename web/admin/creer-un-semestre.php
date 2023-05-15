@@ -193,6 +193,11 @@ if(!isset($_SESSION['id'])){
                         ?>
                     </div>
                 </form>
+                <?php
+                    if(isset($_POST['add'])){
+                        echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                    }
+                ?>
             </div>
         </div>
 </body>
