@@ -45,7 +45,7 @@ if(!isset($_SESSION['id'])){
                         <a class="nav-link active" aria-current="page" href="#">Enseignant</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link " href="creer-un-compte.php">
+                        <a class="nav-link " href="creer-un-compteV2.php">
                             Créer un compte
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 account_circle
@@ -92,6 +92,7 @@ if(!isset($_SESSION['id'])){
             Créer un compte
         </div>
         <!--------------------------- contenue  ---------------------------------------------------->
+<<<<<<< HEAD
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
             Entrer les informations
         </div>
@@ -150,6 +151,31 @@ if(!isset($_SESSION['id'])){
                 </div>
                 <button type="submit" name="add" class="btn btn-outline-danger">Créer un enseignant</button>
             </div>
+=======
+        <div class="blocks justify-content-evenly">
+            <!--------------------------- Block 1 ---------------------------------------------------->
+            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center shadow-lg">
+                <a href="creer-un-etudiant.php" class="stretched-link"></a>
+                <span class="material-symbols-outlined logo " style="font-size: 8rem">
+                    account_circle
+                </span>
+                <p class="type">
+                    Créer <br> un étudiant
+                </p>
+
+            </div>
+            <!--------------------------- Block 2 ---------------------------------------------------->
+            <div class="card rounded-5 text-bg-danger  mb-2 align-items-center align-self-center shadow-lg">
+                <a href="creer-un-enseignant.php" class="stretched-link"></a>
+                <span class="material-symbols-outlined logo " style="font-size: 8rem">
+                    account_circle
+                </span>
+                <p class="type">
+                    Créer <br> un enseignant
+                </p>
+
+            </div>
+>>>>>>> f146a90251b4e74d4b120f111abe2dbad4eeed1b
         </div>
     </div>
 </body>

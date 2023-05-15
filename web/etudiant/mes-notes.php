@@ -144,22 +144,28 @@ if(!isset($_SESSION['id'])){
                     <?php
                         // Get the student's id.
                         $id = $_SESSION['id'];
-                        $semestre = $_SESSION['semestre'];
-                        // Get the student's notes.
-                        $notes = getNoteInfoOfEtudiantOfSemestre($db, $id, $semestre);
-                        foreach ($notes as $note) {
-                            $id_matiere = getMatiereOfNote($db, $note['id_evaluation']);
-                            $matiere = dbGetMatiereById($db, $id_matiere[0]['id_matiere']);
-                            $dateds = dbGetDateById_evaluation($db, $note['id_evaluation']);
-                            $enseignant = dbGetEnseignantOfNoteById_evaluation($db, $note['id_evaluation']);
-                            $nomEnseignant = dbGetNomEnseignantByMail($db, $enseignant[0]['mail']);
-                            $nomDs = dbGetNomdsById_evaluation($db, $note['id_evaluation']);
+                        if(isset($_SESSION['semestre'])){
+                            $semestre = $_SESSION['semestre'];
+                            // Get the student's notes.
+                            $notes = getNoteInfoOfEtudiantOfSemestre($db, $id, $semestre);
+                            foreach ($notes as $note) {
+                                $id_matiere = getMatiereOfNote($db, $note['id_evaluation']);
+                                $matiere = dbGetMatiereById($db, $id_matiere[0]['id_matiere']);
+                                $dateds = dbGetDateById_evaluation($db, $note['id_evaluation']);
+                                $enseignant = dbGetEnseignantOfNoteById_evaluation($db, $note['id_evaluation']);
+                                $nomEnseignant = dbGetNomEnseignantByMail($db, $enseignant[0]['mail']);
+                                $nomDs = dbGetNomdsById_evaluation($db, $note['id_evaluation']);
+                                echo '<tr>';
+                                echo '<td>' . $dateds[0]['date_ds'] . '</td>';
+                                echo '<td><b>' . $matiere[0]['value_matiere']. '<b></td>';
+                                echo '<td>' . $nomDs['nom_ds'] . '</td>';
+                                echo '<td>' . $note['value_note'] . '</td>';
+                                echo '<td>' . $nomEnseignant[0]['nom'] . '</td>';
+                                echo '</tr>';
+                            } 
+                        }else {
                             echo '<tr>';
-                            echo '<td>' . $dateds[0]['date_ds'] . '</td>';
-                            echo '<td><b>' . $matiere[0]['value_matiere']. '<b></td>';
-                            echo '<td>' . $nomDs['nom_ds'] . '</td>';
-                            echo '<td>' . $note['value_note'] . '</td>';
-                            echo '<td>' . $nomEnseignant[0]['nom'] . '</td>';
+                            echo '<td colspan="5">Aucune note</td>';
                             echo '</tr>';
                         }
                     ?>

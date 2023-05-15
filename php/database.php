@@ -1145,6 +1145,24 @@ function getCurrentSemestre($db){
     }
     return $result[0];
 }
+function getCurrentSemestreFromEtudiant($db, $id_etudiant){
+    try{
+        $date = date("Y-m-d");
+        $prepare='SELECT * FROM semestre WHERE id_semestre IN (SELECT id_semestre FROM ds WHERE id_evaluation IN (SELECT id_evaluation FROM note WHERE id_etudiant = :id_etudiant)) AND date_debut <= :date AND date_fin >= :date';
+        $statement = $db->prepare($prepare);
+        $statement->bindParam(':id_etudiant', $id_etudiant);
+        $statement->bindParam(':date', $date);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $result = array_unique($result, SORT_REGULAR);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result[0];
+}
+
 function getEtudiantOfDs($db, $id_evaluation){
     try{
         $classe = getClasseOfDS($db, $id_evaluation);

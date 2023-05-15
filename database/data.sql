@@ -103,7 +103,28 @@ INSERT INTO note (value_note, id_etudiant, id_evaluation) VALUES
 
 ALTER SEQUENCE appreciation_id_appreciation_seq RESTART;
 INSERT INTO appreciation (value_apprecition, id_semestre, id_enseignant, id_matiere) VALUES
+<<<<<<< HEAD
 ('Pas bien du tout il faut vous ressaisir !', 7, 2, 1), ('Semestre passable', 7, 5, 2), ('Bon semestre', 7, 5, 3), ('Bon semestre continuez ainsi !', 7, 5, 4), ('Semestre acceptable', 7, 5, 5);
 
 INSERT INTO consulter (id_appreciation, id_etudiant) VALUES
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (5, 2), (5, 3), (5, 4);
+=======
+('Pas bien du tout il faut vous ressaisir !', 7, 2, 1), ('Semestre passable', 7, 5, 2), ('Bon semestre', 7, 5, 3), ('Bon semestre continuez ainsi !', 7, 5, 4), ('Semestre acceptable', 7, 5, 5),
+('Pas bien du tout il faut vous ressaisir !', 5, 2, 1), ('Semestre passable', 5, 5, 2), ('Bon semestre', 5, 5, 3), ('Bon semestre continuez ainsi !', 5, 5, 4), ('Semestre acceptable', 5, 5, 5);
+
+INSERT INTO consulter (id_appreciation, id_etudiant) VALUES
+(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), 
+(1, 2), (2, 2), (3, 2), (4, 2), (5, 2), 
+(1, 3), (2, 3), (3, 3), (4, 3), (5, 3), 
+(1, 4), (2, 4), (3, 4), (4, 4), (5, 4),
+(6, 5), (7, 5), (8, 5), (9, 5), (10, 5), 
+(6, 6), (7, 6), (8, 6), (9, 6), (10, 6),
+(6, 7), (7, 7), (8, 7), (9, 7), (10, 7),
+(6, 8), (7, 8), (8, 8), (9, 8), (10, 8),
+(6, 9), (7, 9), (8, 9), (9, 9), (10, 9),
+(6, 10), (7, 10), (8, 10), (9, 10), (10, 10),
+(6, 11), (7, 11), (8, 11), (9, 11), (10, 11),
+(6, 12), (7, 12), (8, 12), (9, 12), (10, 12),
+(6, 13), (7, 13), (8, 13), (9, 13), (10, 13),
+(6, 14), (7, 14), (8, 14), (9, 14), (10, 14);
+>>>>>>> f146a90251b4e74d4b120f111abe2dbad4eeed1b
