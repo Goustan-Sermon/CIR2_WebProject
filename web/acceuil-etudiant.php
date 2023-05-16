@@ -55,7 +55,7 @@ if(!isset($_SESSION['id'])){
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="etudiant/mes-semestres.php">
-                            Mes semestres
+                            Mon semestres
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 school
                             </span>
@@ -113,7 +113,7 @@ if(!isset($_SESSION['id'])){
                     school
                 </span>
                 <p class="type">
-                    Mes <br> semestres
+                    Mon <br> semestres
                 </p>
 
             </div>
