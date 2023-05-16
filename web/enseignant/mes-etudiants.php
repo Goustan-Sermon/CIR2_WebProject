@@ -206,6 +206,7 @@ $db = dbConnect();
                         <th scope="col">Classe</th>
                         <th scope="col">Moyenne /20 *</th>
                         <th scope="col">appreciation</th>
+                        <th scope="col">Classement</th>
 
                     </tr>
                 </thead>
@@ -229,12 +230,18 @@ $db = dbConnect();
                                 echo "<td>".$personne[0]['prenom']."</td>";
                                 echo "<td>".$personne[0]['mail']."</td>";
                                 echo "<td>".$classe[0]['cycle']." ".$classe[0]['annee']."</td>";
-                                echo "<td>".$moyenne."</td>";                                
-                                    if(isAppreciation($db, $etudiant['id_etudiant'], $_SESSION['semestre'], $_SESSION['matiere'])){                                    
-                                        echo"<td>".getAppreciationOfEtudiantOfMatiereOfSemestre($db, $etudiant['id_etudiant'], $_SESSION['matiere'] , $_SESSION['semestre'])[0]['value_apprecition']."</td>";
-                                    }else{
-                                        echo"<td> </td>";
-                                    }
+                                echo "<td>".$moyenne."</td>";    
+                                if(isAppreciation($db, $etudiant['id_etudiant'], $_SESSION['semestre'], $_SESSION['matiere'])){                                    
+                                    echo"<td>".getAppreciationOfEtudiantOfMatiereOfSemestre($db, $etudiant['id_etudiant'], $_SESSION['matiere'] , $_SESSION['semestre'])[0]['value_apprecition']."</td>";
+                                }else{
+                                    echo"<td> </td>";
+                                }
+                                $place = getClassementOfEtudiantBySemestreBymatiere($db, $etudiant['id_etudiant'],$_SESSION['semestre'], $_SESSION['matiere'], $_SESSION['classe']);
+                                echo "<td>";
+                                if(isset($moyenne)){
+                                    print($place);
+                                }
+                                echo "</td>";    
                                 echo "</tr>";                                
                             }
                         }
