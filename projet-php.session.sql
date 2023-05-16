@@ -1,1 +1,2 @@
-SELECT DISTINCT classe.* FROM classe JOIN ds On classe.id_classe = ds.id_classe WHERE ds.id_enseignant = 4 AND ds.id_semestre = 5;
+
+SELECT matiere.value_matiere FROM personne JOIN enseignant ON personne.mail = enseignant.mail JOIN enseigner ON enseignant.id_enseignant = enseigner.id_enseignant JOIN matiere ON enseigner.id_matiere = matiere.id_matiere WHERE personne.prenom = 'Karine' AND personne.nom = 'AYOUB';

@@ -83,8 +83,50 @@ if(!isset($_SESSION['id']) OR $_SESSION['statut'] != 'admin'){
     </nav>
 
     <!--------------------------- Corps de la page ---------------------------------------------------->
-    <div class="corps corps-enseignant d-flex flex-column mb-2">
-        <!--------------------------- Titre + Logo ---------------------------------------------------->
+    <div class="blocks justify-content-evenly">
+        <!--------------------------- contenue  ---------------------------------------------------->
+        <div class="mb-2 align-items-center align-self-center">
+            <div class="text-body-tertiary h2">
+                Les enseignant existants
+            </div>
+            <!-- Exemple -->
+            <div class="tableform">
+                <table class="table table-striped table-hover table-bordered align-middle">
+                    <thead style="color : #dc3545">
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Matière</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <?php
+                            require_once('../../php/database.php');
+
+                            // Enable all warnings and errors.
+                            ini_set('display_errors', 1);
+                            error_reporting(E_ALL);
+                
+                            // Database connection.
+                            $db = dbConnect();
+
+                            // Get all semesters.
+                            $enseignants = dbGetEnseignantsName($db);
+
+                            foreach ($enseignants as $enseignant) {
+                                $matiere = dbGetMatiereFromEnseignantByName($db, $enseignant['nom'], $enseignant['prenom']);
+                                echo '<tr>';
+                                echo '<td>' . $enseignant['nom'] . '</td>';
+                                echo '<td>' . $enseignant['prenom'] . '</td>';
+                                echo '<td>' . $matiere[0]['value_matiere'] . '</td>';
+                                echo '</tr>';
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-2 align-items-center align-self-center">
         <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
             <span class="material-symbols-outlined logo" style="font-size: 4rem">
                 account_circle
@@ -213,6 +255,11 @@ if(!isset($_SESSION['id']) OR $_SESSION['statut'] != 'admin'){
                     }
                     ?>
             </form>
+            <?php
+                if(isset($_POST['add'])){
+                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                }
+            ?>
         </div>
     </div>
 </body>

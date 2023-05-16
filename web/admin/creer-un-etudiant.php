@@ -92,81 +92,126 @@ if(!isset($_SESSION['id'])OR $_SESSION['statut'] != 'admin'){
             Créer un étudiant
         </div>
         <!--------------------------- form  ---------------------------------------------------->
-        <div class="connection">
+        <div class="blocks justify-content-evenly">
             <!--------------------------- contenue  ---------------------------------------------------->
-            <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
-                Entrer les informations
+            <div class="mb-2 align-items-center align-self-center">
+                <div class="text-body-tertiary h2">
+                    Les étudiants existants
+                </div>
+                <!-- Exemple -->
+                <div class="tableform">
+                    <table class="table table-striped table-hover table-bordered align-middle">
+                        <thead style="color : #dc3545">
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Classe</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <?php
+                                require_once('../../php/database.php');
+
+                                // Enable all warnings and errors.
+                                ini_set('display_errors', 1);
+                                error_reporting(E_ALL);
+                    
+                                // Database connection.
+                                $db = dbConnect();
+
+                                // Get all semesters.
+                                $etudiants = dbGetPersonnesName($db);
+
+                                foreach ($etudiants as $etudiant) {
+                                    $id_classe = dbGetClasseFromEtudiantByPrenomAndNomInPersonne($db, $etudiant['prenom'], $etudiant['nom']);
+                                    $classe = getClasseNameById($db, $id_classe);
+                                    echo '<tr>';
+                                    echo '<td>' . $etudiant['nom'] . '</td>';
+                                    echo '<td>' . $etudiant['prenom'] . '</td>';
+                                    echo '<td>' . $classe[0]['cycle'] .$classe[0]['annee'] . '</td>';
+                                    echo '</tr>';
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <?php
-                if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] == $_POST['mail'] && $_POST['mdp'] == $_POST['mdpconf']){
-                    echo "<p class='alert alert-success'>Élève ajouté avec succès !</p>";
-                } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] == $_POST['mail'] && $_POST['mdp'] != $_POST['mdpconf']){
-                    echo "<p class='alert alert-danger'>Les mots de passe ne correspondent pas !</p>";
-                } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] != $_POST['mail'] && $_POST['mdp'] == $_POST['mdpconf']){
-                    echo "<p class='alert alert-danger'>Les mails ne correspondent pas !</p>";
-                } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] != $_POST['mail'] && $_POST['mdp'] != $_POST['mdpconf']){
-                    echo "<p class='alert alert-danger'>Les mails et les mots de passe ne correspondent pas !</p>";
-                }
-            ?>
-            <form action="creer-un-etudiant.php" method="post">
-                <div class="d-flex flex-column justify-content-center">
-                    <div class="p-2">
-                        <label for="nom" class="form-label">Nom*</label>
-                        <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp"
-                            placeholder="Nom" required>
-                    </div>
-                    <div class="p-2">
-                        <label for="prenom" class="form-label">Prénom*</label>
-                        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom" required>
-                    </div>
-                    <div class="form-group d-flex justify-content-center">
+            <div class="mb-2 align-items-center align-self-center">
+
+                <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
+                    Entrer les informations
+                </div>
+                <?php
+                    if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] == $_POST['mail'] && $_POST['mdp'] == $_POST['mdpconf']){
+                        echo "<p class='alert alert-success'>Élève ajouté avec succès !</p>";
+                    } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] == $_POST['mail'] && $_POST['mdp'] != $_POST['mdpconf']){
+                        echo "<p class='alert alert-danger'>Les mots de passe ne correspondent pas !</p>";
+                    } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] != $_POST['mail'] && $_POST['mdp'] == $_POST['mdpconf']){
+                        echo "<p class='alert alert-danger'>Les mails ne correspondent pas !</p>";
+                    } else if(isset($_POST['add']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mailconf']) && isset($_POST['mdp']) && isset($_POST['mdpconf']) && $_POST['mailconf'] != $_POST['mail'] && $_POST['mdp'] != $_POST['mdpconf']){
+                        echo "<p class='alert alert-danger'>Les mails et les mots de passe ne correspondent pas !</p>";
+                    }
+                ?>
+                <form action="creer-un-etudiant.php" method="post">
+                    <div class="d-flex flex-column justify-content-center">
                         <div class="p-2">
-                            <select class="custom-select" name="cycle" required>
-                                <option value="">Cycle</option>
-                                <option value="CIR">CIR</option>
-                                <option value="CGSI">CGSI</option>
-                                <option value="CEST">CEST</option>
-                            </select>
-                            <select class="custom-select" name="annee" required>
-                                <option value="">Année</option>
-                                <option value="A1">A1</option>
-                                <option value="A2">A2</option>
-                                <option value="A3">A3</option>
-                                <option value="M1">M1</option>
-                                <option value="M2">M2</option>
-                            </select>
+                            <label for="nom" class="form-label">Nom*</label>
+                            <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp"
+                                placeholder="Nom" required>
                         </div>
+                        <div class="p-2">
+                            <label for="prenom" class="form-label">Prénom*</label>
+                            <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom" required>
+                        </div>
+                        <div class="form-group d-flex justify-content-center">
+                            <div class="p-2">
+                                <select class="custom-select" name="cycle" required>
+                                    <option value="">Cycle</option>
+                                    <option value="CIR">CIR</option>
+                                    <option value="CGSI">CGSI</option>
+                                    <option value="CEST">CEST</option>
+                                </select>
+                                <select class="custom-select" name="annee" required>
+                                    <option value="">Année</option>
+                                    <option value="A1">A1</option>
+                                    <option value="A2">A2</option>
+                                    <option value="A3">A3</option>
+                                    <option value="M1">M1</option>
+                                    <option value="M2">M2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <label for="telephone" class="form-label">Téléphone*</label>
+                            <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="Téléphone">
+                        </div>
+                        <div class="p-2">
+                            <label for="email" class="form-label">Mail*</label>
+                            <input type="email" class="form-control" id="mail" name="mail" placeholder="Mail" required>
+                        </div>
+                        <div class="p-2">
+                            <label for="email" class="form-label">Mail (confirmation)*</label>
+                            <input type="email" class="form-control" id="mailconf" name="mailconf"
+                                placeholder="Confirmez le mail" required>
+                        </div>
+                        <div class="p-2">
+                            <label for="mdp" class="form-label">Mot de passe*</label>
+                            <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de passe"
+                                required>
+                        </div>
+                        <div class="p-2">
+                            <label for="mdp" class="form-label">Mot de passe (confirmation)*</label>
+                            <input type="password" class="form-control" id="mdpconf" name="mdpconf"
+                                placeholder="Confirmez le mot de passe" required>
+                        </div>
+                        <!--
+                        <div class="p-2">
+                            <label for="photo" class="form-label">Photo</label>
+                            <input type="file" class="form-control" id="photo" name="photo">
+                        </div>
+                        -->
+                        <button type="submit" name="add" class="btn btn-danger">Créer un étudiant</button>
                     </div>
-                    <div class="p-2">
-                        <label for="telephone" class="form-label">Téléphone*</label>
-                        <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="Téléphone">
-                    </div>
-                    <div class="p-2">
-                        <label for="email" class="form-label">Mail*</label>
-                        <input type="email" class="form-control" id="mail" name="mail" placeholder="Mail" required>
-                    </div>
-                    <div class="p-2">
-                        <label for="email" class="form-label">Mail (confirmation)*</label>
-                        <input type="email" class="form-control" id="mailconf" name="mailconf"
-                            placeholder="Confirmez le mail" required>
-                    </div>
-                    <div class="p-2">
-                        <label for="mdp" class="form-label">Mot de passe*</label>
-                        <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de passe"
-                            required>
-                    </div>
-                    <div class="p-2">
-                        <label for="mdp" class="form-label">Mot de passe (confirmation)*</label>
-                        <input type="password" class="form-control" id="mdpconf" name="mdpconf"
-                            placeholder="Confirmez le mot de passe" required>
-                    </div>
-                    <!--
-                    <div class="p-2">
-                        <label for="photo" class="form-label">Photo</label>
-                        <input type="file" class="form-control" id="photo" name="photo">
-                    </div>
-                    -->
-                    <button type="submit" name="add" class="btn btn-danger">Créer un étudiant</button>
                 </div>
                 <?php
                     require_once('../../php/database.php');
@@ -198,6 +243,11 @@ if(!isset($_SESSION['id'])OR $_SESSION['statut'] != 'admin'){
                     }
                     ?>
             </form>
+            <?php
+                if(isset($_POST['add'])){
+                    echo"<meta http-equiv=\"refresh\" content=\"0\">";
+                }
+            ?>
         </div>
     </div>
 </body>

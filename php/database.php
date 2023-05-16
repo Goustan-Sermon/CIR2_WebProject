@@ -20,18 +20,27 @@ function dbConnect(){
 //----------------------------------------------Add----------------------------------------------
 //--------------------------------------------------------------------------------------------------------
 function addPersonne($db, $nom, $prenom, $mail, $mot_de_passe, $telephone){
-    try{
-        $statement = $db->prepare('INSERT INTO personne (nom, prenom, mail, mot_de_passe, telephone) VALUES (:nom, :prenom, :mail, :mot_de_passe, :telephone)');
-        $statement->bindParam(':nom', $nom);
-        $statement->bindParam(':prenom', $prenom);
-        $statement->bindParam(':mail', $mail);
-        $statement->bindParam(':mot_de_passe', $mot_de_passe);
-        $statement->bindParam(':telephone', $telephone);
-        $statement->execute();
-    }
-    catch (PDOException $exception){
-        error_log('Request error: '.$exception->getMessage());
+    $query = 'SELECT COUNT(*) FROM personne WHERE mail = :mail';
+    $statement = $db->prepare($query);
+    $statement->bindParam(':mail', $mail);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    if($result[0]['count'] > 0){
         return false;
+    }else{
+        try{
+            $statement = $db->prepare('INSERT INTO personne (nom, prenom, mail, mot_de_passe, telephone) VALUES (:nom, :prenom, :mail, :mot_de_passe, :telephone)');
+            $statement->bindParam(':nom', $nom);
+            $statement->bindParam(':prenom', $prenom);
+            $statement->bindParam(':mail', $mail);
+            $statement->bindParam(':mot_de_passe', $mot_de_passe);
+            $statement->bindParam(':telephone', $telephone);
+            $statement->execute();
+        }
+        catch (PDOException $exception){
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
     }
     return true;
 }
@@ -539,6 +548,58 @@ function rattrapageByMatiereByEtu($db, $id_matiere, $currentSemestre, $id){
     }
 }
 
+function dbGetPersonnesName($db){
+    try{
+        $statement = $db->prepare('SELECT nom, prenom FROM personne JOIN etudiant ON personne.mail = etudiant.mail JOIN classe ON etudiant.id_classe = classe.id_classe');
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
+function dbGetEnseignantsName($db){
+    try{
+        $statement = $db->prepare('SELECT nom, prenom FROM personne JOIN enseignant ON personne.mail = enseignant.mail');
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
+function dbGetMatiereFromEnseignantByName($db, $nom, $prenom){
+    try{
+        $statement = $db->prepare('SELECT matiere.value_matiere FROM personne JOIN enseignant ON personne.mail = enseignant.mail JOIN enseigner ON enseignant.id_enseignant = enseigner.id_enseignant JOIN matiere ON enseigner.id_matiere = matiere.id_matiere WHERE personne.prenom = :prenom AND personne.nom = :nom');
+        $statement->bindParam(':nom', $nom);
+        $statement->bindParam(':prenom', $prenom);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result;
+}
+
+function dbGetClasseFromEtudiantByPrenomAndNomInPersonne($db, $prenom, $nom){
+    try{
+        $statement = $db->prepare('SELECT classe.id_classe FROM personne JOIN etudiant ON personne.mail = etudiant.mail JOIN classe ON etudiant.id_classe = classe.id_classe WHERE personne.prenom = :prenom AND personne.nom = :nom');
+        $statement->bindParam(':prenom', $prenom);
+        $statement->bindParam(':nom', $nom);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        return false;
+    }
+    return $result['id_classe'];
+}
+
 function getNumerOfDsOfSemestre($db, $id_semestre){
     try{
         $statement = $db->prepare('SELECT COUNT(*) FROM ds WHERE id_semestre =:id_semestre');
@@ -803,6 +864,21 @@ function getClasseId($db, $annee, $cycle){
     return $result;
 }
 
+
+
+function getClasseNameById($db, $id_classe){
+    try{
+        $statement = $db->prepare('SELECT annee, cycle FROM classe WHERE id_classe =:id_classe');
+        $statement->bindParam(':id_classe', $id_classe);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 
 function getClasseById($db, $id_etudiant){
     try{
