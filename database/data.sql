@@ -47,7 +47,7 @@ INSERT INTO personne VALUES
 ('karineayoub@isen.fr', 'AYOUB', 'Karine', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu' , '06 00 00 00 14' ),
 ('abdelaqabdelkari@isen.fr', 'ABDELKARI', 'Abdelaq', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu' , '06 00 00 00 15' ),
 ('nilsbosse@isen.fr', 'BOSSE', 'Nils', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu' , '06 00 00 00 16' ),
-('jean-jacquesmeuneu@isen.fr', 'MEUNEU', 'Jean-Jacques', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu' , '06 00 00 00 17' ),
+('thierryhenry@isen.fr', 'HENRY', 'Thierry', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu' , '06 00 00 00 17' ),
 ('jeremyfreixas@isen.fr', 'FREIXAS', 'Jeremy', '$2y$10$44LjEkr5EcC5hjJj9UCLSOki7drhytcw.r6ShVCmGsD47uQaMsyzu', '06 00 00 00 18');
 
 ALTER SEQUENCE etudiant_id_etudiant_seq RESTART;
@@ -59,7 +59,7 @@ INSERT INTO etudiant (mail, id_classe) VALUES
 
 ALTER SEQUENCE enseignant_id_enseignant_seq RESTART;
 INSERT INTO enseignant (mail) VALUES 
-('karineayoub@isen.fr'), ('abdelaqabdelkari@isen.fr'), ('nilsbosse@isen.fr'), ('jean-jacquesmeuneu@isen.fr'), ('jeremyfreixas@isen.fr');
+('karineayoub@isen.fr'), ('abdelaqabdelkari@isen.fr'), ('nilsbosse@isen.fr'), ('thierryhenry@isen.fr'), ('jeremyfreixas@isen.fr');
 
 INSERT INTO enseigner (id_enseignant, id_matiere) VALUES
 (4, 5), (4, 3), (1, 2), (2, 1), (3, 4), (3, 5), (3, 3), (3, 2), (3, 1), (5, 2);
@@ -105,21 +105,23 @@ ALTER SEQUENCE appreciation_id_appreciation_seq RESTART;
 INSERT INTO appreciation (value_apprecition, id_semestre, id_enseignant, id_matiere) VALUES
 ('Pas bien du tout il faut vous ressaisir !', 7, 2, 1), ('Semestre passable', 7, 5, 2), ('Bon semestre', 7, 1, 3), ('Bon semestre continuez ainsi !', 7, 3, 4), ('Semestre acceptable', 7, 4, 5),
 ('Pas bien du tout il faut vous ressaisir !', 5, 2, 1), ('Semestre passable', 5, 5, 2), ('Bon semestre', 5, 1, 3), ('Bon semestre continuez ainsi !', 5, 3, 4), ('Semestre acceptable', 5, 4, 5),
-('Pas bien du tout il faut vous ressaisir !', 5, 4, 5), ('Bon semestre continuez ainsi !', 5, 4, 5), ('Semestre passable', 5, 4, 5);
+('Pas bien du tout il faut vous ressaisir !', 5, 4, 5), ('Bon semestre continuez ainsi !', 5, 4, 5), ('Semestre passable', 5, 4, 5), ('Semestre passable', 5, 4, 5), ('Semestre acceptable', 5, 4, 5),
+('Bon semestre continuez ainsi !', 5, 4, 5), ('Très mauvais semestre, eleve absent !', 5, 4, 5), ('Semestre catastrophique !', 5, 4, 5), ('Aucune envie de réussir visiblement', 5, 4, 5), ('Bon semestre', 7, 4, 5),
+('Ressaisissez vous !', 7, 4, 5), ('Semestre acceptable', 7, 4, 5);
 
 INSERT INTO consulter (id_appreciation, id_etudiant) VALUES
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), 
-(1, 2), (2, 2), (3, 2), (4, 2), (5, 2), 
-(1, 3), (2, 3), (3, 3), (4, 3), (5, 3), 
-(1, 4), (2, 4), (3, 4), (4, 4), (5, 4),
+(1, 2), (2, 2), (3, 2), (4, 2), (20, 2), 
+(1, 3), (2, 3), (3, 3), (4, 3), (21, 3), 
+(1, 4), (2, 4), (3, 4), (4, 4), (22, 4),
 
 (6, 5), (7, 5), (8, 5), (9, 5), (13, 5), 
 (6, 6), (7, 6), (8, 6), (9, 6), (10, 6),
 (6, 7), (7, 7), (8, 7), (9, 7), (12, 7),
 (6, 8), (7, 8), (8, 8), (9, 8), (11, 8),
-(6, 9), (7, 9), (8, 9), (9, 9), (10, 9),
-(6, 10), (7, 10), (8, 10), (9, 10), (13, 10),
-(6, 11), (7, 11), (8, 11), (9, 11), (11, 11),
-(6, 12), (7, 12), (8, 12), (9, 12), (11, 12),
-(6, 13), (7, 13), (8, 13), (9, 13), (11, 13),
-(6, 14), (7, 14), (8, 14), (9, 14), (12, 14);
+(6, 9), (7, 9), (8, 9), (9, 9), (15, 9),
+(6, 10), (7, 10), (8, 10), (9, 10), (14, 10),
+(6, 11), (7, 11), (8, 11), (9, 11), (17, 11),
+(6, 12), (7, 12), (8, 12), (9, 12), (18, 12),
+(6, 13), (7, 13), (8, 13), (9, 13), (19, 13),
+(6, 14), (7, 14), (8, 14), (9, 14), (16, 14);
