@@ -23,7 +23,8 @@ if (isset($_POST['connect'])){
         $_SESSION['nom'] = $personne[0]['nom'];
         $_SESSION['prenom'] = $personne[0]['prenom'];
         $_SESSION['id'] = getIdOfStatutOfPersonne($db, $personne[0]['mail']);
-        header('Location: acceuil-'.getStatut($db, $personne[0]['mail']).'.php');    
+        $_SESSION['statut'] = getStatut($db, $personne[0]['mail']);
+        header('Location: acceuil-'.$_SESSION['statut'].'.php');    
     }
     
 }

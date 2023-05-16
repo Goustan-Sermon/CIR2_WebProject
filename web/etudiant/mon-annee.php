@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['id'])){
+if(!isset($_SESSION['id'])OR $_SESSION['statut'] != 'etudiant'){
     header('Location: identification.php');
 }
 ?>

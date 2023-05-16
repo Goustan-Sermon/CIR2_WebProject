@@ -1,7 +1,7 @@
 <?php
 session_start();
-if(!isset($_SESSION['id'])){
-    // header('Location: identification.php');
+if(!isset($_SESSION['id']) OR $_SESSION['statut'] != 'admin'){
+    header('Location: ../identification.php');
 }
 ?>
 <!DOCTYPE html>
