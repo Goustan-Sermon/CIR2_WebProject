@@ -166,7 +166,7 @@ $db = dbConnect();
                 </div>
 
                 <div class="d-flex flex-column justify-content-center align-self-center align-items-center">
-                    <div class="form-group d-flex flex-row">
+                    <div class="form-group d-flex flex-column">
                         <form action="edit-coefficient.php" method="post">
                             <select class="form-select" name="semestre" required>
                                 <option selected disabled>Semestre</option>

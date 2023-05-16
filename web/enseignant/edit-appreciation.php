@@ -128,10 +128,11 @@ $db = dbConnect();
                                 echo "<tr>";
                                 $etudiant = getEtudiantIdOfAppreciation($db, $appreciation['id_appreciation']);
                                 $personne = dbGetPersonneOfEtudiant($db, $etudiant[0]['id_etudiant']);
-                                $classe = getClasse($db, $note['id_classe']);
-                                echo "<td>".$classe[0]['cycle']." ".$classe[0]['annee']."</td>"; 
                                 echo "<td>".$personne[0]['nom']."</td>"; 
                                 echo "<td>".$personne[0]['prenom']."</td>"; 
+                                $id_classe = getClasseById($db, $etudiant[0]['id_etudiant']);
+                                $classe = getClasse($db, $id_classe[0]['id_classe']);
+                                echo "<td>".$classe[0]['cycle']." ".$classe[0]['annee']."</td>"; 
                                 echo "<td>".getSemestreOne($db, $appreciation['id_semestre'])[0]['nom_semestre']."</td>"; 
                                 if(!isset($_POST['edit-'.$appreciation['id_appreciation'].''])){
                                     echo "<td>".$appreciation['value_apprecition']."</td>"; 
@@ -169,7 +170,7 @@ $db = dbConnect();
                 </div>
 
                 <div class="d-flex flex-column justify-content-center align-self-center align-items-center">
-                    <div class="form-group d-flex flex-row">
+                    <div class="form-group d-flex flex-column">
 
                         <form action="edit-appreciation.php" method="post">
                             <select class="form-select" name="semestre" required>
