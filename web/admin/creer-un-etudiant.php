@@ -94,7 +94,7 @@ if(!isset($_SESSION['id'])OR $_SESSION['statut'] != 'admin'){
         <!--------------------------- form  ---------------------------------------------------->
         <div class="blocks justify-content-evenly">
             <!--------------------------- contenue  ---------------------------------------------------->
-            <div class="mb-2 align-items-center align-self-center">
+            <div class="mb-2 align-items-baseline align-self-baseline">
                 <div class="text-body-tertiary h2">
                     Les étudiants existants
                 </div>

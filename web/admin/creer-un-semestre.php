@@ -134,7 +134,7 @@ if(!isset($_SESSION['id'])OR $_SESSION['statut'] != 'admin'){
                 </div>
             </div>
             <!--------------------------- Block 2 ---------------------------------------------------->
-            <div class="mb-2 align-items-center align-self-center">
+            <div class="mb-2 align-items-baseline align-self-baseline">
                 <div class="text-body-tertiary h2">
                     Entrer les informations
                 </div>

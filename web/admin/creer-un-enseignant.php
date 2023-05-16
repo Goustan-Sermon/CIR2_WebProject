@@ -83,9 +83,18 @@ if(!isset($_SESSION['id']) OR $_SESSION['statut'] != 'admin'){
     </nav>
 
     <!--------------------------- Corps de la page ---------------------------------------------------->
+    <div class="corps corps-enseignant d-flex flex-column mb-2">
+        <!--------------------------- Titre + Logo ---------------------------------------------------->
+        <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
+            <span class="material-symbols-outlined logo" style="font-size: 4rem">
+                account_circle
+            </span>
+            Créer un étudiant
+        </div>
     <div class="blocks justify-content-evenly">
+        
         <!--------------------------- contenue  ---------------------------------------------------->
-        <div class="mb-2 align-items-center align-self-center">
+        <div class="mb-2 align-items-baseline align-self-baseline">
             <div class="text-body-tertiary h2">
                 Les enseignant existants
             </div>
@@ -114,11 +123,15 @@ if(!isset($_SESSION['id']) OR $_SESSION['statut'] != 'admin'){
                             $enseignants = dbGetEnseignantsName($db);
 
                             foreach ($enseignants as $enseignant) {
-                                $matiere = dbGetMatiereFromEnseignantByName($db, $enseignant['nom'], $enseignant['prenom']);
+                                $matieres = dbGetMatiereFromEnseignantByName($db, $enseignant['nom'], $enseignant['prenom']);
                                 echo '<tr>';
                                 echo '<td>' . $enseignant['nom'] . '</td>';
                                 echo '<td>' . $enseignant['prenom'] . '</td>';
-                                echo '<td>' . $matiere[0]['value_matiere'] . '</td>';
+                                echo '<td>';
+                                foreach($matieres as $matiere){
+                                    echo $matiere['value_matiere'] . " ";
+                                }
+                                echo '</td>';
                                 echo '</tr>';
                             }
                         ?>
@@ -127,12 +140,6 @@ if(!isset($_SESSION['id']) OR $_SESSION['statut'] != 'admin'){
             </div>
         </div>
         <div class="mb-2 align-items-center align-self-center">
-        <div class="titre d-flex flex-column mb-2 align-items-center align-self-center">
-            <span class="material-symbols-outlined logo" style="font-size: 4rem">
-                account_circle
-            </span>
-            Créer un enseignant
-        </div>
         <div class="connection">
             <!--------------------------- contenue  ---------------------------------------------------->
             <div class="titre d-flex flex-column mb-2 align-items-center align-self-center text-body-tertiary h2">
