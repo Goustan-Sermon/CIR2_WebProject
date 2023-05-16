@@ -126,7 +126,7 @@ if(!isset($_SESSION['id'])){
 
                             <select class="form-select" multiple aria-label="multiple select example" name="matiere[]"
                                 require>
-                                <option selected>Matière</option>
+                                <option selected disabled>Matière</option>
                                 <?php
                                     require_once('../../php/database.php');
 
