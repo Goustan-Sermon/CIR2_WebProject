@@ -849,7 +849,7 @@ function getClasseOfEnseignant($db, $id_enseignant){
 }
 function getClasseOfSemestreOfEnseignant($db, $id_semestre, $id_enseignant){
     try{
-        $prepare='SELECT * FROM classe JOIN ds On classe.id_classe = ds.id_classe WHERE ds.id_enseignant = :id_enseignant AND ds.id_semestre = :id_semestre';
+        $prepare='SELECT DISTINCT classe.* FROM classe JOIN ds On classe.id_classe = ds.id_classe WHERE ds.id_enseignant = :id_enseignant AND ds.id_semestre = :id_semestre';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_enseignant', $id_enseignant);
         $statement->bindParam(':id_semestre', $id_semestre);
@@ -864,7 +864,7 @@ function getClasseOfSemestreOfEnseignant($db, $id_semestre, $id_enseignant){
 }
 function getClasseOfSemestreOfEnseignantOfMatiere($db, $id_semestre, $id_enseignant, $id_matiere){
     try{
-        $prepare='SELECT * FROM classe JOIN ds On classe.id_classe = ds.id_classe WHERE ds.id_enseignant = :id_enseignant AND ds.id_semestre = :id_semestre AND ds.id_matiere = :id_matiere';
+        $prepare='SELECT DISTINCT classe.* FROM classe JOIN ds On classe.id_classe = ds.id_classe WHERE ds.id_enseignant = :id_enseignant AND ds.id_semestre = :id_semestre AND ds.id_matiere = :id_matiere';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_enseignant', $id_enseignant);
         $statement->bindParam(':id_semestre', $id_semestre);
@@ -1010,9 +1010,10 @@ function getSemestreOfClasse($db, $id_classe){
     }
     return $result;
 }
+
 function getSemestreOfEnseignant($db, $id_enseignant){
     try{
-        $prepare='SELECT * FROM semestre JOIN ds ON semestre.id_semestre = ds.id_semestre WHERE ds.id_enseignant = :id_enseignant';
+        $prepare='SELECT DISTINCT semestre.* FROM semestre JOIN ds ON semestre.id_semestre = ds.id_semestre WHERE ds.id_enseignant = :id_enseignant';
         $statement = $db->prepare($prepare);
         $statement->bindParam(':id_enseignant', $id_enseignant);
         $statement->execute();
