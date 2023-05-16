@@ -114,6 +114,7 @@ $db = dbConnect();
                         <tr>
                             <th scope="col">Nom</th>
                             <th scope="col">Prenom</th>
+                            <th scope="col">Classe</th>
                             <th scope="col">Semestre</th>
                             <th scope="col">Appreciation</th>
                             <th scope="col">Matière</th>
@@ -127,6 +128,8 @@ $db = dbConnect();
                                 echo "<tr>";
                                 $etudiant = getEtudiantIdOfAppreciation($db, $appreciation['id_appreciation']);
                                 $personne = dbGetPersonneOfEtudiant($db, $etudiant[0]['id_etudiant']);
+                                $classe = getClasse($db, $note['id_classe']);
+                                echo "<td>".$classe[0]['cycle']." ".$classe[0]['annee']."</td>"; 
                                 echo "<td>".$personne[0]['nom']."</td>"; 
                                 echo "<td>".$personne[0]['prenom']."</td>"; 
                                 echo "<td>".getSemestreOne($db, $appreciation['id_semestre'])[0]['nom_semestre']."</td>"; 

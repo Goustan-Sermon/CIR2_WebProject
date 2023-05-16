@@ -100,55 +100,56 @@ $db = dbConnect();
             Mes classes
         </div>
         <!--------------------------- contenue ---------------------------------------------------->
-        <div class="form-group d-flex flex-row">
-            <form action="mes-classes.php " class="d-flex flex-row" method="post">
-                <select class="form-select" name="semestre" required>
-                    <option selected disabled>Semestre</option>
-                    <?php
+        <div class="form-group d-flex flex-row d-flex justify-content-between">
+            <div class=" d-flex flex-row ">
+                <form action="mes-classes.php " class="d-flex flex-row" method="post">
+                    <select class="form-select" name="semestre" required>
+                        <option selected disabled>Semestre</option>
+                        <?php
                         $semestres = getSemestreOfEnseignant($db, $_SESSION['id']);
                         foreach($semestres as $semestre){
                             echo '<option value="'.$semestre['id_semestre'].'">'.$semestre['nom_semestre'].'</option>';
                         } 
                         
                     ?>
-                </select>
-                <button type="submit" class="btn btn-outline-danger"
-                    name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
-            </form>
-            <?php
+                    </select>
+                    <button type="submit" class="btn btn-outline-danger"
+                        name="submit-semestre"><?php if(!empty($_SESSION['semestre'])){print(getSemestreOne($db, $_SESSION['semestre']))[0]['nom_semestre'];}else{print('SET');}  ?></button>
+                </form>
+                <?php
                 if(isset($_POST['submit-semestre'])){
                     $_SESSION['semestre'] = $_POST['semestre'];  
                     echo"<meta http-equiv=\"refresh\" content=\"0\">";
                 }
             ?>
-            <form action="mes-classes.php" class="d-flex flex-row" method="post">
-                <select class="form-select" name="matiere" required>
-                    <option selected disabled>Matiere</option>
-                    <?php
+                <form action="mes-classes.php" class="d-flex flex-row" method="post">
+                    <select class="form-select" name="matiere" required>
+                        <option selected disabled>Matiere</option>
+                        <?php
                         $matieres = getMatiereOfEnseignantOfSemestre($db, $_SESSION['id'], $_SESSION['semestre']);
                         foreach($matieres as $matiere){
                             echo '<option value="'.$matiere['id_matiere'].'">'.$matiere['value_matiere'].'</option>';
                         } 
                         
                     ?>
-                </select>
-                <button type="submit" class="btn btn-outline-danger"
-                    name="submit-matiere"><?php if(!empty($_SESSION['matiere'])){print(dbGetMatiereById($db, $_SESSION['matiere']))[0]['value_matiere'];}else{print('SET');}  ?></button>
-            </form>
-            <?php
+                    </select>
+                    <button type="submit" class="btn btn-outline-danger"
+                        name="submit-matiere"><?php if(!empty($_SESSION['matiere'])){print(dbGetMatiereById($db, $_SESSION['matiere']))[0]['value_matiere'];}else{print('SET');}  ?></button>
+                </form>
+                <?php
                 if(isset($_POST['submit-matiere'])){
                     $_SESSION['matiere'] = $_POST['matiere'];  
                     echo"<meta http-equiv=\"refresh\" content=\"0\">";
                 }
             ?>
-            <div class="d-flex flex-column mb-2 align-items-center align-self-center">
+            </div>
+            <div class="d-flex flex-row mb-2 align-items-center align-self-center">
                 <form action="mes-classes.php" method="post">
                     <button type="submit" name="afficher" class="btn btn-danger">Afficher</button>
 
                 </form>
                 <form action="mes-classes.php" method="post">
-                    <button name="clear-note" class="btn btn-outline-danger" style="font-size: 0.5em;">Supprimer les
-                        informations</button>
+                    <button name="clear-note" class="btn btn-outline-danger" ">Supprimer</button>
                 </form>
             </div>
             <?php
@@ -165,20 +166,20 @@ $db = dbConnect();
                 }
             ?>
         </div>
-        <div class="tableform">
-            <table class="table table-striped table-hover table-bordered align-middle">
-                <thead style="color : #dc3545">
-                    <tr>
-                        <th scope="col">Cycle</th>
-                        <th scope="col">Année</th>
-                        <th scope="col">Matière</th>
-                        <th scope="col">Nombre d'élève</th>
-                        <th scope="col">Moyenne /20 *</th>
+        <div class=" tableform">
+                        <table class="table table-striped table-hover table-bordered align-middle">
+                            <thead style="color : #dc3545">
+                                <tr>
+                                    <th scope="col">Cycle</th>
+                                    <th scope="col">Année</th>
+                                    <th scope="col">Matière</th>
+                                    <th scope="col">Nombre d'élève</th>
+                                    <th scope="col">Moyenne /20 *</th>
 
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <?php
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                <?php
                     if(isset($_POST['afficher'] )){
                         if(isset($_SESSION["semestre"]) and isset($_SESSION["matiere"])){
             
@@ -201,13 +202,13 @@ $db = dbConnect();
                         }
                     }
                         ?>
-                </tbody>
-            </table>
-            <p>* Rouge si inférieur à 12
-            <p>
-        </div>
+                            </tbody>
+                        </table>
+                        <p>* Rouge si inférieur à 12
+                        <p>
+            </div>
 
-    </div>
+        </div>
 
 </body>
 

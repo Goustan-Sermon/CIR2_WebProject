@@ -6,6 +6,6 @@ error_reporting(E_ALL);
 
 // Database connection.
 $db = dbConnect();
-print(addAppreciationAndConsulter($db, '4', '1', '1', 'tb', '1'));
-echo"test";
+$test = getClassementOfEtudiantBySemestreBymatiere($db, '6', '5', '5', '3', '4');
+print_r($test);
 ?>

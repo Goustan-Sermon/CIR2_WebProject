@@ -114,6 +114,7 @@ $db = dbConnect();
                         <tr>
                             <th scope="col">Nom</th>
                             <th scope="col">Prenom</th>
+                            <th scope="col">Classe</th>
                             <th scope="col">Note/20</th>
                             <th scope="col">Libelé</th>
                             <th scope="col">Matière</th>
@@ -125,10 +126,12 @@ $db = dbConnect();
                         <?php
                             $notes = getNoteOfEnseignant($db, $_SESSION['id']);
                             foreach($notes as $note){
-                                // print_r($note);
+                                // print_r($note);  
                                 echo "<tr>";
                                 echo "<td>".dbGetPersonneOfEtudiant($db, $note['id_etudiant'])[0]['nom']."</td>"; 
                                 echo "<td>".dbGetPersonneOfEtudiant($db, $note['id_etudiant'])[0]['prenom']."</td>"; 
+                                $classe = getClasse($db, $note['id_classe']);
+                                echo "<td>".$classe[0]['cycle']." ".$classe[0]['annee']."</td>"; 
                                 if(!isset($_POST['edit-'.$note['id_note'].''])){
                                     echo "<td>".$note['value_note']."</td>"; 
                                     
@@ -168,7 +171,7 @@ $db = dbConnect();
 
                 <div class="d-flex flex-column justify-content-center align-self-center align-items-center">
                     <div class="form-group d-flex flex-row">
-                        <form action="edit-note.php" method="post">
+                        <form action="edit-note.php" method="post" >
                             <select class="form-select" name="semestre" required>
                                 <option selected disabled>Semestre</option>
                                 <?php

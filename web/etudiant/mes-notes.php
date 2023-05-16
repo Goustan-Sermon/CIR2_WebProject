@@ -96,7 +96,7 @@ if(!isset($_SESSION['id'])OR $_SESSION['statut'] != 'etudiant'){
 
 
         <div class="form-group d-flex flex-row">
-            <form action="mes-notes.php" method="post">
+            <form action="mes-notes.php" method="post" class="d-flex flex-row">
                 <select class="form-select" name="semestre" required>
                     <option selected disabled>Semestre</option>
                     <?php
