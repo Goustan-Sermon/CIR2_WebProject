@@ -62,7 +62,7 @@ if(!isset($_SESSION['id']) OR $_SESSION['statut'] != 'admin'){
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="creer-une-epreuve.php">
-                            Créer une preuve
+                            Créer une epreuve
                             <span class="material-symbols-outlined" style="font-size: 1rem">
                                 note
                             </span>
